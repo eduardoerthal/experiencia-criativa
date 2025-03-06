@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cosméticos Glow & Glam</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Cabeçalho -->
+  <header>
+    <div class="menu-container">
+    
+      <nav id="menu" class="hidden">
+        <ul>
+          <li><a href="primeira.html">Início</a></li>
+          <li><a href="#produtos">Produtos</a></li>
+          <li><a href="carrinho.html">Carrinho</a></li>
+          <li><a href="#SALES">SALES</a></li>
+          <li><a href="javascript:void(0)" onclick="mostrarPopupSobre()">Sobre</a></li>
+          <li><a href="#" onclick="mostrarPopupLogin()">Login</a></li>
+          <li><a href="#" onclick="logout()">Sair</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Popup Sobre -->
+  <div id="popupSobre" class="popup">
+    <div class="popup-content">
+      <span class="popup-close" onclick="fecharPopupSobre()">&times;</span>
+      <h2>Como Surgiu a Glow & Glam</h2>
+      <p>Bem-vindo à Glow & Glam! Somos uma loja especializada na venda de cosméticos importados, com a missão de oferecer produtos de qualidade para realçar a sua beleza e bem-estar.
+
+        A nossa história começou com a paixão por trazer as melhores marcas de cosméticos internacionais diretamente para o Brasil. Depois de anos de pesquisa, estabelecemos parcerias com fornecedores globais para garantir que nossos clientes tenham acesso às últimas tendências de beleza, com a confiança de que estão adquirindo produtos originais e de alta qualidade.
+        
+        A Beauty Shop não é apenas uma loja, mas uma experiência de compra única. Trabalhamos com uma vasta gama de produtos, desde cuidados com a pele até maquiagens e fragrâncias exclusivas, tudo para que você se sinta ainda mais bonita e confiante!
+        
+        Obrigado por confiar na Glom & Glam. Estamos aqui para ajudar você a encontrar os melhores produtos para o seu estilo e necessidades</p>
+      <button onclick="fecharPopupSobre()">Fechar</button>
+    </div>
+  </div>
+
+  <!-- Carrossel de Imagens -->
+  <section id="banner">
+    <div class="carrossel">
+      <img src="IMAGENS - PRODUTOS/GLOSS-BATOM/CAPA GLOSS.png" alt="Imagem 1" class="slide">
+      <img src="IMAGENS - PRODUTOS/PERFUMES/CAPA PERFUME PRINCIPAL.jpg" alt="Imagem 2" class="slide">
+      <img src="IMAGENS - PRODUTOS/SKIN CARE/CAPA SKIN.webp" alt="Imagem 3" class="slide">
+    </div>
+  </section>
+
+  <!-- Produtos -->
+  <section id="produtos">
+    <h2>Produtos em Destaque</h2>
+    <div class="produto">
+      <img src="IMAGENS - PRODUTOS/MAQUIAGEM/BASE DIOR.jpeg" alt="Produto 1">
+      <h3>Base Hidratante</h3>
+      <p>R$390,90</p>
+      <button onclick="adicionarAoCarrinho('Base Hidratante', 390.90)">Adicionar ao Carrinho</button>
+    </div>
+    <div class="produto">
+      <img src="IMAGENS - PRODUTOS/SKIN CARE/MASCARA SEPHORA.jpeg" alt="Produto 2">
+      <h3>Máscara Facial</h3>
+      <p>R$59,90</p>
+      <button onclick="adicionarAoCarrinho('Máscara Facial', 59.90)">Adicionar ao Carrinho</button>
+    </div>
+    <div class="produto">
+      <img src="IMAGENS - PRODUTOS/GLOSS-BATOM/GLOSS VS.jpeg" alt="Produto 3">
+      <h3>GLOSS VS</h3>
+      <p>R$120,00</p>
+      <button onclick="adicionarAoCarrinho('GLOSS VS', 120.00)">Adicionar ao Carrinho</button>
+    </div>
+    <div class="produto">
+      <img src="IMAGENS - PRODUTOS/MAQUIAGEM/PALHETA NAKED.jpeg" alt="Produto 4">
+      <h3>Palheta de Sombras</h3>
+      <p>R$500,00</p>
+      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
+    </div>
+  </section>
+
+  <!-- Popup de Login/Cadastro -->
+  <div id="popupLogin" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="fecharPopupLogin()">&times;</span>
+      <div id="loginForm">
+        <h2>Realizar Login</h2>
+        <form onsubmit="logarUsuario(event)">
+          <input type="email" id="emailLogin" placeholder="E-mail" required>
+          <input type="password" id="senhaLogin" placeholder="Senha" required>
+          <button type="submit">Entrar</button>
+        </form>
+        <button onclick="mostrarCadastro()">Cadastrar-se</button>
+      </div>
+
+      <div id="cadastroForm" style="display:none;">
+        <h2>Cadastrar-se</h2>
+        <form onsubmit="cadastrarUsuario(event)">
+          <input type="email" id="emailCadastro" placeholder="E-mail" required>
+          <input type="password" id="senhaCadastro" placeholder="Senha" required>
+          <button type="submit">Cadastrar</button>
+        </form>
+        <button onclick="mostrarLogin()">Já tenho conta</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
