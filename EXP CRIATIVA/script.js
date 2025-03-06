@@ -1,34 +1,39 @@
 let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado')) || null;
+let usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado')) || null;
 
+// Função para adicionar o produto ao carrinho
 function adicionarAoCarrinho(produto, preco) {
   // Verificar se o usuário está logado
   if (usuarioLogado) {
     // Se o usuário estiver logado, adiciona o produto ao carrinho
     carrinho.push({ produto, preco });
-    localStorage.setItem('carrinho', JSON.stringify(carrinho));
-    window.location.href = "carrinho.html"; // Redireciona para o carrinho
+    localStorage.setItem('carrinho', JSON.stringify(carrinho)); // Salva no localStorage
+    alert('Produto adicionado ao carrinho!');
   } else {
     // Se o usuário não estiver logado, exibe o popup de login
     mostrarPopupLogin();
   }
 }
 
+// Função para mostrar o popup de login
 function mostrarPopupLogin() {
   const popupLogin = document.getElementById('popupLogin');
   popupLogin.style.display = 'block';
 }
 
+// Fechar o popup de login
 function fecharPopupLogin() {
   const popupLogin = document.getElementById('popupLogin');
   popupLogin.style.display = 'none';
 }
 
+// Função para mostrar o formulário de cadastro
 function mostrarCadastro() {
   document.getElementById('loginForm').style.display = 'none';
   document.getElementById('cadastroForm').style.display = 'block';
 }
 
+// Função para mostrar o formulário de login
 function mostrarLogin() {
   document.getElementById('cadastroForm').style.display = 'none';
   document.getElementById('loginForm').style.display = 'block';
@@ -36,69 +41,59 @@ function mostrarLogin() {
 
 // Função para realizar o login
 function logarUsuario(event) {
-  event.preventDefault(); // Impede o envio padrão do formulário
-
+  event.preventDefault();
   const email = document.getElementById('emailLogin').value;
   const senha = document.getElementById('senhaLogin').value;
 
-  // Aqui você pode adicionar validação do usuário (consultar um banco de dados, por exemplo)
-  // No caso, vamos usar um exemplo simples onde qualquer e-mail e senha são válidos.
-
-  // Simulando um login bem-sucedido
+  // Salva as credenciais do usuário logado no localStorage
   localStorage.setItem('usuarioLogado', JSON.stringify({ email, senha }));
+  usuarioLogado = { email, senha }; // Atualiza a variável global com os dados do usuário logado
   fecharPopupLogin();
+  atualizarMenu(); // Atualiza o menu após o login
 }
 
 // Função para cadastrar o usuário
 function cadastrarUsuario(event) {
-  event.preventDefault(); // Impede o envio padrão do formulário
-
+  event.preventDefault();
   const email = document.getElementById('emailCadastro').value;
   const senha = document.getElementById('senhaCadastro').value;
 
-  // Aqui você pode adicionar a lógica para salvar o novo usuário (em um banco de dados, por exemplo)
-  // Neste caso, vamos simular o cadastro armazenando diretamente no LocalStorage.
-
+  // Salva o usuário cadastrado no localStorage
   localStorage.setItem('usuarioLogado', JSON.stringify({ email, senha }));
+  usuarioLogado = { email, senha }; // Atualiza a variável global
   fecharPopupLogin();
+  atualizarMenu(); // Atualiza o menu após o cadastro
 }
 
-// Função para controlar o carrossel de imagens
-let currentSlide = 0;
-const slides = document.querySelectorAll('.carrossel .slide');
-const totalSlides = slides.length;
+// Função para atualizar o menu com base no status do login
+function atualizarMenu() {
+  const menuLogin = document.querySelectorAll('nav ul li a');
+  const loginLink = menuLogin[4]; // Botão de login
+  const sairLink = menuLogin[5];  // Botão de sair
 
-function showNextSlide() {
-  currentSlide = (currentSlide + 1) % totalSlides;  // Vai para o próximo slide ou volta ao primeiro
-  updateCarouselPosition();
+  if (usuarioLogado) {
+    loginLink.style.display = 'none'; // Oculta o link de login
+    sairLink.style.display = 'inline'; // Exibe o link de sair
+  } else {
+    loginLink.style.display = 'inline'; // Exibe o link de login
+    sairLink.style.display = 'none';  // Oculta o link de sair
+  }
 }
 
-function updateCarouselPosition() {
-  const carrossel = document.querySelector('.carrossel');
-  carrossel.style.transform = `translateX(-${currentSlide * 100}%)`;  // Move a posição do carrossel
+// Função para fazer logout
+function logout() {
+  localStorage.removeItem('usuarioLogado');
+  usuarioLogado = null;
+  atualizarMenu(); // Atualiza o menu após o logout
 }
 
-// Iniciar o carrossel automaticamente
-setInterval(showNextSlide, 3000);  // Troca a imagem a cada 3 segundos
-
-// Função para mostrar o popup com a história da loja
-function mostrarPopupSobre() {
-  const popup = document.getElementById('popupSobre');
-  popup.style.display = 'block';
-}
-
-function fecharPopupSobre() {
-  const popup = document.getElementById('popupSobre');
-  popup.style.display = 'none';
-}
-// Função para carregar o carrinho
+// Função para carregar o carrinho ao abrir a página
 function carregarCarrinho() {
-  // Recuperar os itens do carrinho do localStorage
   let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
 
   // Elemento que irá conter os produtos
   const produtosCarrinho = document.getElementById('produtosCarrinho');
-  produtosCarrinho.innerHTML = ''; // Limpa a lista de produtos
+  produtosCarrinho.innerHTML = ''; 
 
   // Variável para calcular o total
   let total = 0;
@@ -125,34 +120,18 @@ function carregarCarrinho() {
 // Função para remover um produto do carrinho
 function removerDoCarrinho(index) {
   let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-  carrinho.splice(index, 1); // Remove o produto do carrinho
-
-  // Atualiza o carrinho no localStorage
+  carrinho.splice(index, 1); 
   localStorage.setItem('carrinho', JSON.stringify(carrinho));
 
-  // Recarrega a página do carrinho
   carregarCarrinho();
 }
 
-// Função para finalizar a compra
 function finalizarCompra() {
   alert('Compra finalizada com sucesso!');
 
-  // Limpar o carrinho após a finalização
+
   localStorage.removeItem('carrinho');
-  carregarCarrinho(); // Recarregar carrinho vazio
+  carregarCarrinho(); 
 }
 
-// Carregar o carrinho ao abrir a página
 window.onload = carregarCarrinho;
-
-function toggleMenu() {
-  const menu = document.getElementById("menu");
-  menu.classList.toggle("hidden");
-}
-
-// Função para alternar a exibição do formulário de login
-function toggleLogin() {
-  const loginForm = document.querySelector(".login-container");
-  loginForm.style.display = loginForm.style.display === "none" ? "block" : "none";
-}
