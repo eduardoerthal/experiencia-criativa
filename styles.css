@@ -61,21 +61,23 @@ body {
   
   .produto img {
     width: 100%;
-    height: auto;
+    height: 290px; 
+    object-fit: cover; 
   }
   
+  
   button {
-    background-color: #28a745;
+    background-color: #b15b68;
     color: white;
     border: none;
     padding: 10px;
     cursor: pointer;
+    border-radius: 8px;
   }
   
   button:hover {
-    background-color: #85a08b;
+    background-color: #ffb6c1;
   }
-  
   footer {
     text-align: center;
     background-color: #333;
@@ -85,8 +87,7 @@ body {
     width: 100%;
     bottom: 0;
   }
-  
-  /* Modal de Login/Cadastro */
+
   .modal {
     display: none;
     position: fixed;
@@ -106,13 +107,56 @@ body {
     width: 300px;
     box-shadow: 0 4px 8px rgba(180, 130, 130, 0.2);
   }
-  
+  button:hover {
+  background-color: #ce6373;
+}
   .close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
   }
+  .sales-button {
+    color: rgb(255, 0, 0); 
+   
+  }
+
+
+
+nav ul li.dropdown {
+  position: relative;
+}
+
+nav ul li.dropdown:hover .submenu {
+  display: block;
+}
+
+.submenu {
+  display: none; 
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  min-width: 160px;
+  z-index: 1;
+}
+
+.submenu li {
+  list-style-type: none;
+  padding: 10px;
+}
+
+.submenu li a {
+  color: #333;
+  text-decoration: none;
+  display: block;
+}
+
+.submenu li a:hover {
+  background-color: #ddd;
+}
+
   
   .close:hover,
   .close:focus {
@@ -136,20 +180,48 @@ body {
     border: 1px solid #ccc;
   }
   
-  form button {
-    margin-top: 20px;
-    background-color: #28a745;
-    color: white;
+  
+  .modal-content {
+    position: relative;
+    padding: 20px;
+    background: white;
+    width: 300px;
+    margin: 10% auto;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  .modal-content button {
+    background-color: #ffb6c1;
     border: none;
     padding: 10px;
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  .modal-content button:hover {
+    background-color: #ff9aa2;
+  }
+  #loginForm button,
+  #cadastroForm button {
+    background-color: #ffb6c1;
+  }
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
     cursor: pointer;
   }
-  
-  form button:hover {
-    background-color: #218838;
+  #loginForm button:last-child,
+  #cadastroForm button:last-child {
+    margin-top: 20px;
+    display: block;
   }
+
   
-  /* Estilo do Popup Sobre */
   .popup {
     display: none;
     position: fixed;

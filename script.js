@@ -3,19 +3,23 @@ let usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado')) || null;
 
 // Função para adicionar o produto ao carrinho
 function adicionarAoCarrinho(produto, preco) {
+
+
   // Verificar se o usuário está logado
   if (usuarioLogado) {
-    // Se o usuário estiver logado, adiciona o produto ao carrinho
+  
+  // Se o usuário estiver logado, adiciona o produto ao carrinho
     carrinho.push({ produto, preco });
     localStorage.setItem('carrinho', JSON.stringify(carrinho)); // Salva no localStorage
     alert('Produto adicionado ao carrinho!');
   } else {
+  
     // Se o usuário não estiver logado, exibe o popup de login
     mostrarPopupLogin();
   }
 }
-
-// Função para mostrar o popup de login
+ 
+    // Função para mostrar o popup de login
 function mostrarPopupLogin() {
   const popupLogin = document.getElementById('popupLogin');
   popupLogin.style.display = 'block';
@@ -68,8 +72,8 @@ function cadastrarUsuario(event) {
 // Função para atualizar o menu com base no status do login
 function atualizarMenu() {
   const menuLogin = document.querySelectorAll('nav ul li a');
-  const loginLink = menuLogin[4]; // Botão de login
-  const sairLink = menuLogin[5];  // Botão de sair
+  const loginLink = menuLogin[5]; // Botão de login
+  const sairLink = menuLogin[6];  // Botão de sair
 
   if (usuarioLogado) {
     loginLink.style.display = 'none'; // Oculta o link de login
@@ -79,6 +83,10 @@ function atualizarMenu() {
     sairLink.style.display = 'none';  // Oculta o link de sair
   }
 }
+    window.onload = function() {
+  atualizarMenu(); // Atualiza o menu sempre que a página for carregada
+  carregarCarrinho(); // Carrega os produtos do carrinho se necessário
+};
 
 // Função para fazer logout
 function logout() {
@@ -135,3 +143,31 @@ function finalizarCompra() {
 }
 
 window.onload = carregarCarrinho;
+
+// Função para controlar o carrossel de imagens
+let currentSlide = 0;
+const slides = document.querySelectorAll('.carrossel .slide');
+const totalSlides = slides.length;
+
+function showNextSlide() {
+  currentSlide = (currentSlide + 1) % totalSlides;  // Vai para o próximo slide ou volta ao primeiro
+  updateCarouselPosition();
+}
+
+function updateCarouselPosition() {
+  const carrossel = document.querySelector('.carrossel');
+  carrossel.style.transform = `translateX(-${currentSlide * 100}%)`;  // Move a posição do carrossel
+}
+
+// Iniciar o carrossel automaticamente
+setInterval(showNextSlide, 3000);  // Troca a imagem a cada 3 segundos
+
+// Função para mostrar o popup
+function mostrarPopupSobre() {
+  document.getElementById("popupSobre").style.display = "block";
+}
+
+// Função para fechar o popup
+function fecharPopupSobre() {
+  document.getElementById("popupSobre").style.display = "none";
+}
