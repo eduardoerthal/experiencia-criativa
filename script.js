@@ -172,3 +172,8 @@ function fecharPopupSobre() {
   document.getElementById("popupSobre").style.display = "none";
 }
 
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  sidebar.classList.toggle('open');
+}
+
