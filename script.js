@@ -171,3 +171,4 @@ function mostrarPopupSobre() {
 function fecharPopupSobre() {
   document.getElementById("popupSobre").style.display = "none";
 }
+

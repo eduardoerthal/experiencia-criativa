@@ -108,7 +108,7 @@ body {
     box-shadow: 0 4px 8px rgba(180, 130, 130, 0.2);
   }
   button:hover {
-  background-color: #ce6373;
+  background-color: #e69ea8;
 }
   .close {
     color: #aaa;
@@ -129,6 +129,8 @@ nav ul li.dropdown {
 
 nav ul li.dropdown:hover .submenu {
   display: block;
+  border-radius: 8%;
+
 }
 
 .submenu {
@@ -202,11 +204,20 @@ nav ul li.dropdown:hover .submenu {
     font-size: 16px;
   }
   .modal-content button:hover {
+    background-color: #ca4d58;
+  }
+  #loginForm button{
     background-color: #ff9aa2;
   }
-  #loginForm button,
+  #loginForm button:hover {
+    background-color: #ca4d58;
+  }
   #cadastroForm button {
     background-color: #ffb6c1;
+  }
+
+  #cadastroForm button:hover {
+    background-color: #69242a;
   }
   .close {
     position: absolute;
