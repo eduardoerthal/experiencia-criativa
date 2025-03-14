@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -12,29 +13,29 @@
   <!-- Cabeçalho -->
   <header>
     <div class="menu-container">
-        <nav id="menu">
-            <ul>
-                <li><a href="primeira.html">Início</a></li>
-                <li class="dropdown">
-                    <a href="javascript:void(0)">Produtos</a>
-                    <ul class="submenu">
-                        <li><a href="#">Maquiagem</a></li>
-                        <li><a href="#">Perfume</a></li>
-                        <li><a href="#">Skin Care</a></li>
-                        <li><a href="#">Gloss/Batom</a></li>
-                        <li><a href="#">Hidratante</a></li>
-                        <li><a href="#">Body Splash</a></li>
-                    </ul>
-                </li>
-                <li><a href="carrinho.html">Carrinho</a></li>
-                <li><a href="#SALES" class="sales-button">SALES</a></li>
-                <li><a href="javascript:void(0)" onclick="mostrarPopupSobre()">Sobre</a></li>
-                <li><a href="#" onclick="mostrarPopupLogin()" id="loginLink">Login</a></li>
-                <li><a href="#" onclick="logout()" id="logoutLink">Sair</a></li>
+      <nav id="menu">
+        <ul>
+          <li><a href="primeira.html">Início</a></li>
+          <li class="dropdown">
+            <a href="javascript:void(0)">Produtos</a>
+            <ul class="submenu">
+              <li><a href="#">Maquiagem</a></li>
+              <li><a href="#">Perfume</a></li>
+              <li><a href="#">Skin Care</a></li>
+              <li><a href="#">Gloss/Batom</a></li>
+              <li><a href="#">Hidratante</a></li>
+              <li><a href="#">Body Splash</a></li>
             </ul>
-        </nav>
+          </li>
+          <li><a href="carrinho.html">Carrinho</a></li>
+          <li><a href="promoções.html">Promoção</a></li> <!-- Alterado para 'Promoção' -->
+          <li><a href="javascript:void(0)" onclick="mostrarPopupSobre()">Sobre</a></li>
+          <li><a href="#" onclick="mostrarPopupLogin()" id="loginLink">Login</a></li>
+          <li><a href="#" onclick="logout()" id="logoutLink">Sair</a></li>
+        </ul>
+      </nav>
     </div>
-</header>
+  </header>
 
 <!-- texto sobre -->
 </header><div id="popupSobre" class="popup">
@@ -142,15 +143,10 @@
   </div>
 </div>
 <div class="header">
-  <div class="user-icon" onclick="toggleSidebar()">👤</div>
-</div>
-
-<div class="sidebar" id="sidebar">
-  <button class="close-btn" onclick="toggleSidebar()">✖</button>
-  <h2>Perfil do Usuário</h2>
-  <p>Bem-vindo ao seu painel.</p>
-  <button type="submit">Cadastrar</button>
-</div>
+  <div class="user-icon-container">
+    <div class="user-icon" onclick="toggleSidebar()">👤</div>
+  </div>
+</header>
 
 
   <script src="script.js"></script>
