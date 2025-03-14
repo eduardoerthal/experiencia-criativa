@@ -11,7 +11,17 @@ function adicionarAoCarrinho(produto, preco) {
   // Se o usuário estiver logado, adiciona o produto ao carrinho
     carrinho.push({ produto, preco });
     localStorage.setItem('carrinho', JSON.stringify(carrinho)); // Salva no localStorage
-    alert('Produto adicionado ao carrinho!');
+    Swal.fire({
+      title: "Produto adicionado ao carrinho!",
+      showDenyButton: true,
+      confirmButtonText: "Continuar comprando",
+      denyButtonText: `Ir para o carrinho`
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isDenied) {
+        window.location.href = "carrinho.html";
+      }
+    });
   } else {
   
     // Se o usuário não estiver logado, exibe o popup de login
