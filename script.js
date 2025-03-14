@@ -145,10 +145,17 @@ function removerDoCarrinho(index) {
 }
 
 function finalizarCompra() {
-  alert('Compra finalizada com sucesso!');
-
-
-  localStorage.removeItem('carrinho');
+  Swal.fire({
+    title: "Deseja finalizar a compra agora?",
+    showCancelButton: true,
+    confirmButtonText: "Sim, finalizar!",
+    cancelButtonText: `Não, continuar comprando,`
+  }).then((result) => {
+    /* Read more about isConfirmed, isDenied below */
+    if (result.isConfirmed) {
+      Swal.fire("Compra finalizada com sucesso");
+    } 
+  });localStorage.removeItem('carrinho');
   carregarCarrinho(); 
 }
 
