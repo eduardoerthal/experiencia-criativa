@@ -7,6 +7,16 @@
   <title>Cosméticos Glow & Glam</title>
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+<script type="text/javascript">
+(function(){
+emailjs.init({
+  publicKey: "QkMISFzODQ3KKoJ0d",
+});
+})();
+</script>
 </head>
 <body>
 
@@ -28,10 +38,9 @@
             </ul>
           </li>
           <li><a href="carrinho.html">Carrinho</a></li>
-          <li><a href="promoções.html">Promoção</a></li> <!-- Alterado para 'Promoção' -->
+          <li><a href="promoções.html">Promoção</a></li> 
           <li><a href="javascript:void(0)" onclick="mostrarPopupSobre()">Sobre</a></li>
-          <li><a href="#" onclick="mostrarPopupLogin()" id="loginLink">Login</a></li>
-          <li><a href="#" onclick="logout()" id="logoutLink">Sair</a></li>
+       
         </ul>
       </nav>
     </div>
@@ -66,49 +75,130 @@
     <div class="produto">
       <img src="IMAGENS - PRODUTOS/MAQUIAGEM/BASE DIOR.jpeg" alt="Produto 1">
       <h3>Base Hidratante</h3>
+      <br>
       <p>R$390,90</p>
+      <br>
       <button onclick="adicionarAoCarrinho('Base Hidratante', 390.90)">Adicionar ao Carrinho</button>
     </div>
     <div class="produto">
       <img src="IMAGENS - PRODUTOS/SKIN CARE/MASCARA SEPHORA.jpeg" alt="Produto 2">
       <h3>Máscara Facial</h3>
+      <br>
       <p>R$59,90</p>
+      <br>
       <button onclick="adicionarAoCarrinho('Máscara Facial', 59.90)">Adicionar ao Carrinho</button>
     </div>
     <div class="produto">
       <img src="IMAGENS - PRODUTOS/GLOSS-BATOM/GLOSS VS.jpeg" alt="Produto 3">
       <h3>GLOSS VS</h3>
+      <br>
       <p>R$120,00</p>
+      <br>
       <button onclick="adicionarAoCarrinho('GLOSS VS', 120.00)">Adicionar ao Carrinho</button>
     </div>
     <div class="produto">
       <img src="IMAGENS - PRODUTOS/MAQUIAGEM/PalhetaDior.jpeg" alt="Produto 4">
       <h3>Paleta de Sombras</h3>
+      <br>
       <p>R$500,00</p>
+      <br>
       <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
     </div>
     <div class="produto">
       <img src="IMAGENS - PRODUTOS/PERFUMES/PERFUME 1.webp" alt="Produto 4">
       <h3>Perfume COCO CHANEL</h3>
+      <br>
       <p>R$500,00</p>
+      <br>
       <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
     </div>
     <div class="produto">
       <img src="IMAGENS - PRODUTOS/HIDRATANTE/HIDRATANTE 1.webp" alt="Produto 4">
       <h3>Hidratante Vanilla VS</h3>
+      <br>
       <p>R$169,90</p>
+      <br>
       <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
     </div>
     <div class="produto">
       <img src="IMAGENS - PRODUTOS/BODY SPLASH/BODY SPLASH 1..jpg" alt="Produto 4">
+      <br>
       <h3>Body Splash</h3>
+      <br>
       <p>R$169,90</p>
+      <br>
       <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
     </div>
     <div class="produto">
       <img src="IMAGENS - PRODUTOS/GLOSS-BATOM/BATOM MAYBELLINE.webp" alt="Produto 4">
       <h3>Gloss Maybelline</h3>
+      <br>
       <p>R$209,00</p>
+      <br>
+      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
+    </div>
+    <div class="produto">
+      <img src="IMAGENS - PRODUTOS/MAQUIAGEM/RIMEL KIKO.jpg" alt="Produto 4">
+      <h3>Máscara de Cílios Kiko</h3>
+      <br>
+      <p>R$159,90</p>
+      <br>
+      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
+    </div>
+    <div class="produto">
+      <img src="IMAGENS - PRODUTOS/HIDRATANTE/creme ysl.jpg" alt="Produto 4">
+      <h3>Or Rouge La Crème Essentielle YSL </h3>
+      <br>
+      <p>R$3.200,00</p>
+      <br>
+      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
+    </div>
+    <div class="produto">
+      <img src="IMAGENS - PRODUTOS/MAQUIAGEM/PÓ KIKO.webp" alt="Produto 4">
+      <h3>Pó Facial Kiko Milano </h3>
+      <br>
+      <p>R$164,99</p>
+      <br>
+      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
+    </div>
+    <div class="produto">
+      <img src="IMAGENS - PRODUTOS/GLOSS-BATOM/BATOM RHODE.webp" alt="Produto 4">
+      <h3>GLOSS RHODE </h3>
+      <br>
+      <p>R$223,90</p>
+      <br>
+      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
+    </div>
+    <div class="produto">
+      <img src="IMAGENS - PRODUTOS/GLOSS-BATOM/CAPINHA RHODE.webp" alt="Produto 4">
+      <h3>CAPINHA RHODE</h3>
+      <br>
+      <p>R$370,00</p>
+      <br>
+      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
+    </div>
+    <div class="produto">
+      <img src="IMAGENS - PRODUTOS/GLOSS-BATOM/LIP OIL DIOR.webp" alt="Produto 4">
+      <h3>LIP OIL DIOR</h3>
+      <br>
+      <p>R$265,00</p>
+      <br>
+      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
+    </div>
+    <div class="produto">
+      <img src="IMAGENS - PRODUTOS/MAQUIAGEM/CORRETIVO TWO FACED.webp" alt="Produto 4">
+      <h3>CORRETIVO TWO FACED</h3>
+     <br>
+      <p>R$240,00</p>
+      <br>
+      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
+    </div>
+    <div class="produto">
+      <img src="IMAGENS - PRODUTOS/MAQUIAGEM/blush nars.jpg" alt= "Produto 4">
+      <h3>CORRETIVO TWO FACED</h3>
+      <br>
+      <p>R$240,00</p>
+      <br>
       <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
     </div>
     <div class="produto">
@@ -142,12 +232,14 @@
     </div>
   </div>
 </div>
-<div class="header">
-  <div class="user-icon-container">
-    <div class="user-icon" onclick="toggleSidebar()">👤</div>
-  </div>
-</header>
 
+<button class="open-btn" onclick="abrirMenu()">☰</button>
+
+<div id="sidebar" class="sidebar">
+    <span class="close-btn" onclick="fecharMenu()">&times;</span>
+    <a href="#" onclick="mostrarPopupLogin()" id="loginLink">Login</a>
+    <a href="#" onclick="logout()" id="logoutLink">Sair</a>
+</div>
 
   <script src="script.js"></script>
 </body>
