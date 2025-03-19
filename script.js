@@ -1,6 +1,6 @@
 let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
 let usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado')) || null;
-
+emailjs.init('QkMISFzODQ3KKoJ0d');
 // Função para adicionar o produto ao carrinho
 function adicionarAoCarrinho(produto, preco) {
 
@@ -61,6 +61,7 @@ function logarUsuario(event) {
 
   // Salva as credenciais do usuário logado no localStorage
   localStorage.setItem('usuarioLogado', JSON.stringify({ email, senha }));
+  console.log(localStorage.getItem('usuarioLogado'));
   usuarioLogado = { email, senha }; // Atualiza a variável global com os dados do usuário logado
   fecharPopupLogin();
   atualizarMenu(); // Atualiza o menu após o login
@@ -145,18 +146,37 @@ function removerDoCarrinho(index) {
 }
 
 function finalizarCompra() {
-  Swal.fire({
-    title: "Deseja finalizar a compra agora?",
-    showCancelButton: true,
-    confirmButtonText: "Sim, finalizar!",
-    cancelButtonText: `Não, continuar comprando,`
-  }).then((result) => {
-    /* Read more about isConfirmed, isDenied below */
-    if (result.isConfirmed) {
-      Swal.fire("Compra finalizada com sucesso");
-    } 
-  });localStorage.removeItem('carrinho');
-  carregarCarrinho(); 
+  alert('Compra finalizada com sucesso!');
+
+  // Recupera o email do usuário logado do localStorage
+  const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+  console.log(usuarioLogado);
+  if (usuarioLogado) {
+      console.log(usuarioLogado.email); // Isso deve exibir o email no console
+  } else {
+      console.error("Usuário logado não encontrado no localStorage.");
+  }
+  if (emailUsuario) {
+    // Configura os parâmetros do template do EmailJS usando o email do usuário logado
+    const templateParams = {
+      to_email: emailUsuario, // Usa o email resgatado do login
+      message: 'Sua compra foi finalizada com sucesso! Obrigado por comprar conosco.', // Mensagem personalizada
+    };
+  // Envia o email usando o EmailJS
+  emailjs
+    .send('service_uwcbjup', 'template_n12itey', templateParams)
+    .then(
+      (response) => {
+        console.log('Email enviado com sucesso!', response.status, response.text);
+      },
+      (error) => {
+        console.error('Erro ao enviar email:', error);
+      }
+    );
+
+  localStorage.removeItem('carrinho'); // Remove os itens do carrinho do localStorage
+  carregarCarrinho(); // Atualiza o carrinho após a remoção
+}
 }
 
 window.onload = carregarCarrinho;
@@ -193,4 +213,22 @@ function toggleSidebar() {
   const sidebar = document.getElementById('sidebar');
   sidebar.classList.toggle('open');
 }
+function abrirMenu() {
+  document.getElementById("sidebar").style.width = "250px";
+}
+
+function fecharMenu() {
+  document.getElementById("sidebar").style.width = "0";
+}
+
+document.getElementById('whatsappButton').addEventListener('click', function() {
+  var phoneNumber = document.getElementById('phoneNumber').value; // Número inserido pelo cliente
+  if (phoneNumber) {
+      var message = 'Olá, gostaria de saber mais sobre os serviços!'; // Mensagem a ser enviada
+      var url = 'https://wa.me/' + phoneNumber + '?text=' + encodeURIComponent(message);
+      window.open(url, '_blank');
+  } else {
+      alert('Por favor, insira um número de telefone válido.');
+  }
+});
 
