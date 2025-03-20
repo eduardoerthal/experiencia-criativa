@@ -26,7 +26,6 @@ header {
 .menu-container nav ul li {
   display: inline-block;
   margin: 0 20px;
- 
 }
 
 .menu-container nav ul li a {
@@ -35,9 +34,9 @@ header {
   font-size: 18px;
 }
 
-
-
-
+.menu-container nav ul li a:hover {
+  color: #ff00f2;
+}
 
 .menu-container nav ul li.dropdown .submenu {
   display: none;
@@ -64,8 +63,6 @@ header {
   text-decoration: none;
   display: block;
 }
-
-
 
 /* Banner com carrossel */
 #banner {
@@ -231,7 +228,6 @@ form input {
   background-color: #808080; /* Mesmo tom do cabeçalho */
   padding: 15px;
 }
-
 
 .close-btn {
   background: none;
