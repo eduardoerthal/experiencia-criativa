@@ -27,7 +27,7 @@ emailjs.init({
         <ul>
           <li><a href="primeira.html">Início</a></li>
           <li class="dropdown">
-            <a href="javascript:void(0)">Produtos</a>
+            <a href="#produto4">Produtos</a>
             <ul class="submenu">
               <li><a href="#">Maquiagem</a></li>
               <li><a href="#">Perfume</a></li>
@@ -96,7 +96,7 @@ emailjs.init({
       <br>
       <button onclick="adicionarAoCarrinho('GLOSS VS', 120.00)">Adicionar ao Carrinho</button>
     </div>
-    <div class="produto">
+    <div class="produto"  >
       <img src="IMAGENS - PRODUTOS/MAQUIAGEM/PalhetaDior.jpeg" alt="Produto 4">
       <h3>Paleta de Sombras</h3>
       <br>
@@ -137,7 +137,7 @@ emailjs.init({
       <br>
       <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
     </div>
-    <div class="produto">
+    <div class="produto" id="produto4">
       <img src="IMAGENS - PRODUTOS/MAQUIAGEM/RIMEL KIKO.jpg" alt="Produto 4">
       <h3>Máscara de Cílios Kiko</h3>
       <br>
@@ -153,7 +153,7 @@ emailjs.init({
       <br>
       <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
     </div>
-    <div class="produto">
+    <div class="produto" >
       <img src="IMAGENS - PRODUTOS/MAQUIAGEM/PÓ KIKO.webp" alt="Produto 4">
       <h3>Pó Facial Kiko Milano </h3>
       <br>
@@ -224,8 +224,12 @@ emailjs.init({
     <div id="cadastroForm" style="display:none;">
       <h2>Cadastrar-se</h2>
       <form onsubmit="cadastrarUsuario(event)">
+        <input type="text" id="nomeCompleto" placeholder="Nome Completo" required pattern="[A-Za-z\s]+">
+        <input type="date" id="dataNascimento" required min="1900-01-01" max="2006-12-31" onchange="validarIdade()">
+        <input type="tel" id="telefone" placeholder="Telefone" required pattern="^\d{10,11}$" title="O número de telefone deve conter apenas números e ter 10 ou 11 dígitos">
         <input type="email" id="emailCadastro" placeholder="E-mail" required>
         <input type="password" id="senhaCadastro" placeholder="Senha" required>
+        <input type="password" id="confirmarSenha" placeholder="Confirmar Senha" required>
         <button type="submit">Cadastrar</button>
       </form>
       <button onclick="mostrarLogin()">Já tenho conta</button>
