@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cosméticos Glow & Glam</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+<script type="text/javascript">
+(function(){
+emailjs.init({
+  publicKey: "QkMISFzODQ3KKoJ0d",
+});
+})();
+</script>
+</head>
+<body>
+
+  <!-- Cabeçalho -->
+  <header>
+    <div class="menu-container">
+      <nav id="menu">
+        <ul>
+          <li><a href="primeira.html">Início</a></li>
+          <li class="dropdown">
+            <a href="#produto4">Produtos</a>
+            <ul class="submenu">
+              <li><a href="maquiagem.html">Maquiagem</a></li>
+              <li><a href="perfume.html">Perfume</a></li>
+              <li><a href="skincare.html">Skin Care</a></li>
+              <li><a href="gloss.html">Gloss/Batom</a></li>
+              <li><a href="hidratante.html">Hidratante</a></li>
+              <li><a href="body.html">Body Splash</a></li>
+            </ul>
+          </li>
+          <li><a href="carrinho.html">Carrinho</a></li>
+          <li><a href="Promoção.html">Promoção</a></li> 
+          <li><a href="javascript:void(0)" onclick="mostrarPopupSobre()">Sobre</a></li>
+       
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+<!-- texto sobre -->
+</header><div id="popupSobre" class="popup">
+  <div class="popup-content">
+    <span class="popup-close" onclick="fecharPopupSobre()">&times;</span>
+    <h2>Como Surgiu a Glow & Glam</h2>
+    <p>Bem-vindo à Glow & Glam! Somos uma loja especializada na venda de cosméticos importados, com a missão de oferecer produtos de qualidade para realçar a sua beleza e bem-estar.</p>
+    <p>A nossa história começou com a paixão por trazer as melhores marcas de cosméticos internacionais diretamente para o Brasil. Depois de anos de pesquisa, estabelecemos parcerias com fornecedores globais para garantir que nossos clientes tenham acesso às últimas tendências de beleza, com a confiança de que estão adquirindo produtos originais e de alta qualidade.</p>
+    <p>A Beauty Shop não é apenas uma loja, mas uma experiência de compra única. Trabalhamos com uma vasta gama de produtos, desde cuidados com a pele até maquiagens e fragrâncias exclusivas, tudo para que você se sinta ainda mais bonita e confiante!</p>
+    <p>Obrigado por confiar na Gloe & Glam. Estamos aqui para ajudar você a encontrar os melhores produtos para o seu estilo e necessidades.</p>
+    <button onclick="fecharPopupSobre()">Fechar</button>
+  </div>
+</div>
+</header>
+
+
+
+  <!-- Produtos -->
+  <section id="produto">
+    
+    <div class="produto">
+      <img src="IMAGENS - PRODUTOS/BODY SPLASH/BODY SPLASH 1..jpg" alt="Produto 4">
+      <br>
+      <h3>Body Splash</h3>
+      <br>
+      <p>R$169,90</p>
+      <br>
+      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
+    </div>
+    <div class="produto">
+     
+  </section>
+
+ 
+ 
+ <!-- LOGIN --> 
+  <div id="popupLogin" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close" onclick="fecharPopupLogin()">&times;</span>
+    <div id="loginForm">
+      <h2>Realizar Login</h2>
+      <form onsubmit="logarUsuario(event)">
+        <input type="email" id="emailLogin" placeholder="E-mail" required>
+        <input type="password" id="senhaLogin" placeholder="Senha" required>
+        <button type="submit">Entrar</button>
+      </form>
+      <button onclick="mostrarCadastro()">Cadastrar-se</button>
+    </div>
+
+    <div id="cadastroForm" style="display:none;">
+      <h2>Cadastrar-se</h2>
+      <form onsubmit="cadastrarUsuario(event)">
+        <input type="text" id="nomeCompleto" placeholder="Nome Completo" required pattern="[A-Za-z\s]+">
+        <input type="date" id="dataNascimento" required min="1900-01-01" max="2006-12-31" onchange="validarIdade()">
+        <input type="tel" id="telefone" placeholder="Telefone" required pattern="^\d{10,11}$" title="O número de telefone deve conter apenas números e ter 10 ou 11 dígitos">
+        <input type="email" id="emailCadastro" placeholder="E-mail" required>
+        <input type="password" id="senhaCadastro" placeholder="Senha" required>
+        <input type="password" id="confirmarSenha" placeholder="Confirmar Senha" required>
+        <button type="submit">Cadastrar</button>
+      </form>
+      <button onclick="mostrarLogin()">Já tenho conta</button>
+    </div>
+  </div>
+</div>
+
+<button class="open-btn" onclick="abrirMenu()">☰</button>
+
+<div id="sidebar" class="sidebar">
+    <span class="close-btn" onclick="fecharMenu()">&times;</span>
+    <a href="#" onclick="mostrarPopupLogin()" id="loginLink">Login</a>
+    <a href="#" onclick="logout()" id="logoutLink">Sair</a>
+</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
