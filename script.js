@@ -1,142 +1,137 @@
 let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
 let usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado')) || null;
 emailjs.init('QkMISFzODQ3KKoJ0d');
-// Função para adicionar o produto ao carrinho
-function adicionarAoCarrinho(produto, preco) {
+
+    function adicionarAoCarrinho(produto, preco) {
 
 
-  // Verificar se o usuário está logado
-  if (usuarioLogado) {
-  
-  // Se o usuário estiver logado, adiciona o produto ao carrinho
-    carrinho.push({ produto, preco });
-    localStorage.setItem('carrinho', JSON.stringify(carrinho)); // Salva no localStorage
-    Swal.fire({
+  // usuario logado
+    if (usuarioLogado) {
+     carrinho.push({ produto, preco });
+     localStorage.setItem('carrinho', JSON.stringify(carrinho));
+     Swal.fire({
       title: "Produto adicionado ao carrinho!",
       showDenyButton: true,
       confirmButtonText: "Continuar comprando",
       denyButtonText: `Ir para o carrinho`
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
+   
       if (result.isDenied) {
         window.location.href = "carrinho.html";
       }
     });
   } else {
   
-    // Se o usuário não estiver logado, exibe o popup de login
+   
     mostrarPopupLogin();
   }
 }
  
-    // Função para mostrar o popup de login
+ 
 function mostrarPopupLogin() {
   const popupLogin = document.getElementById('popupLogin');
   popupLogin.style.display = 'block';
 }
 
-// Fechar o popup de login
+
 function fecharPopupLogin() {
   const popupLogin = document.getElementById('popupLogin');
   popupLogin.style.display = 'none';
 }
 
-// Função para mostrar o formulário de cadastro
+
 function mostrarCadastro() {
   document.getElementById('loginForm').style.display = 'none';
   document.getElementById('cadastroForm').style.display = 'block';
 }
 
-// Função para mostrar o formulário de login
+
 function mostrarLogin() {
   document.getElementById('cadastroForm').style.display = 'none';
   document.getElementById('loginForm').style.display = 'block';
 }
 
-// Função para realizar o login
+
 function logarUsuario(event) {
   event.preventDefault();
   const email = document.getElementById('emailLogin').value;
   const senha = document.getElementById('senhaLogin').value;
 
-  // Salva as credenciais do usuário logado no localStorage
+  
   localStorage.setItem('usuarioLogado', JSON.stringify({ email, senha }));
   console.log(localStorage.getItem('usuarioLogado'));
-  usuarioLogado = { email, senha }; // Atualiza a variável global com os dados do usuário logado
+  usuarioLogado = { email, senha }; 
   fecharPopupLogin();
-  atualizarMenu(); // Atualiza o menu após o login
+  atualizarMenu(); 
 }
 
-// Função para cadastrar o usuário
+
 function cadastrarUsuario(event) {
   event.preventDefault();
   const email = document.getElementById('emailCadastro').value;
   const senha = document.getElementById('senhaCadastro').value;
 
-  // Salva o usuário cadastrado no localStorage
+ 
   localStorage.setItem('usuarioLogado', JSON.stringify({ email, senha }));
-  usuarioLogado = { email, senha }; // Atualiza a variável global
+  usuarioLogado = { email, senha }; 
   fecharPopupLogin();
-  atualizarMenu(); // Atualiza o menu após o cadastro
+  atualizarMenu();
 }
 
-// Função para atualizar o menu com base no status do login
+
 function atualizarMenu() {
   const menuLogin = document.querySelectorAll('nav ul li a');
-  const loginLink = menuLogin[5]; // Botão de login
-  const sairLink = menuLogin[6];  // Botão de sair
+  const loginLink = menuLogin[5]; 
+  const sairLink = menuLogin[6]; 
 
-  if (usuarioLogado) {
-    loginLink.style.display = 'none'; // Oculta o link de login
-    sairLink.style.display = 'inline'; // Exibe o link de sair
-  } else {
-    loginLink.style.display = 'inline'; // Exibe o link de login
-    sairLink.style.display = 'none';  // Oculta o link de sair
+if (usuarioLogado) {
+    loginLink.style.display = 'none'; 
+    sairLink.style.display = 'inline'; 
+} else {
+    loginLink.style.display = 'inline'; 
+    sairLink.style.display = 'none';
   }
 }
-    window.onload = function() {
-  atualizarMenu(); // Atualiza o menu sempre que a página for carregada
-  carregarCarrinho(); // Carrega os produtos do carrinho se necessário
+window.onload = function() {
+atualizarMenu(); 
+carregarCarrinho(); 
 };
 
-// Função para fazer logout
+
 function logout() {
   localStorage.removeItem('usuarioLogado');
   usuarioLogado = null;
-  atualizarMenu(); // Atualiza o menu após o logout
+  atualizarMenu(); 
 }
 
-// Função para carregar o carrinho ao abrir a página
+
 function carregarCarrinho() {
   let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
 
-  // Elemento que irá conter os produtos
+
   const produtosCarrinho = document.getElementById('produtosCarrinho');
   produtosCarrinho.innerHTML = ''; 
 
-  // Variável para calcular o total
+  
   let total = 0;
 
-  // Adicionar os produtos ao carrinho
+
   carrinho.forEach((item, index) => {
-    const divProduto = document.createElement('div');
-    divProduto.classList.add('produtoCarrinho');
-    divProduto.innerHTML = `
-      <h4>${item.produto}</h4>
-      <p>R$ ${item.preco.toFixed(2)}</p>
-      <button onclick="removerDoCarrinho(${index})">Remover</button>
+const divProduto = document.createElement('div');
+divProduto.classList.add('produtoCarrinho');
+divProduto.innerHTML = `
+    <h4>${item.produto}</h4>
+    <p>R$ ${item.preco.toFixed(2)}</p>
+    <button onclick="removerDoCarrinho(${index})">Remover</button>
     `;
     produtosCarrinho.appendChild(divProduto);
 
-    // Somar o total
     total += item.preco;
   });
 
-  // Atualizar o total
   document.getElementById('totalValor').textContent = total.toFixed(2);
 }
 
-// Função para remover um produto do carrinho
 function removerDoCarrinho(index) {
   let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
   carrinho.splice(index, 1); 
@@ -148,63 +143,51 @@ function removerDoCarrinho(index) {
 function finalizarCompra() {
   alert('Compra finalizada com sucesso!');
 
-  // Recupera o email do usuário logado do localStorage
+ 
   const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
   console.log(usuarioLogado);
   if (usuarioLogado) {
-      console.log(usuarioLogado.email); // Isso deve exibir o email no console
+      console.log(usuarioLogado.email); 
   } else {
       console.error("Usuário logado não encontrado no localStorage.");
   }
   if (emailUsuario) {
-    // Configura os parâmetros do template do EmailJS usando o email do usuário logado
+  
     const templateParams = {
-      to_email: emailUsuario, // Usa o email resgatado do login
-      message: 'Sua compra foi finalizada com sucesso! Obrigado por comprar conosco.', // Mensagem personalizada
+      to_email: emailUsuario, 
+      message: 'Sua compra foi finalizada com sucesso! Obrigado por comprar conosco.', 
     };
-  // Envia o email usando o EmailJS
-  emailjs
-    .send('service_uwcbjup', 'template_n12itey', templateParams)
-    .then(
-      (response) => {
-        console.log('Email enviado com sucesso!', response.status, response.text);
-      },
-      (error) => {
-        console.error('Erro ao enviar email:', error);
-      }
-    );
 
-  localStorage.removeItem('carrinho'); // Remove os itens do carrinho do localStorage
-  carregarCarrinho(); // Atualiza o carrinho após a remoção
+
+  localStorage.removeItem('carrinho'); 
+  carregarCarrinho();
 }
 }
 
 window.onload = carregarCarrinho;
 
-// Função para controlar o carrossel de imagens
 let currentSlide = 0;
 const slides = document.querySelectorAll('.carrossel .slide');
 const totalSlides = slides.length;
 
 function showNextSlide() {
-  currentSlide = (currentSlide + 1) % totalSlides;  // Vai para o próximo slide ou volta ao primeiro
+  currentSlide = (currentSlide + 1) % totalSlides;  
   updateCarouselPosition();
 }
 
 function updateCarouselPosition() {
   const carrossel = document.querySelector('.carrossel');
-  carrossel.style.transform = `translateX(-${currentSlide * 100}%)`;  // Move a posição do carrossel
+  carrossel.style.transform = `translateX(-${currentSlide * 100}%)`;  
 }
 
-// Iniciar o carrossel automaticamente
-setInterval(showNextSlide, 3000);  // Troca a imagem a cada 3 segundos
+setInterval(showNextSlide, 3000);  
 
-// Função para mostrar o popup
+
 function mostrarPopupSobre() {
   document.getElementById("popupSobre").style.display = "block";
 }
 
-// Função para fechar o popup
+
 function fecharPopupSobre() {
   document.getElementById("popupSobre").style.display = "none";
 }
@@ -221,14 +204,37 @@ function fecharMenu() {
   document.getElementById("sidebar").style.width = "0";
 }
 
-document.getElementById('whatsappButton').addEventListener('click', function() {
-  var phoneNumber = document.getElementById('phoneNumber').value; // Número inserido pelo cliente
-  if (phoneNumber) {
-      var message = 'Olá, gostaria de saber mais sobre os serviços!'; // Mensagem a ser enviada
-      var url = 'https://wa.me/' + phoneNumber + '?text=' + encodeURIComponent(message);
-      window.open(url, '_blank');
-  } else {
-      alert('Por favor, insira um número de telefone válido.');
-  }
-});
 
+function validarIdade() {
+    const dataNascimento = document.getElementById("dataNascimento").value;
+    const idade = calcularIdade(new Date(dataNascimento));
+
+    if (idade < 18) {
+      alert("Você precisa ter pelo menos 18 anos para se cadastrar.");
+      document.getElementById("dataNascimento").setCustomValidity("Idade mínima não atendida");
+    } else {
+      document.getElementById("dataNascimento").setCustomValidity("");
+    }
+  }
+
+  function calcularIdade(dataNascimento) {
+    const hoje = new Date();
+    let idade = hoje.getFullYear() - dataNascimento.getFullYear();
+    const mes = hoje.getMonth() - dataNascimento.getMonth();
+
+    if (mes < 0 || (mes === 0 && hoje.getDate() < dataNascimento.getDate())) {
+      idade--;
+    }
+
+    return idade;
+  }
+
+  document.querySelector("form").addEventListener("submit", function(event) {
+    const senha = document.getElementById("senhaCadastro").value;
+    const confirmarSenha = document.getElementById("confirmarSenha").value;
+
+    if (senha !== confirmarSenha) {
+      event.preventDefault();
+      alert("As senhas não são iguais. Tente novamente.");
+    }
+  });
