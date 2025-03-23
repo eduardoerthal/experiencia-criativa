@@ -5,18 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cosméticos Glow & Glam</title>
+  <link rel="icon" type="image/png" sizes="16x16" href="IMAGENS - PRODUTOS/icon.png">
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script type="text/javascript"
-  src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
-</script>
-<script type="text/javascript">
-(function(){
-emailjs.init({
-  publicKey: "QkMISFzODQ3KKoJ0d",
-});
-})();
-</script>
 </head>
 <body>
 
@@ -54,8 +45,7 @@ emailjs.init({
     <p>Bem-vindo à Glow & Glam! Somos uma loja especializada na venda de cosméticos importados, com a missão de oferecer produtos de qualidade para realçar a sua beleza e bem-estar.</p>
     <p>A nossa história começou com a paixão por trazer as melhores marcas de cosméticos internacionais diretamente para o Brasil. Depois de anos de pesquisa, estabelecemos parcerias com fornecedores globais para garantir que nossos clientes tenham acesso às últimas tendências de beleza, com a confiança de que estão adquirindo produtos originais e de alta qualidade.</p>
     <p>A Beauty Shop não é apenas uma loja, mas uma experiência de compra única. Trabalhamos com uma vasta gama de produtos, desde cuidados com a pele até maquiagens e fragrâncias exclusivas, tudo para que você se sinta ainda mais bonita e confiante!</p>
-    <p>Obrigado por confiar na Gloe & Glam. Estamos aqui para ajudar você a encontrar os melhores produtos para o seu estilo e necessidades.</p>
-    <button onclick="fecharPopupSobre()">Fechar</button>
+    <p>Obrigado por confiar na Glow & Glam. Estamos aqui para ajudar você a encontrar os melhores produtos para o seu estilo e necessidades.</p>
   </div>
 </div>
 </header>
@@ -69,6 +59,7 @@ emailjs.init({
     </div>
   </section>
 
+<section>
   <!-- Produtos -->
   <section id="produto">
     
@@ -110,15 +101,16 @@ emailjs.init({
       <br>
       <p>R$500,00</p>
       <br>
-      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
+      <button onclick="adicionarAoCarrinho('Perfume COCO CHANEL', 500.00)">Adicionar ao Carrinho</button>
     </div>
     <div class="produto">
       <img src="IMAGENS - PRODUTOS/HIDRATANTE/HIDRATANTE 1.webp" alt="Produto 4">
+      <br>
       <h3>Hidratante Vanilla VS</h3>
       <br>
       <p>R$169,90</p>
       <br>
-      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
+      <button onclick="adicionarAoCarrinho('Hidratante Vanilla VS', 169.90)">Adicionar ao Carrinho</button>
     </div>
     <div class="produto">
       <img src="IMAGENS - PRODUTOS/BODY SPLASH/BODY SPLASH 1..jpg" alt="Produto 4">
@@ -127,7 +119,7 @@ emailjs.init({
       <br>
       <p>R$169,90</p>
       <br>
-      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
+      <button onclick="adicionarAoCarrinho('Body Splash', 169.90)">Adicionar ao Carrinho</button>
     </div>
     <div class="produto">
       <img src="IMAGENS - PRODUTOS/GLOSS-BATOM/BATOM MAYBELLINE.webp" alt="Produto 4">
@@ -135,7 +127,7 @@ emailjs.init({
       <br>
       <p>R$209,00</p>
       <br>
-      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
+      <button onclick="adicionarAoCarrinho('Gloss Maybelline', 209.90)">Adicionar ao Carrinho</button>
     </div>
     <div class="produto" id="produto4">
       <img src="IMAGENS - PRODUTOS/MAQUIAGEM/RIMEL KIKO.jpg" alt="Produto 4">
@@ -143,7 +135,7 @@ emailjs.init({
       <br>
       <p>R$159,90</p>
       <br>
-      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
+      <button onclick="adicionarAoCarrinho('Máscara de Cílios Kiko', 159.90)">Adicionar ao Carrinho</button>
     </div>
     <div class="produto">
       <img src="IMAGENS - PRODUTOS/HIDRATANTE/creme ysl.jpg" alt="Produto 4">
@@ -151,7 +143,7 @@ emailjs.init({
       <br>
       <p>R$3.200,00</p>
       <br>
-      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
+      <button onclick="adicionarAoCarrinho('Or Rouge La Crème Essentielle YSL ', 3200.00)">Adicionar ao Carrinho</button>
     </div>
     <div class="produto" >
       <img src="IMAGENS - PRODUTOS/MAQUIAGEM/PÓ KIKO.webp" alt="Produto 4">
@@ -159,15 +151,15 @@ emailjs.init({
       <br>
       <p>R$164,99</p>
       <br>
-      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
+      <button onclick="adicionarAoCarrinho('Pó Facial Kiko Milano ', 164.99)">Adicionar ao Carrinho</button>
     </div>
     <div class="produto">
       <img src="IMAGENS - PRODUTOS/GLOSS-BATOM/BATOM RHODE.webp" alt="Produto 4">
-      <h3>GLOSS RHODE </h3>
+      <h3>GLOSS RHODE</h3>
       <br>
       <p>R$223,90</p>
       <br>
-      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
+      <button onclick="adicionarAoCarrinho('GLOSS RHODE', 223.90)">Adicionar ao Carrinho</button>
     </div>
     <div class="produto">
       <img src="IMAGENS - PRODUTOS/GLOSS-BATOM/CAPINHA RHODE.webp" alt="Produto 4">
@@ -175,7 +167,7 @@ emailjs.init({
       <br>
       <p>R$370,00</p>
       <br>
-      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
+      <button onclick="adicionarAoCarrinho('Capinha Rhode', 370.00)">Adicionar ao Carrinho</button>
     </div>
     <div class="produto">
       <img src="IMAGENS - PRODUTOS/GLOSS-BATOM/LIP OIL DIOR.webp" alt="Produto 4">
@@ -183,7 +175,7 @@ emailjs.init({
       <br>
       <p>R$265,00</p>
       <br>
-      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
+      <button onclick="adicionarAoCarrinho('Lip Oil Dior', 265.00)">Adicionar ao Carrinho</button>
     </div>
     <div class="produto">
       <img src="IMAGENS - PRODUTOS/MAQUIAGEM/CORRETIVO TWO FACED.webp" alt="Produto 4">
@@ -191,7 +183,7 @@ emailjs.init({
      <br>
       <p>R$240,00</p>
       <br>
-      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
+      <button onclick="adicionarAoCarrinho('Corretivo Two Faced', 240.00)">Adicionar ao Carrinho</button>
     </div>
     <div class="produto">
       <img src="IMAGENS - PRODUTOS/MAQUIAGEM/blush nars.jpg" alt= "Produto 4">
@@ -199,14 +191,14 @@ emailjs.init({
       <br>
       <p>R$240,00</p>
       <br>
-      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
+      <button onclick="adicionarAoCarrinho('Blush Nars', 240.00)">Adicionar ao Carrinho</button>
     </div>
     <div class="produto">
      
   </section>
 
  
- 
+</section>
  <!-- LOGIN --> 
   <div id="popupLogin" class="modal" style="display: none;">
   <div class="modal-content">
@@ -244,7 +236,33 @@ emailjs.init({
     <a href="#" onclick="mostrarPopupLogin()" id="loginLink">Login</a>
     <a href="#" onclick="logout()" id="logoutLink">Sair</a>
 </div>
-
-  <script src="script.js"></script>
+<section>
+  <footer style="background-color: #e28f8f; color: #fff; padding: 40px 0; font-family: Arial, sans-serif; margin-top: 200px;">
+    <div style="display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto;">
+        <!-- Coluna Endereço -->
+        <div style="flex: 1; margin: 0 20px;">
+            <h3 style="border-bottom: 2px solid #ffffff; padding-bottom: 10px;">Endereço</h3>
+            <p>Rua dos bobos, 0, São Paulo, SP</p>
+        </div>
+        <!-- Coluna Nossas Políticas -->
+        <div style="flex: 1; margin: 0 20px;">
+            <h3 style="border-bottom: 2px solid #ffffff; padding-bottom: 10px;">Nossas Políticas</h3>
+            <p><a href="#" style="color: #fff; text-decoration: none;">Política de Privacidade</a></p>
+            <p><a href="#" style="color: #fff; text-decoration: none;">Termos de Uso</a></p>
+        </div>
+        <!-- Coluna Contatos -->
+        <div style="flex: 1; margin: 0 20px;">
+            <h3 style="border-bottom: 2px solid #ffffff; padding-bottom: 10px;">Contatos</h3>
+            <p><a href="mailto:contato@glownglam.com" style="color: #fff; text-decoration: none;">contato@glownglam.com</a></p>
+            <p>11 1234-5678</p>
+        </div>
+    </div>
+    <!-- Linha de Copyright -->
+    <div style="text-align: center; margin-top: 40px; border-top: 1px solid #ffffff; padding-top: 20px; display: flex; justify-content: center;">
+        <p style="margin: 0;">© Glow & Glam - 2025 All Rights Reserved.</p>
+    </div>
+</footer>
+</section>
+<script src="script.js"></script>
 </body>
 </html>

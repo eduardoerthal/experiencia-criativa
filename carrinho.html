@@ -3,56 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Carrinho - Cosméticos BeautyShop</title>
+  <title>Carrinho - Glow & Glam</title>
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-
   <header>
     <div class="menu-container">
-        <nav id="menu">
-            <ul>
-                <li><a href="primeira.html">Início</a></li>
-                <li class="dropdown">
-                    <a href="javascript:void(0)">Produtos</a>
-                    <ul class="submenu">
-                        <li><a href="#">Maquiagem</a></li>
-                        <li><a href="#">Perfume</a></li>
-                        <li><a href="#">Skin Care</a></li>
-                        <li><a href="#">Gloss/Batom</a></li>
-                        <li><a href="#">Hidratante</a></li>
-                        <li><a href="#">Body Splash</a></li>
-                    </ul>
-                </li>
-                <li><a href="carrinho.html">Carrinho</a></li>
-                <li><a href="#SALES" class="sales-button">SALES</a></li>
-                <li><a href="javascript:void(0)" onclick="mostrarPopupSobre()">Sobre</a></li>
-          
+      <nav id="menu">
+        <ul>
+          <li><a href="primeira.html">Início</a></li>
+          <li class="dropdown">
+            <a href="#produto4">Produtos</a>
+            <ul class="submenu">
+              <li><a href="maquiagem.html">Maquiagem</a></li>
+              <li><a href="perfume.html">Perfume</a></li>
+              <li><a href="skincare.html">Skin Care</a></li>
+              <li><a href="gloss.html">Gloss/Batom</a></li>
+              <li><a href="hidratante.html">Hidratante</a></li>
+              <li><a href="body.html">Body Splash</a></li>
             </ul>
-        </nav>
+          </li>
+          <li><a href="carrinho.html">Carrinho</a></li>
+          <li><a href="Promoção.html">Promoção</a></li> 
+          <li><a href="javascript:void(0)" onclick="mostrarPopupSobre()">Sobre</a></li>
+      
+        </ul>
+      </nav>
     </div>
-</header>
-
-    <div id="popupSobre" class="popup">
-        <div class="popup-content">
-          <span class="popup-close" onclick="fecharPopupSobre()">&times;</span>
-          <h2>Como Surgiu a Glow & Glam</h2>
-          <p>Bem-vindo à Glow & Glam! Somos uma loja especializada na venda de cosméticos importados, com a missão de oferecer produtos de qualidade para realçar a sua beleza e bem-estar.</p>
-          <p>A nossa história começou com a paixão por trazer as melhores marcas de cosméticos internacionais diretamente para o Brasil. Depois de anos de pesquisa, estabelecemos parcerias com fornecedores globais para garantir que nossos clientes tenham acesso às últimas tendências de beleza, com a confiança de que estão adquirindo produtos originais e de alta qualidade.</p>
-          <p>A Beauty Shop não é apenas uma loja, mas uma experiência de compra única. Trabalhamos com uma vasta gama de produtos, desde cuidados com a pele até maquiagens e fragrâncias exclusivas, tudo para que você se sinta ainda mais bonita e confiante!</p>
-          <p>Obrigado por confiar na GloW & Glam. Estamos aqui para ajudar você a encontrar os melhores produtos para o seu estilo e necessidades.</p>
-          <button onclick="fecharPopupSobre()">Fechar</button>
-        </div>
-      </div>
   </header>
 
-  <!-- Carrinho -->
   <section id="produtosCarrinho">
     <h2>Itens no Carrinho</h2>
-  
   </section>
-
 
   <section id="totalCarrinho">
     <h3>Total: R$ <span id="totalValor">0.00</span></h3>
@@ -61,5 +44,10 @@
   <button onclick="finalizarCompra()">Finalizar Compra</button>
 
   <script src="script.js"></script>
+  <script>
+    window.onload = function() {
+      carregarCarrinho();
+    };
+  </script>
 </body>
 </html>

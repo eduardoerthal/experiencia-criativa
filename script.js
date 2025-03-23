@@ -3,12 +3,12 @@ let usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado')) || null;
 emailjs.init('QkMISFzODQ3KKoJ0d');
 
     function adicionarAoCarrinho(produto, preco) {
-
-
   // usuario logado
     if (usuarioLogado) {
      carrinho.push({ produto, preco });
      localStorage.setItem('carrinho', JSON.stringify(carrinho));
+     console.log('Produto adicionado:', JSON.stringify(carrinho));
+     console.log('Carrinho:', carrinho)
      Swal.fire({
       title: "Produto adicionado ao carrinho!",
       showDenyButton: true,
@@ -21,8 +21,6 @@ emailjs.init('QkMISFzODQ3KKoJ0d');
       }
     });
   } else {
-  
-   
     mostrarPopupLogin();
   }
 }
@@ -164,7 +162,9 @@ function finalizarCompra() {
 }
 }
 
-window.onload = carregarCarrinho;
+window.onload = function() {
+  carregarCarrinho(); 
+}
 
 let currentSlide = 0;
 const slides = document.querySelectorAll('.carrossel .slide');
@@ -176,6 +176,7 @@ function showNextSlide() {
 }
 
 function updateCarouselPosition() {
+  console.log('Updating carousel position');
   const carrossel = document.querySelector('.carrossel');
   carrossel.style.transform = `translateX(-${currentSlide * 100}%)`;  
 }
