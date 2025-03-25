@@ -119,6 +119,22 @@ function removerDoCarrinho(index) {
   let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
   carrinho.splice(index, 1);
   localStorage.setItem("carrinho", JSON.stringify(carrinho));
+  Swal.fire({
+    title: "Você tem certeza?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3e77b6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sim, remover",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: "Removido!",
+        text: "Seu arquivo foi removido.",
+        icon: "Sucesso!",
+      });
+    }
+  });
 
   carregarCarrinho();
 }
@@ -126,23 +142,9 @@ function removerDoCarrinho(index) {
 function finalizarCompra() {
   alert("Compra finalizada com sucesso!");
 
-  const usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
-  console.log(usuarioLogado);
-  if (usuarioLogado) {
-    console.log(usuarioLogado.email);
-  } else {
-    console.error("Usuário logado não encontrado no localStorage.");
-  }
-  if (emailUsuario) {
-    const templateParams = {
-      to_email: emailUsuario,
-      message:
-        "Sua compra foi finalizada com sucesso! Obrigado por comprar conosco.",
-    };
-
-    localStorage.removeItem("carrinho");
-    carregarCarrinho();
-  }
+  localStorage.removeItem("carrinho");
+  console.log("Carrinho:", carrinho);
+  carregarCarrinho();
 }
 
 window.onload = function () {
