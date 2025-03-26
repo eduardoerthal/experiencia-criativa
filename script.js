@@ -1,6 +1,5 @@
 let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 let usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado")) || null;
-emailjs.init("QkMISFzODQ3KKoJ0d");
 
 function adicionarAoCarrinho(produto, preco) {
   // usuario logado
@@ -146,7 +145,7 @@ function finalizarCompra() {
   carregarCarrinho();
 
  Swal.fire({
-    position:"top-end",
+    position:"middle-center",
     icon: "sucess",
     title: "Compra finalizada com sucesso!",
     showConfirmButton: false,
@@ -196,15 +195,20 @@ function fecharMenu() {
   document.getElementById("sidebar").style.width = "0";
 }
 
+
 function validarIdade() {
   const dataNascimento = document.getElementById("dataNascimento").value;
   const idade = calcularIdade(new Date(dataNascimento));
-
   if (idade < 18) {
-    alert("Você precisa ter pelo menos 18 anos para se cadastrar.");
+    Swal.fire({
+    title: "Parece que você é muito novo",
+    text: "Você precisa ter no mínimo 18 anos para criar uma conta",
+    icon: "error"
+  });
     document
       .getElementById("dataNascimento")
       .setCustomValidity("Idade mínima não atendida");
+
   } else {
     document.getElementById("dataNascimento").setCustomValidity("");
   }
