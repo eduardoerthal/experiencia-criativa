@@ -140,11 +140,19 @@ function removerDoCarrinho(index) {
 }
 
 function finalizarCompra() {
-  alert("Compra finalizada com sucesso!");
 
   localStorage.removeItem("carrinho");
   console.log("Carrinho:", carrinho);
   carregarCarrinho();
+
+ Swal.fire({
+    position:"top-end",
+    icon: "sucess",
+    title: "Compra finalizada com sucesso!",
+    showConfirmButton: false,
+    timer: 1500
+
+  });
 }
 
 window.onload = function () {
