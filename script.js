@@ -58,6 +58,16 @@ function logarUsuario(event) {
 function autenticarUsuario(event) {
   event.preventDefault(); // Impede o envio do formulário
 
+  function cadastrarUsuario(){
+    const email = document.getElementById("emailCadastro").value;
+    const senha = document.getElementById("senhaCadastro").value;
+
+    localStorage.setItem("usuarioLogado", JSON.stringify({ email, senha }));
+    usuarioLogado = { email, senha };
+    fecharPopupLogin();
+    atualizarMenu();
+  }
+  
   // Pegando os elementos dos inputs
   let nomeInput = document.getElementById("nomeCompleto");
   let dataNascimentoInput = document.getElementById("dataNascimento");
@@ -74,18 +84,15 @@ function autenticarUsuario(event) {
   let senhaCadastro = senhaInput.value;
   let confirmarSenha = confirmarSenhaInput.value;
 
-  // Escondendo todas as mensagens de erro antes de validar
   document.querySelectorAll('.error-label').forEach(mensagem => mensagem.style.display = 'none');
 
-  let erro = false; // Variável de controle
+  let erro = false;
 
-  // Validação do nome (somente letras e espaços)
   if (!/^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/.test(nomeCompleto)) {
       document.getElementById("nomeInvalido").style.display = "block";
       erro = true;
   }
 
-  // Validação da data de nascimento (precisa ser maior de 18 anos)
   let dataNascimentoDate = new Date(dataNascimento);
   let hoje = new Date();
   let idade = hoje.getFullYear() - dataNascimentoDate.getFullYear();
@@ -94,9 +101,8 @@ function autenticarUsuario(event) {
   let diaAtual = hoje.getDate();
   let diaNascimento = dataNascimentoDate.getDate();
 
-  // Ajuste de idade para considerar o mês e dia
   if (mesAtual < mesNascimento || (mesAtual === mesNascimento && diaAtual < diaNascimento)) {
-      idade--; // Ainda não fez aniversário este ano
+      idade--;
   }
 
   if (isNaN(dataNascimentoDate) || idade < 18) {
@@ -104,25 +110,21 @@ function autenticarUsuario(event) {
       erro = true;
   }
 
-  // Validação do telefone (somente números, 10 ou 11 dígitos)
-  if (!/^\d{10,11}$/.test(telefone)) {
+  if (!/^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/.test(telefone)) {
       document.getElementById("telefoneInvalido").style.display = "block";
       erro = true;
   }
 
-  // Validação do e-mail (estrutura básica de e-mail)
   if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailCadastro)) {
       document.getElementById("emailInvalido").style.display = "block";
       erro = true;
   }
 
-  // Validação da senha (entre 8 e 16 caracteres)
   if (senhaCadastro.length < 8 || senhaCadastro.length > 16) {
       document.getElementById("senhaInvalida").style.display = "block";
       erro = true;
   }
 
-  // Confirmação de senha
   if (senhaCadastro !== confirmarSenha) {
       document.getElementById("senhaNaoConfere").style.display = "block";
       erro = true;
