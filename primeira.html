@@ -480,7 +480,7 @@
         <button onclick="mostrarCadastro()">Cadastrar-se</button>
       </div>
 
-      
+      <!-- FORMULÁRIO DE CADASTRO -->
       <div id="cadastroForm" style="display:none;">
         <h2>Cadastrar-se</h2>
         <form id="cadastroUsuarioForm" onsubmit="autenticarUsuario(event)">
@@ -502,7 +502,7 @@
           <label for="confirmarSenha">Confirmar Senha</label>
           <input type="password" id="confirmarSenha" placeholder="Confirme sua senha">
 
-          <button type="submit">Cadastrar</button>
+          <button type="submit" id="botaoCadastro">Cadastrar</button>
         </form>
 
         
@@ -514,7 +514,7 @@
         <label id="senhaNaoConfere" class="error-label" style="display:none; color:red;">As senhas não conferem.</label>
         <label id="campoObrigatorio" class="error-label" style="display:none; color:red;">Os campos são obrigatórios.</label>
 
-        <button onclick="mostrarLogin()">Já tenho conta</button>
+        <button onclick="mostrarLogin()" id="botaoJTC">Já tenho conta</button>
       </div>
     </div>
   </div>

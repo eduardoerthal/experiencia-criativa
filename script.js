@@ -67,7 +67,7 @@ function autenticarUsuario(event) {
     fecharPopupLogin();
     atualizarMenu();
   }
-  
+
   // Pegando os elementos dos inputs
   let nomeInput = document.getElementById("nomeCompleto");
   let dataNascimentoInput = document.getElementById("dataNascimento");
@@ -87,6 +87,14 @@ function autenticarUsuario(event) {
   document.querySelectorAll('.error-label').forEach(mensagem => mensagem.style.display = 'none');
 
   let erro = false;
+
+  if (!dataNascimento || !telefone || !emailCadastro || !senhaCadastro || !confirmarSenha) {
+    document.getElementById("campoObrigatorio").style.display = "block";
+    erro =  true
+    if (erro) {
+      return;
+    }
+  }
 
   if (!/^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/.test(nomeCompleto)) {
       document.getElementById("nomeInvalido").style.display = "block";
@@ -108,33 +116,42 @@ function autenticarUsuario(event) {
   if (isNaN(dataNascimentoDate) || idade < 18) {
       document.getElementById("idadeInvalida").style.display = "block";
       erro = true;
+      if (erro) {
+        return;
+      }
   }
 
   if (!/^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/.test(telefone)) {
       document.getElementById("telefoneInvalido").style.display = "block";
       erro = true;
+      if (erro) {
+        return;
+      }
   }
 
   if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailCadastro)) {
       document.getElementById("emailInvalido").style.display = "block";
       erro = true;
+      if (erro) {
+        return;
+      }
   }
 
   if (senhaCadastro.length < 8 || senhaCadastro.length > 16) {
       document.getElementById("senhaInvalida").style.display = "block";
       erro = true;
+      if (erro) {
+        return;
+      }
   }
 
   if (senhaCadastro !== confirmarSenha) {
       document.getElementById("senhaNaoConfere").style.display = "block";
       erro = true;
+      if (erro) {
+        return;
+      }
   }
-
-  // Se houver erro, interrompe a execução
-  if (erro) {
-      return;
-  }
-
   // Função para cadastrar usuário se tudo estiver correto
   cadastrarUsuario();
 }
