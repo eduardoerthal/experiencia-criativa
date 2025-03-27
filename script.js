@@ -55,16 +55,91 @@ function logarUsuario(event) {
   atualizarMenu();
 }
 
-function cadastrarUsuario(event) {
-  event.preventDefault();
-  const email = document.getElementById("emailCadastro").value;
-  const senha = document.getElementById("senhaCadastro").value;
+function autenticarUsuario(event) {
+  event.preventDefault(); // Impede o envio do formulário
 
-  localStorage.setItem("usuarioLogado", JSON.stringify({ email, senha }));
-  usuarioLogado = { email, senha };
-  fecharPopupLogin();
-  atualizarMenu();
+  // Pegando os elementos dos inputs
+  let nomeInput = document.getElementById("nomeCompleto");
+  let dataNascimentoInput = document.getElementById("dataNascimento");
+  let telefoneInput = document.getElementById("telefone");
+  let emailInput = document.getElementById("emailCadastro");
+  let senhaInput = document.getElementById("senhaCadastro");
+  let confirmarSenhaInput = document.getElementById("confirmarSenha");
+
+  // Pegando os valores dos campos
+  let nomeCompleto = nomeInput.value.trim();
+  let dataNascimento = dataNascimentoInput.value;
+  let telefone = telefoneInput.value.trim();
+  let emailCadastro = emailInput.value.trim();
+  let senhaCadastro = senhaInput.value;
+  let confirmarSenha = confirmarSenhaInput.value;
+
+  // Escondendo todas as mensagens de erro antes de validar
+  document.querySelectorAll('.error-label').forEach(mensagem => mensagem.style.display = 'none');
+
+  let erro = false; // Variável de controle
+
+  // Validação do nome (somente letras e espaços)
+  if (!/^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/.test(nomeCompleto)) {
+      document.getElementById("nomeInvalido").style.display = "block";
+      erro = true;
+  }
+
+  // Validação da data de nascimento (precisa ser maior de 18 anos)
+  let dataNascimentoDate = new Date(dataNascimento);
+  let hoje = new Date();
+  let idade = hoje.getFullYear() - dataNascimentoDate.getFullYear();
+  let mesAtual = hoje.getMonth();
+  let mesNascimento = dataNascimentoDate.getMonth();
+  let diaAtual = hoje.getDate();
+  let diaNascimento = dataNascimentoDate.getDate();
+
+  // Ajuste de idade para considerar o mês e dia
+  if (mesAtual < mesNascimento || (mesAtual === mesNascimento && diaAtual < diaNascimento)) {
+      idade--; // Ainda não fez aniversário este ano
+  }
+
+  if (isNaN(dataNascimentoDate) || idade < 18) {
+      document.getElementById("idadeInvalida").style.display = "block";
+      erro = true;
+  }
+
+  // Validação do telefone (somente números, 10 ou 11 dígitos)
+  if (!/^\d{10,11}$/.test(telefone)) {
+      document.getElementById("telefoneInvalido").style.display = "block";
+      erro = true;
+  }
+
+  // Validação do e-mail (estrutura básica de e-mail)
+  if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailCadastro)) {
+      document.getElementById("emailInvalido").style.display = "block";
+      erro = true;
+  }
+
+  // Validação da senha (entre 8 e 16 caracteres)
+  if (senhaCadastro.length < 8 || senhaCadastro.length > 16) {
+      document.getElementById("senhaInvalida").style.display = "block";
+      erro = true;
+  }
+
+  // Confirmação de senha
+  if (senhaCadastro !== confirmarSenha) {
+      document.getElementById("senhaNaoConfere").style.display = "block";
+      erro = true;
+  }
+
+  // Se houver erro, interrompe a execução
+  if (erro) {
+      return;
+  }
+
+  // Função para cadastrar usuário se tudo estiver correto
+  cadastrarUsuario();
 }
+
+
+
+
 
 function atualizarMenu() {
   const menuLogin = document.querySelectorAll("nav ul li a");
