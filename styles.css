@@ -156,11 +156,13 @@ button {
   padding: 10px;
   cursor: pointer;
   border-radius: 8px;
+  margin: 10px;
 }
 
 button:hover {
   background-color: #e69ea8;
 }
+
 
 /* ======================== */
 /* Rodapé */
@@ -185,7 +187,7 @@ footer {
   left: 0;
   top: 0;
   width: 100%;
-  height: 100%;
+  height: auto;
   background-color: rgba(255, 255, 255, 0.4);
 }
 
@@ -348,4 +350,9 @@ form input {
 .modal-content{
   font-size: 15px;
   color:rgba(0, 0, 0, 0.5);
+}
+
+#botaoJTC {
+  display: block;
+  margin: auto;
 }
