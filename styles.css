@@ -10,6 +10,7 @@
 body {
   font-family: Georgia, serif;
   font-weight: 100;
+  background-color: beige;
 }
 
 /* ======================== */
@@ -36,13 +37,13 @@ header {
 }
 
 .menu-container nav ul li a {
-  color: #000;
+  color: #8653ad;
   text-decoration: none;
   font-size: 18px;
 }
 
 .menu-container nav ul li a:hover {
-  color: #ff00f2;
+  color: black;
 }
 
 /* Dropdown */
@@ -234,7 +235,7 @@ footer {
   position: absolute;
   top: 30px;
   left: 15px;
-  background-color: #cf1993;
+  background-color: #ee8e8e;
   color: white;
   border: none;
   padding: 10px;
@@ -247,4 +248,12 @@ footer {
   right: 20px;
   font-size: 25px;
   cursor: pointer;
+}
+.modal{
+  position: center;
+  font-size: 20px;
+}
+.modal-content{
+  font-size: 15px;
+  color:rgba(0, 0, 0, 0.5);
 }
