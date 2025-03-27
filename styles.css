@@ -248,3 +248,40 @@ footer {
   font-size: 25px;
   cursor: pointer;
 }
+
+@media(max-width: 768px){
+  .sidebar {
+    height: 100%;
+  }
+}
+/* ======================== */
+/* BOTAO DE REMOVER */
+/* ======================== */
+
+.btn-success {
+  background-color: #4666ce;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.btn-success:hover {
+  background-color: #201f7a;
+}
+
+.btn-danger {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.btn-danger:hover {
+  background-color: #d32f2f;
+}

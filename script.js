@@ -115,43 +115,74 @@ function carregarCarrinho() {
 }
 
 function removerDoCarrinho(index) {
-  let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
-  carrinho.splice(index, 1);
-  localStorage.setItem("carrinho", JSON.stringify(carrinho));
-  Swal.fire({
+  const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: "btn btn-success",
+      cancelButton: "btn btn-danger"
+    },
+    buttonsStyling: false
+  });
+  swalWithBootstrapButtons.fire({
     title: "Você tem certeza?",
+    text: "Deseja remover o produto?",
     icon: "warning",
     showCancelButton: true,
-    confirmButtonColor: "#3e77b6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Sim, remover",
+    confirmButtonText: "Remover",
+    cancelButtonText: "Cancelar",
+    reverseButtons: true
   }).then((result) => {
     if (result.isConfirmed) {
-      Swal.fire({
-        title: "Removido!",
-        text: "Seu arquivo foi removido.",
-        icon: "Sucesso!",
+
+      let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+      carrinho.splice(index, 1);
+      localStorage.setItem("carrinho", JSON.stringify(carrinho));
+      swalWithBootstrapButtons.fire({
+        title: "Removido",
+        text: "Item removido do carrinho",
+        icon: "success"
       });
+      carregarCarrinho();
+
+
+    } else if (
+      result.dismiss === Swal.DismissReason.cancel
+
+    ) {
+      swalWithBootstrapButtons.fire({
+        title: "Cancelado",
+        text: "Continue sua compra.",
+        icon: "info"
+      });
+      carregarCarrinho();
     }
   });
-
-  carregarCarrinho();
 }
 
 function finalizarCompra() {
 
   localStorage.removeItem("carrinho");
   console.log("Carrinho:", carrinho);
-  carregarCarrinho();
-
- Swal.fire({
-    position:"middle-center",
-    icon: "sucess",
-    title: "Compra finalizada com sucesso!",
-    showConfirmButton: false,
-    timer: 1500
-
-  });
+  const produtosCarrinho = document.getElementById("produtosCarrinho");
+  if (produtosCarrinho.children.length === 0) {
+    Swal.fire({
+      title: "Carrinho vazio",
+      text: "Adicione produtos ao carrinho para finalizar a compra",
+      icon: "info"
+    });
+    return;
+  } else {
+    Swal.fire({
+      position: "middle-center",
+      icon: "sucess",
+      title: "Compra finalizada com sucesso!",
+      showConfirmButton: false,
+      timer: 1500
+  
+    });
+    produtosCarrinho.innerHTML = "";
+    carregarCarrinho();
+    return;
+  }
 }
 
 window.onload = function () {
@@ -201,10 +232,10 @@ function validarIdade() {
   const idade = calcularIdade(new Date(dataNascimento));
   if (idade < 18) {
     Swal.fire({
-    title: "Parece que você é muito novo",
-    text: "Você precisa ter no mínimo 18 anos para criar uma conta",
-    icon: "error"
-  });
+      title: "Parece que você é muito novo",
+      text: "Você precisa ter no mínimo 18 anos para criar uma conta",
+      icon: "error"
+    });
     document
       .getElementById("dataNascimento")
       .setCustomValidity("Idade mínima não atendida");
