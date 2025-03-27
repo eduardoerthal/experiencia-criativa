@@ -25,7 +25,7 @@ function adicionarAoCarrinho(produto, preco) {
 
 function mostrarPopupLogin() {
   const popupLogin = document.getElementById("popupLogin");
-  popupLogin.style.display = "block";
+  popupLogin.style.display = "flex";
 }
 
 function fecharPopupLogin() {
