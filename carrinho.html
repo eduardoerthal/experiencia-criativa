@@ -51,10 +51,18 @@
     <div id="sidebar" class="sidebar">
       <span class="close-btn" onclick="fecharMenu()">&times;</span>
       <a href="#" onclick="navegarPara('primeira.html')">Início</a>
-      <a href="#" onclick="navegarPara('produtos.html')">Produtos</a>
+      <a href="#" onclick="toggleSubMenu()">Produtos ▼</a>
+      <ul id="subMenuMobile" class="submenu-mobile">
+        <li><a href="maquiagem.html">Maquiagem</a></li>
+        <li><a href="perfume.html">Perfume</a></li>
+        <li><a href="skincare.html">Skin Care</a></li>
+        <li><a href="gloss.html">Gloss/Batom</a></li>
+        <li><a href="body.html">Body Splash</a></li>
+        <li><a href="hidratante.html">Hidratante</a></li>
+      </ul>
       <a href="#" onclick="navegarPara('carrinho.html')">Carrinho</a>
-      <a href="#" onclick="navegarPara('promocao.html')">Promoção</a>
-      <a href="#" onclick="navegarPara('sobre.html')">Sobre</a>
+      <a href="#" onclick="navegarPara('Promoção.html')">Promoção</a>
+      <a href="#" onclick="abrirPopupSobre()">Sobre</a>
       <a href="#" onclick="mostrarPopupLogin()" id="loginLink">Login</a>
       <a href="#" onclick="logout()" id="logoutLink">Sair</a>
     </div>
