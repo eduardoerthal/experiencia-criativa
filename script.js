@@ -19,6 +19,13 @@ function adicionarAoCarrinho(produto, preco) {
     mostrarPopupLogin();
   }
 }
+function mostrarPopupSobre() {
+  document.getElementById("popupSobre").style.display = "block";
+}
+
+function fecharPopupSobre() {
+  document.getElementById("popupSobre").style.display = "none";
+}
 
 function mostrarPopupLogin() {
   const popupLogin = document.getElementById("popupLogin");
