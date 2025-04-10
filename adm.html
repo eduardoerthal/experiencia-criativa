@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="adm.css">
+    <title>ADM</title>
+</head>
+<body>
+    <div class="paineladm">
+        <div id="admcarrossel">
+            <form action="/inserir-banner" method="post" enctype="multipart/form-data">
+
+                <h1>Banners</h1>
+
+                <label for="imgbanner">Imagem para o Carrossel</label>
+                <input type="file" name="imgbanner" accept="image/*">
+
+                <button type="submit">Enviar</button>  
+
+            </form>
+        </div>
+
+        <div id="admproduto">
+            <form action="/cadastrar-produto" method="post" enctype="multipart/form-data">
+                <h1>Cadastro de Produto</h1>
+
+                <label for="nomeproduto">Nome do Produto</label>
+                <input type="text" name="nomeproduto">
+
+                <label for="valorproduto">Valor do Produto</label>
+                <input type="number" name="valorproduto">
+
+                <label for="catproduto">ID da Categoria</label>
+                <input type="number" name="catproduto">
+
+                <label for="imgproduto">Imagem do Produto</label>
+                <input type="file" name="imgproduto" accept="image/*">
+
+                <button type="submit">Cadastrar Produto</button>
+            </form>
+        </div>
+    </div>
+    <a href="/">Voltar Para o Início</a>
+</body>
+</html>

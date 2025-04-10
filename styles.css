@@ -255,5 +255,6 @@ footer {
 }
 .modal-content{
   font-size: 15px;
-  color:rgba(0, 0, 0, 0.5);
+  color:black;
+  background-color: cornsilk;
 }
