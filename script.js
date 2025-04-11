@@ -300,3 +300,43 @@ function toggleSubMenu() {
     submenu.style.display = "block";
   }
 }
+const form = document.getElementById("userForm");
+const newPassword = document.getElementById("newPassword");
+const confirmPassword = document.getElementById("confirmPassword");
+const passwordError = document.getElementById("passwordError");
+
+form.addEventListener("submit", function (event) {
+  if (newPassword.value !== confirmPassword.value) {
+    event.preventDefault();
+    passwordError.textContent = "As senhas não coincidem.";
+  } else {
+    passwordError.textContent = "";
+    alert("Alterações salvas com sucesso!");
+  }
+});
+document
+  .getElementById("uploadFoto")
+  .addEventListener("change", function (event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        document.querySelector(".foto-usuario").src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+function toggleSenha(el) {
+  const input = el.previousElementSibling;
+  const icon = el.querySelector("i");
+
+  if (input.type === "password") {
+    input.type = "text";
+    icon.classList.remove("fa-eye");
+    icon.classList.add("fa-eye-slash");
+  } else {
+    input.type = "password";
+    icon.classList.remove("fa-eye-slash");
+    icon.classList.add("fa-eye");
+  }
+}
