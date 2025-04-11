@@ -7,6 +7,10 @@
   <title>Cosméticos Glow & Glam</title>
   <link rel="icon" type="image/png" sizes="16x16" href="IMAGENS - PRODUTOS/icon.png">
   <link rel="stylesheet" href="styles.css">
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+/>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
@@ -480,7 +484,7 @@
         <button onclick="mostrarCadastro()">Cadastrar-se</button>
       </div>
 
-      
+      <!-- FORMULÁRIO DE CADASTRO -->
       <div id="cadastroForm" style="display:none;">
         <h2>Cadastrar-se</h2>
         <form id="cadastroUsuarioForm" onsubmit="autenticarUsuario(event)">
@@ -502,7 +506,7 @@
           <label for="confirmarSenha">Confirmar Senha</label>
           <input type="password" id="confirmarSenha" placeholder="Confirme sua senha">
 
-          <button type="submit">Cadastrar</button>
+          <button type="submit" id="botaoCadastro">Cadastrar</button>
         </form>
 
         
@@ -514,7 +518,7 @@
         <label id="senhaNaoConfere" class="error-label" style="display:none; color:red;">As senhas não conferem.</label>
         <label id="campoObrigatorio" class="error-label" style="display:none; color:red;">Os campos são obrigatórios.</label>
 
-        <button onclick="mostrarLogin()">Já tenho conta</button>
+        <button onclick="mostrarLogin()" id="botaoJTC">Já tenho conta</button>
       </div>
     </div>
   </div>
@@ -523,10 +527,25 @@
 <button class="open-btn" onclick="abrirMenu()">☰</button>
 
 <div id="sidebar" class="sidebar">
-    <span class="close-btn" onclick="fecharMenu()">&times;</span>
-    <a href="#" onclick="mostrarPopupLogin()" id="loginLink">Login</a>
-    <a href="#" onclick="logout()" id="logoutLink">Sair</a>
+  <span class="close-btn" onclick="fecharMenu()">&times;</span>
+  <a href="#" onclick="navegarPara('primeira.html')">Início</a>
+  <a href="#" onclick="toggleSubMenu()">Produtos ▼</a>
+  <ul id="subMenuMobile" class="submenu-mobile">
+    <li><a href="maquiagem.html">Maquiagem</a></li>
+    <li><a href="perfume.html">Perfume</a></li>
+    <li><a href="skincare.html">Skin Care</a></li>
+    <li><a href="gloss.html">Gloss/Batom</a></li>
+    <li><a href="body.html">Body Splash</a></li>
+    <li><a href="hidratante.html">Hidratante</a></li>
+
+  </ul>
+  <a href="#" onclick="navegarPara('carrinho.html')">Carrinho</a>
+  <a href="#" onclick="navegarPara('Promoção.html')">Promoção</a>
+  <a href="#" onclick="abrirPopupSobre()">Sobre</a>
+  <a href="#" onclick="mostrarPopupLogin()" id="loginLink">Login</a>
+  <a href="#" onclick="logout()" id="logoutLink">Sair</a>
 </div>
+
 <section>
   <footer style="background-color: #e28f8f; color: #fff; padding: 40px 0; font-family: Arial, sans-serif; margin-top: 200px;">
     <div style="display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto;">

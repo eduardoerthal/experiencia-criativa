@@ -1,53 +1,77 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Carrinho - Glow & Glam</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</head>
-<body>
-  <header>
-    <div class="menu-container">
-      <nav id="menu">
-        <ul>
-          <li><a href="primeira.html">Início</a></li>
-          <li class="dropdown">
-            <a href="#produto4">Produtos</a>
-            <ul class="submenu">
-              <li><a href="maquiagem.html">Maquiagem</a></li>
-              <li><a href="perfume.html">Perfume</a></li>
-              <li><a href="skincare.html">Skin Care</a></li>
-              <li><a href="gloss.html">Gloss/Batom</a></li>
-              <li><a href="hidratante.html">Hidratante</a></li>
-              <li><a href="body.html">Body Splash</a></li>
-            </ul>
-          </li>
-          <li><a href="carrinho.html">Carrinho</a></li>
-          <li><a href="Promoção.html">Promoção</a></li> 
-          <li><a href="javascript:void(0)" onclick="mostrarPopupSobre()">Sobre</a></li>
-      
-        </ul>
-      </nav>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carrinho - Glow & Glam</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body>
+    <header>
+      <div class="menu-container">
+        <nav id="menu">
+          <ul>
+            <li><a href="primeira.html">Início</a></li>
+            <li class="dropdown">
+              <a href="#produto4">Produtos</a>
+              <ul class="submenu">
+                <li><a href="maquiagem.html">Maquiagem</a></li>
+                <li><a href="perfume.html">Perfume</a></li>
+                <li><a href="skincare.html">Skin Care</a></li>
+                <li><a href="gloss.html">Gloss/Batom</a></li>
+                <li><a href="hidratante.html">Hidratante</a></li>
+                <li><a href="body.html">Body Splash</a></li>
+              </ul>
+            </li>
+            <li><a href="carrinho.html">Carrinho</a></li>
+            <li><a href="Promoção.html">Promoção</a></li>
+            <li>
+              <a href="javascript:void(0)" onclick="mostrarPopupSobre()"
+                >Sobre</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <section id="produtosCarrinho">
+      <h2>Itens no Carrinho</h2>
+    </section>
+
+    <section id="totalCarrinho">
+      <h3>Total: R$ <span id="totalValor">0.00</span></h3>
+    </section>
+
+    <button onclick="finalizarCompra()">Finalizar Compra</button>
+
+    <button class="open-btn" onclick="abrirMenu()">☰</button>
+
+    <div id="sidebar" class="sidebar">
+      <span class="close-btn" onclick="fecharMenu()">&times;</span>
+      <a href="#" onclick="navegarPara('primeira.html')">Início</a>
+      <a href="#" onclick="toggleSubMenu()">Produtos ▼</a>
+      <ul id="subMenuMobile" class="submenu-mobile">
+        <li><a href="maquiagem.html">Maquiagem</a></li>
+        <li><a href="perfume.html">Perfume</a></li>
+        <li><a href="skincare.html">Skin Care</a></li>
+        <li><a href="gloss.html">Gloss/Batom</a></li>
+        <li><a href="body.html">Body Splash</a></li>
+        <li><a href="hidratante.html">Hidratante</a></li>
+      </ul>
+      <a href="#" onclick="navegarPara('carrinho.html')">Carrinho</a>
+      <a href="#" onclick="navegarPara('Promoção.html')">Promoção</a>
+      <a href="#" onclick="abrirPopupSobre()">Sobre</a>
+      <a href="#" onclick="mostrarPopupLogin()" id="loginLink">Login</a>
+      <a href="#" onclick="logout()" id="logoutLink">Sair</a>
     </div>
-  </header>
 
-  <section id="produtosCarrinho">
-    <h2>Itens no Carrinho</h2>
-  </section>
-
-  <section id="totalCarrinho">
-    <h3>Total: R$ <span id="totalValor">0.00</span></h3>
-  </section>
-
-  <button onclick="finalizarCompra()">Finalizar Compra</button>
-
-  <script src="script.js"></script>
-  <script>
-    window.onload = function() {
-      carregarCarrinho();
-    };
-  </script>
-</body>
+    <script src="script.js"></script>
+    <script>
+      window.onload = function () {
+        carregarCarrinho();
+      };
+    </script>
+  </body>
 </html>
