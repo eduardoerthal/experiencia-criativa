@@ -5,10 +5,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cosméticos Glow & Glam</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script type="text/javascript"
-  src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+  <script src="{{ url_for('static', path='script.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
 </script>
 <script type="text/javascript">
 (function(){
@@ -19,26 +19,26 @@ emailjs.init({
 </script>
 </head>
 <body>
-
   <!-- Cabeçalho -->
   <header>
     <div class="menu-container">
       <nav id="menu">
         <ul>
-          <li><a href="primeira.html">Início</a></li>
+          <li><a href="/">Início</a></li>
           <li class="dropdown">
             <a href="#produto4">Produtos</a>
             <ul class="submenu">
-              <li><a href="maquiagem.html">Maquiagem</a></li>
-              <li><a href="perfume.html">Perfume</a></li>
-              <li><a href="skincare.html">Skin Care</a></li>
-              <li><a href="gloss.html">Gloss/Batom</a></li>
-              <li><a href="hidratante.html">Hidratante</a></li>
-              <li><a href="body.html">Body Splash</a></li>
+              <li><a href="/maquiagem">Maquiagem</a></li>
+              <li><a href="/perfume">Perfume</a></li>
+              <li><a href="/skincare">Skin Care</a></li>
+              <li><a href="/gloss">Gloss/Batom</a></li>
+              <li><a href="/hidratante">Hidratante</a></li>
+              <li><a href="/body">Body Splash</a></li>
             </ul>
           </li>
-          <li><a href="carrinho.html">Carrinho</a></li>
-          <li><a href="Promoção.html">Promoção</a></li> 
+          <li><a href="/carrinho">Carrinho</a></li>
+          <li><a href="/promoção">Promoção</a></li> 
+          <li><a href="/adm">ADM</a></li>
           <li><a href="javascript:void(0)" onclick="mostrarPopupSobre()">Sobre</a></li>
        
         </ul>
@@ -63,78 +63,18 @@ emailjs.init({
 
   <!-- Produtos -->
   <section id="produto">
-    
-   
-  
-   
-   
+    {% for produto in produtos %}
     <div class="produto">
-      <img src="IMAGENS - PRODUTOS/PERFUMES/PERFUME 1.webp" alt="Produto 4">
-      <h3>Perfume COCO CHANEL</h3>
+      <img src="data:image/jpeg;base64,{{ produto.imagem_base64 }}" alt="{{produto.NOME}}">
+      <h3>{{produto.NOME}}</h3>
       <br>
-      <p>R$500,00</p>
+      <p>{{produto.VALOR}}</p>
       <br>
-      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
+      <button onclick="adicionarAoCarrinho('{{produto.NOME}}', '{{produto.VALOR}}')">Adicionar ao Carrinho</button>
     </div>
-    <div class="produto">
-      <img src="IMAGENS - PRODUTOS/PERFUMES/GOOD GIRL.jpg" alt= "Produto 4">
-      <h3>GOOD GIRL</h3>
-      <br>
-      <p>R$789,90</p>
-      <br>
-      <button onclick="adicionarAoCarrinho('Blush Nars', 240.00)">Adicionar ao Carrinho</button>
-    </div>
-    <div class="produto">
-      <img src="IMAGENS - PRODUTOS/PERFUMES/PERFUME LIBRE.webp" alt= "Produto 4">
-      <h3>LIBRE EAU DE PERFUM YSL</h3>
-      <br>
-      <p>R$970,00</p>
-      <br>
-      <button onclick="adicionarAoCarrinho('Blush Nars', 240.00)">Adicionar ao Carrinho</button>
-    </div> 
-    <div class="produto">
-    <img src="IMAGENS - PRODUTOS/PERFUMES/LA VIE EST BELLE.webp" alt="Produto 4">
-    <h3>LA VIE ST BELL</h3>
-      <br>
-      <p>R$800,00</p>
-      <br>
-      <button onclick="adicionarAoCarrinho('Blush Nars', 240.00)">Adicionar ao Carrinho</button>
-    </div>
-    <div class="produto">
-      <img src="IMAGENS - PRODUTOS/PERFUMES/MON PARIS YSES.webp" alt="Produto 4">
-      <h3>MON PARIS YSL</h3>
-        <br>
-        <p>R$650,00</p>
-        <br>
-        <button onclick="adicionarAoCarrinho('Blush Nars', 240.00)">Adicionar ao Carrinho</button>
-      </div>
-      <div class="produto">
-        <img src="IMAGENS - PRODUTOS/PERFUMES/BRITNEY SPEARS.webp" alt="Produto 4">
-        <h3>PERFUME BRITNEY SPEARS FANTASY</h3>
-          <br>
-          <p>R$229,90</p>
-          <br>
-          <button onclick="adicionarAoCarrinho('Blush Nars', 240.00)">Adicionar ao Carrinho</button>
-        </div>
-        <div class="produto">
-          <img src="IMAGENS - PRODUTOS/PERFUMES/FAME PACO RABANNE EUA DE PARFUM.webp" alt="Produto 4">
-          <h3>FAME PACO RABANNE</h3>
-            <br>
-            <p>R$998,90</p>
-            <br>
-            <button onclick="adicionarAoCarrinho('Blush Nars', 240.00)">Adicionar ao Carrinho</button>
-          </div>
-          <div class="produto">
-            <img src="IMAGENS - PRODUTOS/PERFUMES/GIORGIO ARMANI SI PASSIONE.webp" alt="Produto 4">
-            <h3>GIORGIO ARMANI SI PASSIONE</h3>
-              <br>
-              <p>R$579,90</p>
-              <br>
-              <button onclick="adicionarAoCarrinho('Blush Nars', 240.00)">Adicionar ao Carrinho</button>
-            </div>
+    {%endfor%}
   </section>
 
- 
  
  <!-- LOGIN --> 
   <div id="popupLogin" class="modal" style="display: none;">
@@ -212,6 +152,5 @@ emailjs.init({
       <p style="margin: 0;">© Glow & Glam - 2025 All Rights Reserved.</p>
   </div>
 </footer>
-  <script src="script.js"></script>
 </body>
 </html>

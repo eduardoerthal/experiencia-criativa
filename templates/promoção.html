@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cosméticos Glow & Glam</title>
     <link rel="icon" type="image/png" sizes="16x16" href="IMAGENS - PRODUTOS/icon.png">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
+    <script src="{{ url_for('static', path='script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
 <body>
@@ -16,19 +17,21 @@
     <div class="menu-container">
       <nav id="menu">
         <ul>
-          <li><a href="primeira.html">Início</a></li>
+          <li><a href="/">Início</a></li>
           <li class="dropdown">
             <a href="#produto4">Produtos</a>
             <ul class="submenu">
-              <li><a href="maquiagem.html">Maquiagem</a></li>
-              <li><a href="perfume.html">Perfume</a></li>
-              <li><a href="skincare.html">Skin Care</a></li>
-              <li><a href="gloss.html">Gloss/Batom</a></li>
-              <li><a href="hidratante.html">Hidratante</a></li>
-              <li><a href="body.html">Body Splash</a></li>
+              <li><a href="/maquiagem">Maquiagem</a></li>
+              <li><a href="/perfume">Perfume</a></li>
+              <li><a href="/skincare">Skin Care</a></li>
+              <li><a href="/gloss">Gloss/Batom</a></li>
+              <li><a href="/hidratante">Hidratante</a></li>
+              <li><a href="/body">Body Splash</a></li>
             </ul>
           </li>
-          <li><a href="carrinho.html">Carrinho</a></li>
+          <li><a href="/carrinho">Carrinho</a></li>
+          <li><a href="/promoção">Promoção</a></li> 
+          <li><a href="/adm">ADM</a></li>
           <li><a href="javascript:void(0)" onclick="mostrarPopupSobre()">Sobre</a></li>
        
         </ul>
@@ -234,6 +237,5 @@
   </div>
 </footer>
 
-  <script src="script.js"></script>
 </body>
 </html>

@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cosméticos Glow & Glam</title>
     <link rel="icon" type="image/png" sizes="16x16" href="IMAGENS - PRODUTOS/icon.png">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
+    <script src="{{ url_for('static', path='script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
 <body>
@@ -16,20 +17,21 @@
     <div class="menu-container">
       <nav id="menu">
         <ul>
-          <li><a href="primeira.html">Início</a></li>
+          <li><a href="/">Início</a></li>
           <li class="dropdown">
             <a href="#produto4">Produtos</a>
             <ul class="submenu">
-              <li><a href="maquiagem.html">Maquiagem</a></li>
-              <li><a href="perfume.html">Perfume</a></li>
-              <li><a href="skincare.html">Skin Care</a></li>
-              <li><a href="gloss.html">Gloss/Batom</a></li>
-              <li><a href="hidratante.html">Hidratante</a></li>
-              <li><a href="body.html">Body Splash</a></li>
+              <li><a href="/maquiagem">Maquiagem</a></li>
+              <li><a href="/perfume">Perfume</a></li>
+              <li><a href="/skincare">Skin Care</a></li>
+              <li><a href="/gloss">Gloss/Batom</a></li>
+              <li><a href="/hidratante">Hidratante</a></li>
+              <li><a href="/body">Body Splash</a></li>
             </ul>
           </li>
-          <li><a href="carrinho.html">Carrinho</a></li>
-          <li><a href="Promoção.html">Promoção</a></li> 
+          <li><a href="/carrinho">Carrinho</a></li>
+          <li><a href="/promoção">Promoção</a></li> 
+          <li><a href="/adm">ADM</a></li>
           <li><a href="javascript:void(0)" onclick="mostrarPopupSobre()">Sobre</a></li>
        
         </ul>
@@ -51,82 +53,20 @@
 </div>
 </header>
 
- 
+
 
   <!-- Produtos -->
   <section id="produto">
-    
+    {% for produto in produtos %}
     <div class="produto">
-      <img src="IMAGENS - PRODUTOS/MAQUIAGEM/BASE DIOR.jpeg" alt="Produto 1">
-      <h3>Base Hidratante</h3>
+      <img src="data:image/jpeg;base64,{{ produto.imagem_base64 }}" alt="{{produto.NOME}}">
+      <h3>{{produto.NOME}}</h3>
       <br>
-      <p>R$390,90</p>
+      <p>{{produto.VALOR}}</p>
       <br>
-      <button onclick="adicionarAoCarrinho('Base Hidratante', 390.90)">Adicionar ao Carrinho</button>
+      <button onclick="adicionarAoCarrinho('{{produto.NOME}}', '{{produto.VALOR}}')">Adicionar ao Carrinho</button>
     </div>
-   
-    <div class="produto"  >
-      <img src="IMAGENS - PRODUTOS/MAQUIAGEM/PalhetaDior.jpeg" alt="Produto 4">
-      <h3>Paleta de Sombras</h3>
-      <br>
-      <p>R$500,00</p>
-      <br>
-      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
-    </div>
-    <div class="produto">
-      <img src="IMAGENS - PRODUTOS/MAQUIAGEM/ILUMINADOR FANTY.webp" alt= "Produto 4">
-      <h3>ILUMINADOR FANTY BEAUTY</h3>
-      <br>
-      <p>R$329,00</p>
-      <br>
-      <button onclick="adicionarAoCarrinho('Blush Nars', 240.00)">Adicionar ao Carrinho</button>
-    </div>
-    
-    <div class="produto" id="produto4">
-      <img src="IMAGENS - PRODUTOS/MAQUIAGEM/RIMEL KIKO.jpg" alt="Produto 4">
-      <h3>Máscara de Cílios Kiko</h3>
-      <br>
-      <p>R$159,90</p>
-      <br>
-      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
-    </div>
- 
-    <div class="produto" >
-      <img src="IMAGENS - PRODUTOS/MAQUIAGEM/PÓ KIKO.webp" alt="Produto 4">
-      <h3>Pó Facial Kiko Milano </h3>
-      <br>
-      <p>R$164,99</p>
-      <br>
-      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
-    </div>
-    <div class="produto">
-      <img src="IMAGENS - PRODUTOS/MAQUIAGEM/PÓ COMPACTO TWO FACED.webp" alt= "Produto 4">
-      <h3>PÓ COMPACTO TWO FACED</h3>
-      <br>
-      <p>R$279,00</p>
-      <br>
-      <button onclick="adicionarAoCarrinho('Blush Nars', 240.00)">Adicionar ao Carrinho</button>
-    </div>
-  
-   
-    <div class="produto">
-      <img src="IMAGENS - PRODUTOS/MAQUIAGEM/CORRETIVO TWO FACED.webp" alt="Produto 4">
-      <h3>CORRETIVO TWO FACED</h3>
-     <br>
-      <p>R$240,00</p>
-      <br>
-      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
-    </div>
-    <div class="produto">
-      <img src="IMAGENS - PRODUTOS/MAQUIAGEM/blush nars.jpg" alt= "Produto 4">
-      <h3>BLUSH NARS</h3>
-      <br>
-      <p>R$240,00</p>
-      <br>
-      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
-    </div>
-    <div class="produto">
-     
+    {%endfor%}
   </section>
 
  
@@ -182,31 +122,32 @@
   <a href="#" onclick="mostrarPopupLogin()" id="loginLink">Login</a>
   <a href="#" onclick="logout()" id="logoutLink">Sair</a>
 </div>
-<footer style="background-color: #e28f8f; color: #fff; padding: 40px 0; font-family: Arial, sans-serif; margin-top: 200px;">
-  <div style="display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto;">
-      <!-- Coluna Endereço -->
-      <div style="flex: 1; margin: 0 20px;">
-          <h3 style="border-bottom: 2px solid #ffffff; padding-bottom: 10px;">Endereço</h3>
-          <p>Rua dos bobos, 0, São Paulo, SP</p>
-      </div>
-      <!-- Coluna Nossas Políticas -->
-      <div style="flex: 1; margin: 0 20px;">
-          <h3 style="border-bottom: 2px solid #ffffff; padding-bottom: 10px;">Nossas Políticas</h3>
-          <p><a href="#" style="color: #fff; text-decoration: none;">Política de Privacidade</a></p>
-          <p><a href="#" style="color: #fff; text-decoration: none;">Termos de Uso</a></p>
-      </div>
-      <!-- Coluna Contatos -->
-      <div style="flex: 1; margin: 0 20px;">
-          <h3 style="border-bottom: 2px solid #ffffff; padding-bottom: 10px;">Contatos</h3>
-          <p><a href="mailto:contato@glownglam.com" style="color: #fff; text-decoration: none;">contato@glownglam.com</a></p>
-          <p>11 1234-5678</p>
-      </div>
-  </div>
-  <!-- Linha de Copyright -->
-  <div style="text-align: center; margin-top: 40px; border-top: 1px solid #ffffff; padding-top: 20px; display: flex; justify-content: center;">
-      <p style="margin: 0;">© Glow & Glam - 2025 All Rights Reserved.</p>
-  </div>
+<section>
+  <footer style="background-color: #e28f8f; color: #fff; padding: 40px 0; font-family: Arial, sans-serif; margin-top: 200px;">
+    <div style="display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto;">
+        <!-- Coluna Endereço -->
+        <div style="flex: 1; margin: 0 20px;">
+            <h3 style="border-bottom: 2px solid #ffffff; padding-bottom: 10px;">Endereço</h3>
+            <p>Rua dos bobos, 0, São Paulo, SP</p>
+        </div>
+        <!-- Coluna Nossas Políticas -->
+        <div style="flex: 1; margin: 0 20px;">
+            <h3 style="border-bottom: 2px solid #ffffff; padding-bottom: 10px;">Nossas Políticas</h3>
+            <p><a href="#" style="color: #fff; text-decoration: none;">Política de Privacidade</a></p>
+            <p><a href="#" style="color: #fff; text-decoration: none;">Termos de Uso</a></p>
+        </div>
+        <!-- Coluna Contatos -->
+        <div style="flex: 1; margin: 0 20px;">
+            <h3 style="border-bottom: 2px solid #ffffff; padding-bottom: 10px;">Contatos</h3>
+            <p><a href="mailto:contato@glownglam.com" style="color: #fff; text-decoration: none;">contato@glownglam.com</a></p>
+            <p>11 1234-5678</p>
+        </div>
+    </div>
+    <!-- Linha de Copyright -->
+    <div style="text-align: center; margin-top: 40px; border-top: 1px solid #ffffff; padding-top: 20px; display: flex; justify-content: center;">
+        <p style="margin: 0;">© Glow & Glam - 2025 All Rights Reserved.</p>
+    </div>
 </footer>
-  <script src="script.js"></script>
+</section>
 </body>
 </html>

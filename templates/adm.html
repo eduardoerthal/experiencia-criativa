@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="adm.css">
     <title>ADM</title>
 </head>
 <body>
@@ -25,16 +24,16 @@
             <form action="/cadastrar-produto" method="post" enctype="multipart/form-data">
                 <h1>Cadastro de Produto</h1>
 
-                <label for="nomeproduto">Nome do Produto</label>
+                <label for="nomeproduto">Nome</label>
                 <input type="text" name="nomeproduto">
 
-                <label for="valorproduto">Valor do Produto</label>
+                <label for="valorproduto">Valor</label>
                 <input type="number" name="valorproduto">
 
                 <label for="catproduto">ID da Categoria</label>
                 <input type="number" name="catproduto">
 
-                <label for="imgproduto">Imagem do Produto</label>
+                <label for="imgproduto">Imagem</label>
                 <input type="file" name="imgproduto" accept="image/*">
 
                 <button type="submit">Cadastrar Produto</button>

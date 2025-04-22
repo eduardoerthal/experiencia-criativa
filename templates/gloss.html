@@ -7,36 +7,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cosméticos Glow & Glam</title>
     <link rel="icon" type="image/png" sizes="16x16" href="IMAGENS - PRODUTOS/icon.png">
-    <link rel="stylesheet" href="styles.css">
+    <script src="{{ url_for('static', path='script.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
 <body>
 
-  <!-- Cabeçalho -->
-  <header>
-    <div class="menu-container">
-      <nav id="menu">
-        <ul>
-          <li><a href="primeira.html">Início</a></li>
-          <li class="dropdown">
-            <a href="#produto4">Produtos</a>
-            <ul class="submenu">
-              <li><a href="maquiagem.html">Maquiagem</a></li>
-              <li><a href="perfume.html">Perfume</a></li>
-              <li><a href="skincare.html">Skin Care</a></li>
-              <li><a href="gloss.html">Gloss/Batom</a></li>
-              <li><a href="hidratante.html">Hidratante</a></li>
-              <li><a href="body.html">Body Splash</a></li>
-            </ul>
-          </li>
-          <li><a href="carrinho.html">Carrinho</a></li>
-          <li><a href="Promoção.html">Promoção</a></li> 
-          <li><a href="javascript:void(0)" onclick="mostrarPopupSobre()">Sobre</a></li>
-       
-        </ul>
-      </nav>
-    </div>
-  </header>
+    <!-- Cabeçalho -->
+    <header>
+      <div class="menu-container">
+        <nav id="menu">
+          <ul>
+            <li><a href="/">Início</a></li>
+            <li class="dropdown">
+              <a href="#produto4">Produtos</a>
+              <ul class="submenu">
+                <li><a href="/maquiagem">Maquiagem</a></li>
+                <li><a href="/perfume">Perfume</a></li>
+                <li><a href="/skincare">Skin Care</a></li>
+                <li><a href="/gloss">Gloss/Batom</a></li>
+                <li><a href="/hidratante">Hidratante</a></li>
+                <li><a href="/body">Body Splash</a></li>
+              </ul>
+            </li>
+            <li><a href="/carrinho">Carrinho</a></li>
+            <li><a href="/promoção">Promoção</a></li> 
+            <li><a href="/adm">ADM</a></li>
+            <li><a href="javascript:void(0)" onclick="mostrarPopupSobre()">Sobre</a></li>
+         
+          </ul>
+        </nav>
+      </div>
+    </header>
 
 <!-- texto sobre -->
 </header><div id="popupSobre" class="popup">
@@ -55,77 +57,16 @@
   
   <!-- Produtos -->
   <section id="produto">
-    
-  
-   
+    {% for produto in produtos %}
     <div class="produto">
-      <img src="IMAGENS - PRODUTOS/GLOSS-BATOM/GLOSS VS.jpeg" alt="Produto 3">
-      <h3>GLOSS VS</h3>
+      <img src="data:image/jpeg;base64,{{ produto.imagem_base64 }}" alt="{{produto.NOME}}">
+      <h3>{{produto.NOME}}</h3>
       <br>
-      <p>R$120,00</p>
+      <p>{{produto.VALOR}}</p>
       <br>
-      <button onclick="adicionarAoCarrinho('GLOSS VS', 120.00)">Adicionar ao Carrinho</button>
+      <button onclick="adicionarAoCarrinho('{{produto.NOME}}', '{{produto.VALOR}}')">Adicionar ao Carrinho</button>
     </div>
-
-    <div class="produto">
-      <img src="IMAGENS - PRODUTOS/GLOSS-BATOM/BATOM MAYBELLINE.webp" alt="Produto 4">
-      <h3>Gloss Maybelline</h3>
-      <br>
-      <p>R$209,00</p>
-      <br>
-      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
-    </div>
-  
-    <div class="produto">
-      <img src="IMAGENS - PRODUTOS/GLOSS-BATOM/BATOM RHODE.webp" alt="Produto 4">
-      <h3>GLOSS RHODE </h3>
-      <br>
-      <p>R$223,90</p>
-      <br>
-      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
-    </div>
-    <div class="produto">
-      <img src="IMAGENS - PRODUTOS/GLOSS-BATOM/CAPINHA RHODE.webp" alt="Produto 4">
-      <h3>CAPINHA RHODE</h3>
-      <br>
-      <p>R$370,00</p>
-      <br>
-      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
-    </div>
-    <div class="produto">
-      <img src="IMAGENS - PRODUTOS/GLOSS-BATOM/LIP OIL DIOR.webp" alt="Produto 4">
-      <h3>LIP OIL DIOR</h3>
-      <br>
-      <p>R$265,00</p>
-      <br>
-      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
-    </div>
-    <div class="produto">
-      <img src="IMAGENS - PRODUTOS/GLOSS-BATOM/BATOM CAROLINA GOOD GIRL.avif" alt="Produto 4">
-      <h3>BATOM CAROLINA GOOD GIRL</h3>
-      <br>
-      <p>R$235,00</p>
-      <br>
-      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
-    </div>
-    <div class="produto">
-      <img src="IMAGENS - PRODUTOS/GLOSS-BATOM/BATOM AMC.webp" alt="Produto 4">
-      <h3>BATOM MAC</h3>
-      <br>
-      <p>R$170,00</p>
-      <br>
-      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
-    </div>
-    <div class="produto">
-      <img src="IMAGENS - PRODUTOS/GLOSS-BATOM/GLOSS FENTY BEAUTY- BOMB.webp" alt="Produto 4">
-      <h3>GLOSS FENTY BEAUTY</h3>
-      <br>
-      <p>R$209,00</p>
-      <br>
-      <button onclick="adicionarAoCarrinho('Palheta de Sombras', 500.00)">Adicionar ao Carrinho</button>
-    </div>
-     
-     
+    {%endfor%}
   </section>
 
  
@@ -206,6 +147,5 @@
       <p style="margin: 0;">© Glow & Glam - 2025 All Rights Reserved.</p>
   </div>
 </footer>
-  <script src="script.js"></script>
 </body>
 </html>
