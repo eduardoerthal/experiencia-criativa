@@ -4,19 +4,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ADM</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .paineladm {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+            color: #333;
+        }
+
+        input[type="text"], input[type="number"], input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #ff0f87;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #e079c2;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #007bff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .paineladm > div {
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
     <div class="paineladm">
         <div id="admcarrossel">
             <form action="/inserir-banner" method="post" enctype="multipart/form-data">
-
                 <h1>Banners</h1>
 
                 <label for="imgbanner">Imagem para o Carrossel</label>
                 <input type="file" name="imgbanner" accept="image/*">
 
                 <button type="submit">Enviar</button>  
-
             </form>
         </div>
 
@@ -37,6 +112,18 @@
                 <input type="file" name="imgproduto" accept="image/*">
 
                 <button type="submit">Cadastrar Produto</button>
+            </form>
+        </div>
+
+        <!-- Novo Formulário de Exclusão de Produto -->
+        <div id="excluirproduto">
+            <form action="/excluir-produto" method="post">
+                <h1>Exclusão de Produto</h1>
+
+                <label for="idproduto">ID do Produto a Ser Excluído</label>
+                <input type="number" name="idproduto" required>
+
+                <button type="submit">Excluir Produto</button>
             </form>
         </div>
     </div>
