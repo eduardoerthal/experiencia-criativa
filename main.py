@@ -498,7 +498,7 @@ async def mostrar_usuario(request: Request):
     if user_id: return JSONResponse (content={"logado": True, "username": username})
     else: return JSONResponse (content={"logado": False})
     
-@app.post('puxar-dados')
+@app.post('/puxar-dados')
 async def puxar_dados(request: Request):
     conn = db_connection()
     cursor = conn.cursor()

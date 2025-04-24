@@ -326,6 +326,7 @@ async function autenticarUsuario(event) {
     erro = true;
   }
 
+
   if (data.emails.includes(emailCadastro)) {
     document.getElementById("emailEmUso").style.display = "block";
     erro = true;
@@ -355,7 +356,13 @@ async function autenticarUsuario(event) {
 
   // Submeter se estiver tudo certo
   if (!erro) {
-    document.getElementById("cadastroUsuarioForm").submit();
+      Swal.fire({
+        title: "Usuário Cadastrado",
+        icon: "success",
+      }).then(() => {
+        document.getElementById("cadastroUsuarioForm").submit();
+      });
+      
   }
 }
 
