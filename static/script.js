@@ -9,18 +9,37 @@ async function checarADM() {
   }
 }
 
-async function ChecarUsuario() {
-  const response = await fetch('/session-status')
+async function logout() {
+  const response = await fetch('/logout')
   const data = await response.json()
 
-  if (data.logado === true) {
-    document.getElementsByClassName("user-menu")[0].style.display = "block";
-    document.getElementById("loginmenu").style.display = "none"; 
-  } else {
-    document.getElementsByClassName("user-menu")[0].style.display = "none";
-    document.getElementById("loginmenu").style.display = "block";
+  if (data.logado === false) {
+    Swal.fire({
+      title: "Sessão Encerrada",
+      icon: "warning",
+    }).then(() => {
+      location.reload();
+    });
+    return
   }
 }
+
+async function checarUsuario() {
+  const response = await fetch('mostrar-usuario', { method: 'POST' });
+  const data = await response.json();
+
+  if (data.logado === true) {
+    document.getElementById("username").textContent = data.username;
+    document.getElementById("username-li").style.display = "list-item";
+    document.getElementById("logout-li").style.display = "list-item";
+    document.getElementById("loginmenu").style.display = "none";
+  } else {
+    document.getElementById("username-li").style.display = "none";
+    document.getElementById("logout-li").style.display = "none";
+    document.getElementById("loginmenu").style.display = "list-item";
+  }
+}
+
 
 function mostrarPopupSobre() {
   document.getElementById("popupSobre").style.display = "block";
@@ -246,33 +265,40 @@ async function excluirDoCarrinho(id) {
 
 }
 
-function autenticarUsuario(event) {
+async function autenticarUsuario(event) {
   event.preventDefault();
+
+  let erros = document.getElementsByClassName("error-label");
+  for (let i = 0; i < erros.length; i++) {
+    erros[i].style.display = "none";
+  }
+
+  const response =  await fetch('/puxar-dados', {method: 'POST'})
+  const data =  await response.json()
+
   let nomeCompleto = document.getElementsByName("nomeCompleto")[0].value.trim();
   let dataNascimento = document.getElementsByName("dataNascimento")[0].value;
   let telefone = document.getElementsByName("telefone")[0].value.trim();
   let emailCadastro = document.getElementsByName("emailCadastro")[0].value.trim();
   let senhaCadastro = document.getElementsByName("senhaCadastro")[0].value;
   let confirmarSenha = document.getElementsByName("confirmarSenha")[0].value;
+  let cpf = document.getElementsByName("cpf")[0].value.replace(/\D/g, '');
 
   let erro = false;
 
-  if (
-    !dataNascimento ||
-    !telefone ||
-    !emailCadastro ||
-    !senhaCadastro ||
-    !confirmarSenha
-  ) {
+  // Validação de campos obrigatórios
+  if (!dataNascimento || !telefone || !emailCadastro || !senhaCadastro || !confirmarSenha || !cpf) {
     document.getElementById("campoObrigatorio").style.display = "block";
     erro = true;
   }
 
+  // Validação do nome
   if (!/^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/.test(nomeCompleto)) {
     document.getElementById("nomeInvalido").style.display = "block";
     erro = true;
   }
 
+  // Validação da idade (mínimo 18 anos)
   let dataNascimentoDate = new Date(dataNascimento);
   let hoje = new Date();
   let idade = hoje.getFullYear() - dataNascimentoDate.getFullYear();
@@ -280,29 +306,32 @@ function autenticarUsuario(event) {
   let mesNascimento = dataNascimentoDate.getMonth();
   let diaAtual = hoje.getDate();
   let diaNascimento = dataNascimentoDate.getDate();
-
-  if (
-    mesAtual < mesNascimento ||
-    (mesAtual === mesNascimento && diaAtual < diaNascimento)
-  ) {
+  if (mesAtual < mesNascimento || (mesAtual === mesNascimento && diaAtual < diaNascimento)) {
     idade--;
   }
-
   if (isNaN(dataNascimentoDate) || idade < 18) {
     document.getElementById("idadeInvalida").style.display = "block";
     erro = true;
   }
 
+  // Validação do telefone
   if (!/^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/.test(telefone)) {
     document.getElementById("telefoneInvalido").style.display = "block";
     erro = true;
   }
 
+  // Validação do email
   if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(emailCadastro)) {
     document.getElementById("emailInvalido").style.display = "block";
     erro = true;
   }
 
+  if (data.emails.includes(emailCadastro)) {
+    document.getElementById("emailEmUso").style.display = "block";
+    erro = true;
+  }
+
+  // Validação da senha
   if (senhaCadastro.length < 8 || senhaCadastro.length > 16) {
     document.getElementById("senhaInvalida").style.display = "block";
     erro = true;
@@ -313,29 +342,55 @@ function autenticarUsuario(event) {
     erro = true;
   }
 
+  // Validação do CPF
+  if (!validarCPF(cpf)) {
+    document.getElementById("cpfInvalido").style.display = "block";
+    erro = true;
+  }
+
+  if (data.cpfs.includes(cpf)) {
+    document.getElementById("cpfEmUso").style.display = "block";
+    erro = true;
+  }
+
+  // Submeter se estiver tudo certo
   if (!erro) {
     document.getElementById("cadastroUsuarioForm").submit();
   }
 }
 
+// Função auxiliar para validar CPF
+function validarCPF(cpf) {
+  if (!cpf || cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+
+  let soma = 0;
+  for (let i = 0; i < 9; i++) soma += parseInt(cpf.charAt(i)) * (10 - i);
+  let resto = soma % 11;
+  let digito1 = resto < 2 ? 0 : 11 - resto;
+  if (parseInt(cpf.charAt(9)) !== digito1) return false;
+
+  soma = 0;
+  for (let i = 0; i < 10; i++) soma += parseInt(cpf.charAt(i)) * (11 - i);
+  resto = soma % 11;
+  let digito2 = resto < 2 ? 0 : 11 - resto;
+  return parseInt(cpf.charAt(10)) === digito2;
+}
+
 // ===============================
 // Carousel
 // ===============================
-let currentSlide = 0;
-window.addEventListener("load", () => {
-  atualizarMenu();
-  carregarCarrinho();
+document.addEventListener("DOMContentLoaded", function () {
+  const carrossel = document.querySelector('.carrossel');
+  const slides = document.querySelectorAll('.slide');
+  let index = 0;
 
-  const slides = document.querySelectorAll(".carrossel .slide");
-  const totalSlides = slides.length;
-
-  function showNextSlide() {
-    currentSlide = (currentSlide + 1) % totalSlides;
-    document.querySelector(".carrossel").style.transform = `translateX(-${
-      currentSlide * 100
-    }%)`;
+  function mostrarProximoSlide() {
+    if (!carrossel || slides.length === 0) return;
+    index = (index + 1) % slides.length;
+    carrossel.style.transform = `translateX(-${index * 100}%)`;
   }
-  setInterval(showNextSlide, 3000);
+
+  setInterval(mostrarProximoSlide, 3000);
 });
 
 // ===============================
@@ -380,6 +435,6 @@ function toggleSubMenu() {
 
 window.onload = function(){
   checarADM();
-  ChecarUsuario()
+  checarUsuario()
 } 
 

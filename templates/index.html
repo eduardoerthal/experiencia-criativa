@@ -17,7 +17,10 @@
     <div class="menu-container">
       <nav id="menu">
         <ul>
-          <li><a href="javascript:void(0)" id="loginmenu" onclick="mostrarPopupLogin()">Login</a></li>
+          <li id="loginmenu"><a href="javascript:void(0)" onclick="mostrarPopupLogin()">Login</a></li>
+          <li id="username-li" style="display: none;"><a href="javascript:void(0)" id="username"></a></li>
+          <li id="logout-li" style="display: none;"><a href="javascript:void(0)" id="logout" onclick="logout()">Logout</a></li>
+
           <li><a href="/index">Início</a></li>
           <li class="dropdown">
             <a href="#produto4">Produtos</a>
@@ -56,11 +59,11 @@
 
   <!-- Carrossel de Imagens -->
   <section id="banner">
-    {% for banner in banners %}
     <div class="carrossel">
-      <img src="data:image/jpeg;base64,{{ banner.imagem_base64 }}" class="slide">
+      {% for banner in banners %}
+        <img src="data:image/jpeg;base64,{{ banner.imagem_base64 }}" class="slide">
+      {% endfor %}
     </div>
-    {%endfor%}
   </section>
 
 <section>
@@ -105,7 +108,7 @@
       <!-- FORMULÁRIO DE CADASTRO -->
       <div id="cadastroForm" style="display:none;">
         <h2>Cadastrar-se</h2>
-        <form id="cadastroUsuarioForm" action="/cadastrar-usuario" onsubmit=autenticarUsuario(event) method="post", enctype="multipart/form-data">
+        <form id="cadastroUsuarioForm" action="/cadastrar-usuario" onsubmit="autenticarUsuario(event)" method="post", enctype="multipart/form-data">
           <label for="nomeCompleto">Nome Completo</label>
           <input type="text" name="nomeCompleto" placeholder="Ex: Maria da Silva">
           
@@ -135,7 +138,10 @@
         <label id="idadeInvalida" class="error-label" style="display:none; color:red;">Precisa ser maior de 18 anos para realizar o cadastro</label>
         <label id="telefoneInvalido" class="error-label" style="display:none; color:red;">Telefone inválido</label>
         <label id="emailInvalido" class="error-label" style="display:none; color:red;">E-mail inválido</label>
+        <label id="emailEmUso" class="error-label" style="display:none; color:red;">E-mail em uso</label>
         <label id="senhaInvalida" class="error-label" style="display:none; color:red;">A senha deve ter entre 8 e 16 caracteres.</label>
+        <label id="cpfInvalido" class="error-label" style="display:none; color:red;">CPF Inválido</label>
+        <label id="cpfEmUso" class="error-label" style="display:none; color:red;">CPF em Uso</label>
         <label id="senhaNaoConfere" class="error-label" style="display:none; color:red;">As senhas não conferem.</label>
         <label id="campoObrigatorio" class="error-label" style="display:none; color:red;">Os campos são obrigatórios.</label>
 

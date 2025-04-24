@@ -26,6 +26,11 @@ templates = Jinja2Templates(directory="templates")
 
 #################### GETs ##################
 
+@app.get("/logout")
+async def logou(request: Request):
+    request.session.clear()
+    return JSONResponse(content={"logado": False})
+
 @app.get("/checar-login")
 async def checar_login(request: Request):
     user_id = request.session.get("user_id")
@@ -83,7 +88,7 @@ def index(request: Request):
             banner["imagem_base64"] = base64.b64encode(banner_imagem_bytes).decode("utf-8")
         else:
             banner["imagem_base64"] = None
-
+            
     cursor.close()
     conn.close()
     
@@ -299,6 +304,24 @@ async def cadastrar_produto(
     conn.close()
     return RedirectResponse(url="/adm", status_code=303)
 
+# Excluir Produto
+
+# Cadastro de Produto
+@app.post("/excluir-produto", response_class=HTMLResponse)
+async def excluir_produto(
+    request: Request,
+    idproduto: int = Form(...),
+):
+    conn = db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("DELETE FROM PRODUTO WHERE ID_PRODUTO = %s", (idproduto, ))
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return RedirectResponse(url="/adm", status_code=303)
+
 
 
 # Inserção de Banner
@@ -337,7 +360,7 @@ def cadastrarusuario(
     conn = db_connection()
     cursor = conn.cursor()
     
-    sql = "INSERT INTO USUARIO (NOME, CPF, DT_NASCIMENTO, TELEFONE, EMAIL, SENHA) VALUES (%s, %s, %s, %s, %s, %s)"
+    sql = "INSERT INTO USUARIO (NOME, CPF, DT_NASCIMENTO, TELEFONE, EMAIL, SENHA) VALUES (%s, %s, %s, %s, %s, MD5(%s))"
     
     cursor.execute(sql, (nomeCompleto, cpf, dataNascimento, telefone, emailCadastro ,senhaCadastro))
     
@@ -358,17 +381,18 @@ def loginusuario(request: Request,
     conn = db_connection()
     cursor = conn.cursor(dictionary=True)
     
-    cursor.execute("SELECT ID_CLIENTE, EMAIL, SENHA FROM USUARIO WHERE EMAIL = %s AND SENHA = %s", (emailLogin, senhaLogin))
+    cursor.execute("SELECT ID_CLIENTE, EMAIL, SENHA FROM USUARIO WHERE EMAIL = %s AND SENHA = MD5(%s)", (emailLogin, senhaLogin))
     user = cursor.fetchone()
     
     
     if not user:
         return JSONResponse(content={"logado": False})
-    elif user['EMAIL'] == "adm@adm" and user['SENHA'] == '123':
-        request.session['user_id'] = user['ID_CLIENTE']
+    
+    elif user['EMAIL'] == "adm@adm" and user['SENHA'] == '202cb962ac59075b964b07152d234b70':
+        request.session['user_id'] = 1
         return JSONResponse(content={'admlogado': True})
     else:
-        request.session["user_id"] = user["ID_CLIENTE"]
+        request.session['user_id'] = user['ID_CLIENTE']
         return JSONResponse(content={"logado": True})
     
     
@@ -458,4 +482,34 @@ async def excluir_do_carrinho(request: Request):
     conn.commit()
     
     return JSONResponse(content={'excluido': True})
+
+@app.post('/mostrar-usuario')
+async def mostrar_usuario(request: Request):
+    user_id = request.session.get("user_id")
+    conn = db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute("SELECT NOME FROM USUARIO WHERE ID_CLIENTE = %s", (user_id,))
+    username = cursor.fetchone()
+    
+    conn.close()
+    cursor.close()
+    
+    if user_id: return JSONResponse (content={"logado": True, "username": username})
+    else: return JSONResponse (content={"logado": False})
+    
+@app.post('puxar-dados')
+async def puxar_dados(request: Request):
+    conn = db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute("SELECT CPF FROM USUARIO")
+    cpfs = cursor.fetchall()
+    cursor.execute("SELECT EMAIL FROM USUARIO")
+    emails = cursor.fetchall()
+    
+    return JSONResponse(content={
+    "cpfs": [cpf[0] for cpf in cpfs],
+    "emails": [email[0] for email in emails]
+})
     
