@@ -436,3 +436,18 @@ form input {
 #produtosCarrinho {
   border: 1px solid black;
 }
+
+/* login form */
+#loginForm{
+  width: 420px;
+  padding: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+#loginForm h2{
+  
+  padding: 20px;
+}
+#loginFormData{
+  padding: 15px;
+  gap: 10px;
+}
