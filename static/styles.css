@@ -143,9 +143,10 @@ header {
   display: inline-block;
   margin: 20px;
   border: 1px solid #ccc;
-  padding: 5px;
+  padding: 15px;
   width: 25%;
   text-align: center;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 @media (max-width: 768px) {
