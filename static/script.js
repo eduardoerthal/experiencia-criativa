@@ -444,4 +444,251 @@ window.onload = function(){
   checarADM();
   checarUsuario()
 } 
+const form = document.getElementById("userForm");
+ const newPassword = document.getElementById("newPassword");
+ const confirmPassword = document.getElementById("confirmPassword");
+ const passwordError = document.getElementById("passwordError");
+ 
+ form.addEventListener("submit", function (event) {
+   if (newPassword.value !== confirmPassword.value) {
+     event.preventDefault();
+     passwordError.textContent = "As senhas não coincidem.";
+   } else {
+     passwordError.textContent = "";
+     alert("Alterações salvas com sucesso!");
+   }
+ });
+ document
+   .getElementById("uploadFoto")
+   .addEventListener("change", function (event) {
+     const file = event.target.files[0];
+     if (file) {
+       const reader = new FileReader();
+       reader.onload = function (e) {
+         document.querySelector(".foto-usuario").src = e.target.result;
+       };
+       reader.readAsDataURL(file);
+     }
+   });
+ function toggleSenha(el) {
+   const input = el.previousElementSibling;
+   const icon = el.querySelector("i");
+ 
+   if (input.type === "password") {
+     input.type = "text";
+     icon.classList.remove("fa-eye");
+     icon.classList.add("fa-eye-slash");
+   } else {
+     input.type = "password";
+     icon.classList.remove("fa-eye-slash");
+     icon.classList.add("fa-eye");
+   }
+ }
+ const usuarioLogado = localStorage.getItem('usuarioLogado') === 'true';
+const nomeUsuario = localStorage.getItem('nomeUsuario');
 
+if (usuarioLogado && nomeUsuario) {
+  document.getElementById('loginmenu').style.display = 'none';
+  document.getElementById('logout-li').style.display = 'inline-block';
+
+  const usernameLink = document.getElementById('username');
+  usernameLink.textContent = nomeUsuario;
+  usernameLink.href = '/usuario'; // define corretamente o link para tela de perfil
+
+  document.getElementById('username-li').style.display = 'inline-block';
+}
+
+
+
+
+async function checarUsuario() {
+  try {
+    const response = await fetch('/mostrar-usuario', { method: 'POST' });
+    const data = await response.json();
+
+    const loginItem = document.getElementById("loginmenu");
+    const userItem = document.getElementById("username-li");
+    const userLink = document.getElementById("username");
+    const logoutItem = document.getElementById("logout-li");
+
+    if (data.logado === true && data.username) {
+      userLink.textContent = data.username;
+      userLink.href = '/usuario';
+
+      loginItem.style.display = "none";
+      userItem.style.display = "list-item";
+      logoutItem.style.display = "list-item";
+    } else {
+      loginItem.style.display = "list-item";
+      userItem.style.display = "none";
+      logoutItem.style.display = "none";
+    }
+  } catch (error) {
+    console.error("Erro ao verificar usuário:", error);
+  }
+}
+
+async function logout() {
+  try {
+    const response = await fetch('/logout');
+    const data = await response.json();
+
+    if (data.logado === false) {
+      Swal.fire({
+        title: "Sessão Encerrada",
+        icon: "warning"
+      }).then(() => {
+        localStorage.removeItem('usuarioLogado');
+        localStorage.removeItem('nomeUsuario');
+        location.reload();
+      });
+    }
+  } catch (error) {
+    console.error("Erro ao fazer logout:", error);
+  }
+}
+
+window.onload = function() {
+  checarADM();
+  checarUsuario();
+};
+
+
+// USUARIO.HTML START
+document.getElementById("uploadFoto")?.addEventListener("change", function (event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      document.querySelector(".foto-usuario").src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+function toggleSenha(el) {
+  const input = el.previousElementSibling;
+  const icon = el.querySelector("i");
+
+  if (input.type === "password") {
+    input.type = "text";
+    icon.classList.remove("fa-eye");
+    icon.classList.add("fa-eye-slash");
+  } else {
+    input.type = "password";
+    icon.classList.remove("fa-eye-slash");
+    icon.classList.add("fa-eye");
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("userForm");
+  const confirmPassword = document.getElementById("confirmPassword");
+  const passwordError = document.getElementById("passwordError") || document.createElement("div");
+
+  form?.addEventListener("submit", function (event) {
+    const newPassword = document.getElementById("currentPassword");
+    if (!newPassword || !confirmPassword) return;
+
+    if (newPassword.value !== confirmPassword.value) {
+      event.preventDefault();
+      passwordError.textContent = "As senhas não coincidem.";
+      newPassword.insertAdjacentElement("afterend", passwordError);
+    } else {
+      passwordError.textContent = "";
+      alert("Alterações salvas com sucesso!");
+    }
+  });
+});
+async function checarADM() {
+  const response = await fetch('/session-status')
+  const data = await response.json()
+
+  if (data.admlogado === true){
+    document.getElementById("admpainel").style.display = "block";
+  } else {
+    document.getElementById("admpainel").style.display = "none";
+  }
+}
+
+async function logout() {
+  const response = await fetch('/logout')
+  const data = await response.json()
+
+  if (data.logado === false) {
+    Swal.fire({
+      title: "Sessão Encerrada",
+      icon: "warning",
+    }).then(() => {
+      location.reload();
+    });
+    return
+  }
+}
+
+async function checarUsuario() {
+  const response = await fetch('mostrar-usuario', { method: 'POST' });
+  const data = await response.json();
+
+  if (data.logado === true) {
+    document.getElementById("username").textContent = data.username;
+    document.getElementById("username-li").style.display = "list-item";
+    document.getElementById("logout-li").style.display = "list-item";
+    document.getElementById("loginmenu").style.display = "none";
+  } else {
+    document.getElementById("username-li").style.display = "none";
+    document.getElementById("logout-li").style.display = "none";
+    document.getElementById("loginmenu").style.display = "list-item";
+  }
+}
+
+document.getElementById("uploadFoto")?.addEventListener("change", function (event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      document.querySelector(".foto-usuario").src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+function toggleSenha(el) {
+  const input = el.previousElementSibling;
+  const icon = el.querySelector("i");
+
+  if (input.type === "password") {
+    input.type = "text";
+    icon.classList.remove("fa-eye");
+    icon.classList.add("fa-eye-slash");
+  } else {
+    input.type = "password";
+    icon.classList.remove("fa-eye-slash");
+    icon.classList.add("fa-eye");
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("userForm");
+  const newPassword = document.getElementById("newPassword") || document.getElementById("currentPassword");
+  const confirmPassword = document.getElementById("confirmPassword");
+  const passwordError = document.getElementById("passwordError") || document.createElement("div");
+
+  form?.addEventListener("submit", function (event) {
+    if (!newPassword || !confirmPassword) return;
+
+    if (newPassword.value !== confirmPassword.value) {
+      event.preventDefault();
+      passwordError.textContent = "As senhas não coincidem.";
+      newPassword.insertAdjacentElement("afterend", passwordError);
+    } else {
+      passwordError.textContent = "";
+      alert("Alterações salvas com sucesso!");
+    }
+  });
+});
+
+window.onload = function(){
+  checarADM();
+  checarUsuario();
+} 

@@ -513,3 +513,7 @@ async def puxar_dados(request: Request):
     "emails": [email[0] for email in emails]
 })
     
+
+@app.get("/usuario", response_class=HTMLResponse)
+async def usuario(request: Request):
+    return templates.TemplateResponse("usuario.html", {"request": request})

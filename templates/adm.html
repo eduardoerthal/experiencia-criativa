@@ -135,16 +135,55 @@
         </div>
 
         <div id="excluirproduto">
-            <form action="/excluir-produto" method="post">
+            <form id="formExcluirProduto" action="/excluir-produto" method="post">
                 <h1>Exclusão de Produto</h1>
 
                 <label for="idproduto">ID do Produto a Ser Excluído</label>
                 <input type="number" name="idproduto" required>
 
-                <button type="submit">Excluir Produto</button>
+                <button type="button" id="btnExcluirProduto">Excluir Produto</button>
             </form>
         </div>
     </div>
     <a href="/">Voltar Para o Início</a>
+
+    <!-- Confirmaçao de exclusão / verifica se tem açgum item a ser excluido -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const btnExcluirProduto = document.querySelector("#btnExcluirProduto");
+            const formExcluirProduto = document.querySelector("#formExcluirProduto");
+            const inputIdProduto = document.querySelector("input[name='idproduto']");
+
+            if (btnExcluirProduto && formExcluirProduto) {
+                btnExcluirProduto.addEventListener("click", function () {
+                    if (!inputIdProduto.value) {
+                        Swal.fire({
+                            title: "Aviso",
+                            text: "Não há itens para excluir!",
+                            icon: "info",
+                            confirmButtonColor: "#3085d6",
+                            confirmButtonText: "OK"
+                        });
+                        return;
+                    }
+                    Swal.fire({
+                        title: "Você tem certeza?",
+                        text: "Essa ação não pode ser desfeita!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Sim, excluir!",
+                        cancelButtonText: "Cancelar"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            formExcluirProduto.submit();
+                        }
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>

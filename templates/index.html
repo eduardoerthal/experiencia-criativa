@@ -7,9 +7,41 @@
   <title>Cosméticos Glow & Glam</title>
   <link rel="icon" type="image/png" sizes="16x16" href="IMAGENS - PRODUTOS/icon.png">
   <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
+  <link
+   rel="stylesheet"
+   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+ />
   <script src="{{ url_for('static', path='script.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+<script>
+  const usuarioLogado = localStorage.getItem('usuarioLogado') === 'true';
+  const nomeUsuario = localStorage.getItem('nomeUsuario'); // valor salvo no login
+
+  if (usuarioLogado && nomeUsuario) {
+    document.getElementById('loginmenu').style.display = 'none';
+    document.getElementById('logout-li').style.display = 'inline-block';
+
+    const usernameLi = document.getElementById('username-li');
+    const usernameLink = document.getElementById('username');
+
+    usernameLink.textContent = nomeUsuario; // define o nome no lugar de "Usuário"
+    usernameLink.href = 'usuario.html';     // garante que redireciona
+    usernameLi.style.display = 'inline-block';
+  } else {
+    // visitante anônimo
+    document.getElementById('loginmenu').style.display = 'inline-block';
+    document.getElementById('username-li').style.display = 'none';
+    document.getElementById('logout-li').style.display = 'none';
+  }
+
+  function logout() {
+    localStorage.removeItem('usuarioLogado');
+    localStorage.removeItem('nomeUsuario');
+    window.location.reload();
+  }
+</script>
+
 <body>
 
   <!-- Cabeçalho -->
@@ -18,13 +50,16 @@
       <nav id="menu">
         <ul>
           <li id="loginmenu"><a href="javascript:void(0)" onclick="mostrarPopupLogin()">Login</a></li>
-          <li id="username-li" style="display: none;"><a href="javascript:void(0)" id="username"></a></li>
+          <li id="username-li" style="display: none;">
+            <a href="usuario.html" id="username">Usuário</a>
+          </li>
+          
           <li id="logout-li" style="display: none;"><a href="javascript:void(0)" id="logout" onclick="logout()">Logout</a></li>
 
           <li><a href="/">Início</a></li>
           <li class="dropdown">
             <a href="#produto4">Produtos</a>
-            <ul class="submenu">
+            <ul class="submenu">  
               <li><a href="/maquiagem">Maquiagem</a></li>
               <li><a href="/perfume">Perfume</a></li>
               <li><a href="/skincare">Skin Care</a></li>
@@ -157,7 +192,7 @@
 
 <div id="sidebar" class="sidebar">
   <span class="close-btn" onclick="fecharMenu()">&times;</span>
-  <a href="#" onclick="navegarPara('/primeira')">Início</a>
+  <a href="#" onclick="navegarPara('/index.html ')">Início</a>
   <a href="#" onclick="toggleSubMenu()">Produtos ▼</a>
   <ul id="subMenuMobile" class="submenu-mobile">
     <li><a href="/maquiagem">Maquiagem</a></li>
