@@ -488,14 +488,13 @@ const form = document.getElementById("userForm");
 const nomeUsuario = localStorage.getItem('nomeUsuario');
 
 if (usuarioLogado && nomeUsuario) {
-  document.getElementById('loginmenu').style.display = 'none';
-  document.getElementById('logout-li').style.display = 'inline-block';
+    document.getElementById('loginmenu').style.display = 'none';
+    document.getElementById('logout-li').style.display = 'inline-block';
 
-  const usernameLink = document.getElementById('username');
-  usernameLink.textContent = nomeUsuario;
-  usernameLink.href = '/usuario'; // define corretamente o link para tela de perfil
-
-  document.getElementById('username-li').style.display = 'inline-block';
+    const usernameLink = document.getElementById('username');
+    usernameLink.textContent = nomeUsuario; // Define o nome do usuário
+    usernameLink.href = '/usuario'; // Redireciona para a tela do usuário
+    document.getElementById('username-li').style.display = 'inline-block';
 }
 
 
