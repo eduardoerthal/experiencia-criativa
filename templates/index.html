@@ -7,77 +7,80 @@
   <title>Cosméticos Glow & Glam</title>
   <link rel="icon" type="image/png" sizes="16x16" href="IMAGENS - PRODUTOS/icon.png">
   <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
-  <link
-   rel="stylesheet"
-   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
- />
   <script src="{{ url_for('static', path='script.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="styles.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
-<script>
-  const usuarioLogado = localStorage.getItem('usuarioLogado') === 'true';
-  const nomeUsuario = localStorage.getItem('nomeUsuario'); // valor salvo no login
-
-  if (usuarioLogado && nomeUsuario) {
-    document.getElementById('loginmenu').style.display = 'none';
-    document.getElementById('logout-li').style.display = 'inline-block';
-
-    const usernameLi = document.getElementById('username-li');
-    const usernameLink = document.getElementById('username');
-
-    usernameLink.textContent = nomeUsuario; // define o nome no lugar de "Usuário"
-    usernameLink.href = 'usuario.html';     // garante que redireciona
-    usernameLi.style.display = 'inline-block';
-  } else {
-    // visitante anônimo
-    document.getElementById('loginmenu').style.display = 'inline-block';
-    document.getElementById('username-li').style.display = 'none';
-    document.getElementById('logout-li').style.display = 'none';
-  }
-
-  function logout() {
-    localStorage.removeItem('usuarioLogado');
-    localStorage.removeItem('nomeUsuario');
-    window.location.reload();
-  }
-</script>
-
 <body>
 
   <!-- Cabeçalho -->
-  <header>
-    <div class="menu-container">
-      <nav id="menu">
-        <ul>
-          <li id="loginmenu"><a href="javascript:void(0)" onclick="mostrarPopupLogin()">Login</a></li>
-          <li id="username-li" style="display: none;">
-            <a href="/usuario" id="username">Usuário</a>
-          </li>
-          
-          <li id="logout-li" style="display: none;"><a href="javascript:void(0)" id="logout" onclick="logout()">Logout</a></li>
 
-          <li><a href="/">Início</a></li>
-          <li class="dropdown">
-            <a href="#produto4">Produtos</a>
-            <ul class="submenu">  
-              <li><a href="/maquiagem">Maquiagem</a></li>
-              <li><a href="/perfume">Perfume</a></li>
-              <li><a href="/skincare">Skin Care</a></li>
-              <li><a href="/gloss">Gloss/Batom</a></li>
-              <li><a href="/hidratante">Hidratante</a></li>
-              <li><a href="/body">Body Splash</a></li>
-            </ul>
-          </li>
-          <li><a href="#" onclick="checarLogin('/carrinho')">Carrinho</a></li>
-          <li><a href="/promoção">Promoção</a></li>
-          <li><a href="javascript:void(0)" onclick="mostrarPopupSobre()">Sobre</a></li>
-          <li><a href="/adm" id="admpainel" style="display: none;">ADM</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-  
-  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+  <a class="navbar-brand" href="#">GLOW & GLAM</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#conteudoNavbarSuportado" aria-controls="conteudoNavbarSuportado" aria-expanded="false" aria-label="Alterna navegação">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="conteudoNavbarSuportado">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/">HOME</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/promoção">Promoção</a>
+      </li>
+      
+      <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0)" onclick="mostrarPopupSobre()">Sobre</a>
+      </li>
+      
+      <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0)" onclick="mostrarPopupLogin()">Login</a>
+      </li>
+
+       <li class="nav-item">
+      <a class="nav-link" href="/carrinho">
+          <i class="fas fa-shopping-cart"></i>
+      </a>
+  </li>
+      
+      
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Produtos
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/maquiagem">Maquiagem</a>
+          <a class="dropdown-item" href="/perfume">Perfume</a>
+          <a class="dropdown-item" href="/skincare">Skin Care</a>
+          <a class="dropdown-item" href="/gloss">Gloss/Batom</a>
+          <a class="dropdown-item" href="/hidratante">Hidratante</a>
+          <a class="dropdown-item" href="/body">Body Splash</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="/adm">ADM</a>
+        </div>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar">
+      <button class="btn btn-rosa my-2 my-sm-0" type="submit">Pesquisar</button>
+    </form>
+   
+ 
+  </div>
+</nav>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
 
 <!-- texto sobre -->
 <div id="popupSobre" class="popup">
@@ -94,11 +97,11 @@
 
   <!-- Carrossel de Imagens -->
   <section id="banner">
+    {% for banner in banners %}
     <div class="carrossel">
-      {% for banner in banners %}
-        <img src="data:image/jpeg;base64,{{ banner.imagem_base64 }}" class="slide">
-      {% endfor %}
+      <img src="data:image/jpeg;base64,{{ banner.imagem_base64 }}" class="slide">
     </div>
+    {%endfor%}
   </section>
 
 <section>
@@ -125,7 +128,7 @@
 <!------------POPUP LOGIN------------>
 <section>
   <!-- LOGIN -->
-  <div id="popupLogin" class="modal" style="display: none;">
+  <div id="popupLogin" class="loginFormPopup" style="display: none;">
     <div class="modal-content">
       <span class="close" onclick="fecharPopupLogin()">&times;</span>
 
@@ -143,7 +146,7 @@
       <!-- FORMULÁRIO DE CADASTRO -->
       <div id="cadastroForm" style="display:none;">
         <h2>Cadastrar-se</h2>
-        <form id="cadastroUsuarioForm" action="/cadastrar-usuario" onsubmit="autenticarUsuario(event)" method="post", enctype="multipart/form-data">
+        <form id="cadastroUsuarioForm" action="/cadastrar-usuario" onsubmit=autenticarUsuario(event) method="post", enctype="multipart/form-data">
           <label for="nomeCompleto">Nome Completo</label>
           <input type="text" name="nomeCompleto" placeholder="Ex: Maria da Silva">
           
@@ -173,10 +176,7 @@
         <label id="idadeInvalida" class="error-label" style="display:none; color:red;">Precisa ser maior de 18 anos para realizar o cadastro</label>
         <label id="telefoneInvalido" class="error-label" style="display:none; color:red;">Telefone inválido</label>
         <label id="emailInvalido" class="error-label" style="display:none; color:red;">E-mail inválido</label>
-        <label id="emailEmUso" class="error-label" style="display:none; color:red;">E-mail em uso</label>
         <label id="senhaInvalida" class="error-label" style="display:none; color:red;">A senha deve ter entre 8 e 16 caracteres.</label>
-        <label id="cpfInvalido" class="error-label" style="display:none; color:red;">CPF Inválido</label>
-        <label id="cpfEmUso" class="error-label" style="display:none; color:red;">CPF em Uso</label>
         <label id="senhaNaoConfere" class="error-label" style="display:none; color:red;">As senhas não conferem.</label>
         <label id="campoObrigatorio" class="error-label" style="display:none; color:red;">Os campos são obrigatórios.</label>
 
@@ -190,9 +190,10 @@
 <!------------SIDE BAR MOBILE------------->
 <button class="open-btn" onclick="abrirMenu()">☰</button>
 
+
 <div id="sidebar" class="sidebar">
   <span class="close-btn" onclick="fecharMenu()">&times;</span>
-  <a href="#" onclick="navegarPara('/index.html ')">Início</a>
+  <a href="#" onclick="navegarPara('/primeira')">Início</a>
   <a href="#" onclick="toggleSubMenu()">Produtos ▼</a>
   <ul id="subMenuMobile" class="submenu-mobile">
     <li><a href="/maquiagem">Maquiagem</a></li>
