@@ -46,6 +46,11 @@ body {
   justify-content: center;
 }
 
+.cadastro-form {
+  display: flex;
+  flex-direction: column;
+}
+
 .cadastro-form h2 {
   text-align: center;
   margin-bottom: 20px;
