@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="{{ url_for('static', path='login.css') }}">
+   <script src="{{ url_for('static', path='script.js') }}"></script>
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <title>Tela de Login</title>
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+  <div class="container">
+    <div class="left">
+    
+   <img src="{{ url_for('static', path='imagens/LOGIN.png') }}" alt="Imagem de exemplo"></img>
+    </div>
+    <div class="right">
+         <a href="/" class="voltar">
+  <i class="fas fa-arrow-left"></i> Voltar
+</a>
+      <form id="login-form" onsubmit="checarLoginValido(event)">
+        <h2>LOGIN</h2>
+        <input type="text" name="emailLogin" placeholder="Username" required>
+        <input type="password" name="senhaLogin" placeholder="Password" required>
+        <button type="submit">Entrar</button>
+        <p class="signup">Não tem uma conta? <a href="/cadastro">Cadastre-se</a></p>
+        <div class="social-login">
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
