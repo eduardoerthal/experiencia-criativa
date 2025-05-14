@@ -46,18 +46,19 @@ body {
   justify-content: center;
 }
 
-.cadastro-form {
+
+#cadastro-form {
   display: flex;
   flex-direction: column;
 }
 
-.cadastro-form h2 {
+#cadastro-form h2 {
   text-align: center;
   margin-bottom: 20px;
   color: #cc3366;
 }
 
-.cadastro-form input {
+#cadastro-form input {
   width: 100%;
   padding: 12px;
   margin: 10px 0;
