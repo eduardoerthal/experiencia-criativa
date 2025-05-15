@@ -27,7 +27,7 @@ templates = Jinja2Templates(directory="templates")
 #################### GETs ##################
 
 @app.get("/logout")
-async def logou(request: Request):
+async def logout(request: Request):
     request.session.clear()
     return JSONResponse(content={"logado": False})
 

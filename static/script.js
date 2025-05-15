@@ -49,6 +49,7 @@ function fecharPopupSobre() {
   document.getElementById("popupSobre").style.display = "none";
 }
 
+/** ANTIGO POPUP DE LOGIN - OBSOLETO
 function mostrarPopupLogin() {
   const popupLogin = document.getElementById("popupLogin");
   popupLogin.style.display = "flex";
@@ -58,6 +59,7 @@ function fecharPopupLogin() {
   const popupLogin = document.getElementById("popupLogin");
   popupLogin.style.display = "none";
 }
+**/
 
 function mostrarCadastro() {
   document.getElementById("loginForm").style.display = "none";
