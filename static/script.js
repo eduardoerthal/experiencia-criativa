@@ -1,11 +1,27 @@
-async function checarADM() {
-  const response = await fetch('/session-status')
-  const data = await response.json()
+window.onload = function(){
+  checarADM();
+  checarUsuario()
+} 
 
-  if (data.admlogado === true){
-    document.getElementById("admpainel").style.display = "block";
+async function checarADM() {
+  const response = await fetch('/session-status');
+  const data = await response.json();
+
+  if (data.admlogado === true) {
+    document.getElementById("dropdown-adm").style.display = "block"
   } else {
-    document.getElementById("admpainel").style.display = "none";
+    document.getElementById("dropdown-adm").style.display = "none"
+  }
+}
+
+async function checarUsuario() {
+  const response = await fetch('mostrar-usuario', { method: 'POST' });
+  const data = await response.json();
+
+  if (data.logado === true) {
+    document.getElementById("username").textContent = "Olá, " + data.username;
+  } else {
+    document.getElementById("username").style.display = "none";
   }
 }
 
@@ -24,21 +40,7 @@ async function logout() {
   }
 }
 
-async function checarUsuario() {
-  const response = await fetch('mostrar-usuario', { method: 'POST' });
-  const data = await response.json();
 
-  if (data.logado === true) {
-    document.getElementById("username").textContent = data.username;
-    document.getElementById("username-li").style.display = "list-item";
-    document.getElementById("logout-li").style.display = "list-item";
-    document.getElementById("loginmenu").style.display = "none";
-  } else {
-    document.getElementById("username-li").style.display = "none";
-    document.getElementById("logout-li").style.display = "none";
-    document.getElementById("loginmenu").style.display = "list-item";
-  }
-}
 
 
 function mostrarPopupSobre() {
@@ -73,7 +75,6 @@ function mostrarLogin() {
 
 
 async function checarLogin(caminhoProtegido) {
-
   const response = await fetch("/checar-login");
   const data = await response.json();
 
@@ -90,7 +91,7 @@ async function checarLogin(caminhoProtegido) {
   if (data["logado"] === true) {
     window.location.href = caminhoProtegido;
   } else {
-    document.getElementById("popupLogin").style.display = "block";
+    window.location.href = '/login';
   }   
 }
 
@@ -136,7 +137,7 @@ async function checarLoginValido(event) {
       title: "LOGADO COMO ADM",
       icon: "warning",
     }).then(() => {
-      location.reload();
+      window.location.href = "/";
     });
     return
   }
@@ -444,10 +445,6 @@ function toggleSubMenu() {
   }
 }
 
-window.onload = function(){
-  checarADM();
-  checarUsuario()
-} 
 const form = document.getElementById("userForm");
  const newPassword = document.getElementById("newPassword");
  const confirmPassword = document.getElementById("confirmPassword");
@@ -502,35 +499,6 @@ if (usuarioLogado && nomeUsuario) {
 }
 
 
-
-
-async function checarUsuario() {
-  try {
-    const response = await fetch('/mostrar-usuario', { method: 'POST' });
-    const data = await response.json();
-
-    const loginItem = document.getElementById("loginmenu");
-    const userItem = document.getElementById("username-li");
-    const userLink = document.getElementById("username");
-    const logoutItem = document.getElementById("logout-li");
-
-    if (data.logado === true && data.username) {
-      userLink.textContent = data.username;
-      userLink.href = '/usuario';
-
-      loginItem.style.display = "none";
-      userItem.style.display = "list-item";
-      logoutItem.style.display = "list-item";
-    } else {
-      loginItem.style.display = "list-item";
-      userItem.style.display = "none";
-      logoutItem.style.display = "none";
-    }
-  } catch (error) {
-    console.error("Erro ao verificar usuário:", error);
-  }
-}
-
 async function logout() {
   try {
     const response = await fetch('/logout');
@@ -551,10 +519,6 @@ async function logout() {
   }
 }
 
-window.onload = function() {
-  checarADM();
-  checarUsuario();
-};
 
 
 // USUARIO.HTML START
@@ -603,16 +567,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-async function checarADM() {
-  const response = await fetch('/session-status')
-  const data = await response.json()
-
-  if (data.admlogado === true){
-    document.getElementById("admpainel").style.display = "block";
-  } else {
-    document.getElementById("admpainel").style.display = "none";
-  }
-}
 
 async function logout() {
   const response = await fetch('/logout')
@@ -626,22 +580,6 @@ async function logout() {
       location.reload();
     });
     return
-  }
-}
-
-async function checarUsuario() {
-  const response = await fetch('mostrar-usuario', { method: 'POST' });
-  const data = await response.json();
-
-  if (data.logado === true) {
-    document.getElementById("username").textContent = data.username;
-    document.getElementById("username-li").style.display = "list-item";
-    document.getElementById("logout-li").style.display = "list-item";
-    document.getElementById("loginmenu").style.display = "none";
-  } else {
-    document.getElementById("username-li").style.display = "none";
-    document.getElementById("logout-li").style.display = "none";
-    document.getElementById("loginmenu").style.display = "list-item";
   }
 }
 
@@ -691,7 +629,5 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-window.onload = function(){
-  checarADM();
-  checarUsuario();
-} 
+
+

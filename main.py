@@ -34,7 +34,7 @@ async def logout(request: Request):
 @app.get("/checar-login")
 async def checar_login(request: Request):
     user_id = request.session.get("user_id")
-    
+    print(user_id)
     if user_id == 1:
         return JSONResponse(content={'admlogado': True})
     if not user_id:
@@ -413,6 +413,7 @@ def loginusuario(request: Request,
 @app.get("/session-status")
 async def session_status(request: Request):
     user_id = request.session.get("user_id")
+    print(user_id)
     if user_id == 1:
         return JSONResponse(content={"admlogado": True})
     elif user_id:
