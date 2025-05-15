@@ -277,8 +277,8 @@ async function autenticarUsuario(event) {
   for (let i = 0; i < erros.length; i++) {
     erros[i].style.display = "none";
   }
-  console.log("Passou por aqui")
-  const response =  await fetch('/puxar-dados', {method: 'POST'})
+
+  const response =  await fetch('/puxar-dados')
   const data =  await response.json()
 
   let nomeCompleto = document.getElementsByName("nomeCompleto")[0].value.trim();
@@ -288,7 +288,6 @@ async function autenticarUsuario(event) {
   let senhaCadastro = document.getElementsByName("senhaCadastro")[0].value;
   let confirmarSenha = document.getElementsByName("confirmarSenha")[0].value;
   let cpf = document.getElementsByName("cpf")[0].value.replace(/\D/g, '');
-
   let erro = false;
 
   // Validação de campos obrigatórios
@@ -361,13 +360,32 @@ async function autenticarUsuario(event) {
 
   // Submeter se estiver tudo certo
   if (!erro) {
-      Swal.fire({
-        title: "Usuário Cadastrado",
-        icon: "success",
-      }).then(() => {
-        document.getElementById("cadastroUsuarioForm").submit();
+      const form = document.getElementById("cadastro-form");
+      const formData = new FormData(form);
+
+      const response = await fetch("/cadastrar-usuario", {
+        method: "POST",
+        body: formData
       });
       
+      const data2 = await response.json();
+
+      if (data2.cadastrado) {
+        Swal.fire({
+          title: "Usuário Cadastrado",
+          icon: "success",
+        }).then(() => {
+          window.location.href = '/';
+        });
+      } else {
+        Swal.fire({
+          title: "Erro ao cadastrar usuário",
+          icon: "error",
+        }).then(() => {
+          window.location.href = '/';
+        });
+      }
+
   }
 }
 

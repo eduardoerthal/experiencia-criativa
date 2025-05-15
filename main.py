@@ -34,7 +34,6 @@ async def logout(request: Request):
 @app.get("/checar-login")
 async def checar_login(request: Request):
     user_id = request.session.get("user_id")
-    print(user_id)
     if user_id == 1:
         return JSONResponse(content={'admlogado': True})
     if not user_id:
@@ -383,7 +382,7 @@ def cadastrarusuario(
     cursor.close()
     conn.close()
     
-    return RedirectResponse(url="/", status_code=303)
+    return JSONResponse(content={"cadastrado": True})
 
 
 # Login do Usuário
@@ -394,8 +393,7 @@ def loginusuario(request: Request,
 ):  
     conn = db_connection()
     cursor = conn.cursor(dictionary=True)
-    print(emailLogin)
-    print(senhaLogin)
+    
     cursor.execute("SELECT ID_CLIENTE, EMAIL, SENHA FROM USUARIO WHERE EMAIL = %s AND SENHA = MD5(%s)", (emailLogin, senhaLogin))
     user = cursor.fetchone()
     
@@ -413,7 +411,6 @@ def loginusuario(request: Request,
 @app.get("/session-status")
 async def session_status(request: Request):
     user_id = request.session.get("user_id")
-    print(user_id)
     if user_id == 1:
         return JSONResponse(content={"admlogado": True})
     elif user_id:
@@ -513,7 +510,7 @@ async def mostrar_usuario(request: Request):
     if user_id: return JSONResponse (content={"logado": True, "username": username})
     else: return JSONResponse (content={"logado": False})
     
-@app.post('/puxar-dados')
+@app.get('/puxar-dados')
 async def puxar_dados(request: Request):
     conn = db_connection()
     cursor = conn.cursor()
@@ -522,7 +519,6 @@ async def puxar_dados(request: Request):
     cpfs = cursor.fetchall()
     cursor.execute("SELECT EMAIL FROM USUARIO")
     emails = cursor.fetchall()
-    
     return JSONResponse(content={
     "cpfs": [cpf[0] for cpf in cpfs],
     "emails": [email[0] for email in emails]

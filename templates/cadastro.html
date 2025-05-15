@@ -4,6 +4,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="{{ url_for('static', path='script.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" href="{{ url_for('static', path='cadastro.css') }}">
   <title>Tela de Cadastro</title>
 </head>
@@ -19,7 +21,7 @@
   <i class="fas fa-arrow-left"></i> Voltar
 </a>
      
-    <form id="cadastro-form" action="/cadastrar-usuario" onsubmit="autenticarUsuario(event)" method="post" enctype="multipart/form-data">
+    <form id="cadastro-form" onsubmit="autenticarUsuario(event)">
         <h2>CADASTRO</h2>
 
         <label for="nomeCompleto">Nome Completo</label>
@@ -44,10 +46,22 @@
         <input type="password" name="confirmarSenha" placeholder="Confirme sua senha">
 
         <button type="submit" name="botaoCadastro">Cadastrar</button>
+
+        <label id="nomeInvalido" class="error-label" style="display:none; color:red;">Nome inválido</label>
+        <label id="idadeInvalida" class="error-label" style="display:none; color:red;">Precisa ser maior de 18 anos para realizar o cadastro</label>
+        <label id="telefoneInvalido" class="error-label" style="display:none; color:red;">Telefone inválido</label>
+        <label id="emailInvalido" class="error-label" style="display:none; color:red;">E-mail inválido</label>
+        <label id="senhaInvalida" class="error-label" style="display:none; color:red;">A senha deve ter entre 8 e 16 caracteres.</label>
+        <label id="senhaNaoConfere" class="error-label" style="display:none; color:red;">As senhas não conferem.</label>
+        <label id="campoObrigatorio" class="error-label" style="display:none; color:red;">Os campos são obrigatórios.</label>
+        <label id="cpfInvalido" class="error-label" style="display:none; color:red;">CPF inválido.</label>
+        <label id="cpfEmUso" class="error-label" style="display:none; color:red;">Este CPF já está em uso.</label>
+        <label id="emailEmUso" class="error-label" style="display:none; color:red;">Este e-mail já está em uso.</label>
+
     </form>
 
 
-      <p class="signup">Já tenho uma conta! <a href="/login">Login</a></p>
+    <p class="signup">Já tenho uma conta! <a href="/login">Login</a></p>
 
     
     </div>
