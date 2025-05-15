@@ -25,6 +25,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow-y: hidden;
 }
 
 .right {
@@ -32,7 +33,7 @@ body {
     padding: 40px;
     display: flex;
     flex-direction: column;
-    overflow-x: hidden;
+    overflow-y: inherit;
 }
 
 .container h1 {
@@ -137,11 +138,11 @@ body {
 
 .toggle-senha {
   position: absolute;
-  top: 50%;
+  top: 65%;
   right: 10px;
   transform: translateY(-50%);
   cursor: pointer;
-  color: #777;
+  color: black;
   font-size: 18px;
   user-select: none;
 }
