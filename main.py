@@ -7,6 +7,9 @@ from pydantic import BaseModel
 from starlette.middleware.sessions import SessionMiddleware
 from db import db_connection
 from fastapi.staticfiles import StaticFiles
+from fastapi import FastAPI
+
+app = FastAPI(debug=True)
 
 
 ############ Configurações Gerais ############
@@ -367,15 +370,16 @@ def cadastrarusuario(
     dataNascimento: str = Form(...),
     telefone: str = Form(...),
     emailCadastro: str = Form(...),
-    senhaCadastro: str = Form(...)
+    senhaCadastro: str = Form(...),
+    estado: str = Form(...)
 ):
     
     conn = db_connection()
     cursor = conn.cursor()
     
-    sql = "INSERT INTO USUARIO (NOME, CPF, DT_NASCIMENTO, TELEFONE, EMAIL, SENHA) VALUES (%s, %s, %s, %s, %s, MD5(%s))"
+    sql = "INSERT INTO USUARIO (NOME, CPF, DT_NASCIMENTO, TELEFONE, EMAIL, SENHA, ESTADO) VALUES (%s, %s, %s, %s, %s, MD5(%s), %s)"
     
-    cursor.execute(sql, (nomeCompleto, cpf, dataNascimento, telefone, emailCadastro ,senhaCadastro))
+    cursor.execute(sql, (nomeCompleto, cpf, dataNascimento, telefone, emailCadastro ,senhaCadastro, estado))
     
     conn.commit()
     

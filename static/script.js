@@ -288,6 +288,7 @@ async function autenticarUsuario(event) {
   let senhaCadastro = document.getElementsByName("senhaCadastro")[0].value;
   let confirmarSenha = document.getElementsByName("confirmarSenha")[0].value;
   let cpf = document.getElementsByName("cpf")[0].value.replace(/\D/g, '');
+  let estado = document.getElementsByName("estado")[0].value;
   let erro = false;
 
   // Validação de campos obrigatórios
