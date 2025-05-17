@@ -7,7 +7,8 @@
   <title>Cosméticos Glow & Glam</title>
   <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='images/glow.png') }}">
 
 </head>
 <body>
@@ -26,7 +27,15 @@
 
   <div class="collapse navbar-collapse" id="conteudoNavbarSuportado">
     <ul class="navbar-nav mr-auto">
-     
+
+      <li class="nav-item">
+        <a class="nav-link" href="/adm" id="dropdown-adm" style:="display: none;"></a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="/usuario" id="username" style:="display: none;"></a>
+      </li>
+
       <li class="nav-item">
         <a class="nav-link" href="/promoção">Promoção</a>
       </li>
@@ -35,12 +44,13 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="/login">Login</a>
+        <a class="nav-link" href="/login" id="login-exibir" style:="display: block;">Login</a>
       </li>
-      <li class="nav-item" id="oculto">
-        <a class="nav-link" href="/usuario" id="username"></a>
+
+      <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0)" id="logout-exibir" style:="display: none;" onclick="logout()">Logout</a>
       </li>
-      
+
        <li class="nav-item">
       <a class="nav-link" href="#" onclick="checarLogin('/carrinho')">
           <i class="fas fa-shopping-cart"></i>
@@ -60,8 +70,6 @@
           <a class="dropdown-item" href="/hidratante">Hidratante</a>
           <a class="dropdown-item" href="/body">Body Splash</a>
           <div class="dropdown-divider"></div>
-          <a id="dropdown-adm" href="/adm">ADM</a>
-          
         </div>
       </li>
     </ul>

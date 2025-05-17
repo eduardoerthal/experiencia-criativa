@@ -36,6 +36,18 @@ body {
     overflow-y: inherit;
 }
 
+.voltar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #cc3366;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
 .container h1 {
   text-align: center;
   margin-bottom: 20px;

@@ -7,6 +7,7 @@ from pydantic import BaseModel
 from starlette.middleware.sessions import SessionMiddleware
 from db import db_connection
 from fastapi.staticfiles import StaticFiles
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
 
 ############ Configurações Gerais ############
@@ -23,6 +24,18 @@ app.add_middleware(
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 templates = Jinja2Templates(directory="templates")
+
+# Adicione esta função para capturar erros 404
+@app.exception_handler(StarletteHTTPException)
+async def custom_404_handler(request: Request, exc: StarletteHTTPException):
+    if exc.status_code == 404:
+        return templates.TemplateResponse(
+            "404.html",
+            {"request": request},
+            status_code=404
+        )
+    # Mantém o tratamento padrão para outros códigos de erro
+    return await http_exception_handler(request, exc)
 
 #################### GETs ##################
 
@@ -98,8 +111,13 @@ def index(request: Request):
     })
 
 @app.get("/adm", response_class=HTMLResponse)
-def adm(request: Request):
-    return templates.TemplateResponse("adm.html", {"request": request})
+async def adm(request: Request):
+    user_id = request.session.get("user_id")
+    if user_id != 1:
+        return RedirectResponse(url="/?blocked=true") 
+
+    return templates.TemplateResponse("adm.html", {"request": request}
+    )        
 
 @app.get("/login", response_class=HTMLResponse)
 def adm(request: Request):

@@ -1,46 +1,66 @@
 window.onload = function(){
   checarADM();
   checarUsuario()
+
+  if (window.location.pathname === "/adm") {
+    fetch("/adm")
+        .then(response => {
+            if (!response.ok) return handleResponse(response);
+            // Se for ADM, a página já carregou normalmente
+        })
+        .catch(error => console.error("Erro:", error));
+      }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('blocked')){
+    Swal.fire({
+            title: "Acesso Negado",
+            text: "Apenas administradores podem acessar esta página.",
+            icon: "error",
+            confirmButtonText: "OK"
+        }).then (() => {
+          window.history.replaceState ({}, document.title, "/");
+          window.location.href = "/"; 
+        });
+  }
 } 
 
 async function checarADM() {
   const response = await fetch('/session-status');
   const data = await response.json();
+  console.log(data)
 
   if (data.admlogado === true) {
-    document.getElementById("dropdown-adm").style.display = "block"
+    document.getElementById("dropdown-adm").textContent = "Administrador";
+    document.getElementById("dropdown-adm").style.display = "block";
+    document.getElementById("username").style.display = "none";
+    document.getElementById("login-exibir").style.display = "none";
+    document.getElementById("logout-exibir").style.display = "block";
   } else {
-    document.getElementById("dropdown-adm").style.display = "none"
+    document.getElementById("dropdown-adm").style.display = "none";
   }
 }
 
 async function checarUsuario() {
-  const response = await fetch('mostrar-usuario', { method: 'POST' });
+  console.log("Checando usuário logado...");
+  const response = await fetch('/mostrar-usuario', { method: 'POST' });
   const data = await response.json();
+  console.log("Resposta do servidor:", data);
+
+
+  if (data.admlogado === true) return;
 
   if (data.logado === true) {
     document.getElementById("username").textContent = "Olá, " + data.username;
+    document.getElementById("username").style.display = "block";
+    document.getElementById("login-exibir").style.display = "none";
+    document.getElementById("logout-exibir").style.display = "block";
   } else {
     document.getElementById("username").style.display = "none";
+    document.getElementById("login-exibir").style.display = "block";
+    document.getElementById("logout-exibir").style.display = "none";
   }
 }
-
-async function logout() {
-  const response = await fetch('/logout')
-  const data = await response.json()
-
-  if (data.logado === false) {
-    Swal.fire({
-      title: "Sessão Encerrada",
-      icon: "warning",
-    }).then(() => {
-      location.reload();
-    });
-    return
-  }
-}
-
-
 
 
 function mostrarPopupSobre() {
@@ -194,7 +214,6 @@ async function adicionarAoCarrinho(id) {
 async function finalizarCompra(){
 
   const response =  await fetch('/finalizar-compra', {method:'POST'});
-
   const data = await response.json();
 
   if (data.finalizado === true) {
@@ -503,7 +522,8 @@ const form = document.getElementById("userForm");
      icon.classList.add("fa-eye");
    }
  }
- const usuarioLogado = localStorage.getItem('usuarioLogado') === 'true';
+
+const usuarioLogado = localStorage.getItem('usuarioLogado') === 'true';
 const nomeUsuario = localStorage.getItem('nomeUsuario');
 
 if (usuarioLogado && nomeUsuario) {
@@ -515,8 +535,7 @@ if (usuarioLogado && nomeUsuario) {
     usernameLink.href = '/usuario'; // Redireciona para a tela do usuário
     document.getElementById('username-li').style.display = 'inline-block';
 }
-
-
+//*
 async function logout() {
   try {
     const response = await fetch('/logout');
@@ -535,7 +554,7 @@ async function logout() {
   } catch (error) {
     console.error("Erro ao fazer logout:", error);
   }
-}
+} 
 
 
 
@@ -586,20 +605,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-async function logout() {
-  const response = await fetch('/logout')
-  const data = await response.json()
-
-  if (data.logado === false) {
-    Swal.fire({
-      title: "Sessão Encerrada",
-      icon: "warning",
-    }).then(() => {
-      location.reload();
-    });
-    return
-  }
-}
 
 document.getElementById("uploadFoto")?.addEventListener("change", function (event) {
   const file = event.target.files[0];

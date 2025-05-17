@@ -6,9 +6,7 @@
   padding: 0;
   box-sizing: border-box;
 }
-#oculto{
-  display: none;
-}
+
 body {
   font-family: Georgia, serif;
   font-weight: 100;
@@ -281,10 +279,6 @@ form input {
 /* Popup (ex: Sobre) */
 .popup {
   display: none;
-  position: fixed;
-  z-index: 10;
-  left: 50%;
-  top: 50%;
   width: auto;
   height: 45%;
   padding-top: 60px;
