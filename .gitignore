@@ -1,5 +1,0 @@
-# Ignorar venv e arquivos de cache do Python
-venv/
-__pycache__/
-*.pyc
-db.py
