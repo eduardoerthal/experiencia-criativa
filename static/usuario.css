@@ -85,7 +85,7 @@ body {
 .form-actions {
   display: flex;
   justify-content: center;
-  margin-top: 30px;
+  margin-top: -11px;
 }
 
 .form-actions button {

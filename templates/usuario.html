@@ -10,6 +10,8 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
     <title>Tela de Usuário</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <body>
     <!-- Conteúdo da página -->
@@ -62,11 +64,13 @@
 
                 <div class="form-actions">
                     <button type="submit">Salvar Alterações</button>
+                    
+                    
                 </div>
             </form>
         </div>
     </div> 
 
-    <script src="script.js"></script>
+    <script src="{{ url_for('static', path='script.js') }}"></script>
 </body>
 </html>

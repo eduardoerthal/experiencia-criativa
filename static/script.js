@@ -52,7 +52,13 @@ async function checarUsuario() {
 
   if (data.logado === true) {
     document.getElementById("username").textContent = "Olá, " + data.username;
-    document.getElementById("username").style.display = "block";
+    const imgNav = document.getElementById("fotoPerfilNavbar");
+    const savedImg = localStorage.getItem("fotoPerfil");
+    if (savedImg && imgNav) {
+       imgNav.src = savedImg;
+}
+
+    document.getElementById("username").style.display = "block";  
     document.getElementById("login-exibir").style.display = "none";
     document.getElementById("logout-exibir").style.display = "block";
   } else {
@@ -805,16 +811,19 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 window.addEventListener("DOMContentLoaded", () => {
   const uploadInput = document.getElementById("uploadFoto");
-  const previewImg = document.querySelector(".foto-usuario");
+  const previewImg = document.getElementById("fotoPreview"); // CORRETO
 
   uploadInput?.addEventListener("change", function (event) {
     const file = event.target.files[0];
-    if (file) {
+    if (file && previewImg) {
       const reader = new FileReader();
       reader.onload = function (e) {
-        previewImg.src = e.target.result;
+        const imageData = e.target.result;
+        previewImg.src = imageData;
+        localStorage.setItem("fotoPerfil", imageData); // salva no navegador
       };
       reader.readAsDataURL(file);
     }
   });
 });
+

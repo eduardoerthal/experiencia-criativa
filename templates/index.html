@@ -9,13 +9,13 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='images/glow.png') }}">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 </head>
 <body>
 
   <!-- Cabeçalho -->
 
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 
 
@@ -33,8 +33,18 @@
       </li>
 
       <li class="nav-item">
+        <img
+  id="fotoPerfilNavbar"
+  src="/static/images/usuario-default.png"
+  style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid white;"
+/>
+
+      </li>
+
+      <li class="nav-item">
         <a class="nav-link" href="/usuario" id="username" style:="display: none;"></a>
       </li>
+      
 
       <li class="nav-item">
         <a class="nav-link" href="/promoção">Promoção</a>
