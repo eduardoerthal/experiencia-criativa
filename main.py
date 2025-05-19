@@ -20,7 +20,7 @@ app.add_middleware(
     secret_key="experienciacriativa", 
     session_cookie="experienciacriativacookie",          
     max_age= 60*60*60            
-)
+    )
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
@@ -381,42 +381,6 @@ async def excluir_produto(
     cursor.close()
     conn.close()
     return RedirectResponse(url="/adm", status_code=303)
-
-#EDITAR USUARIO
-@app.route('/api/usuarios/<int:user_id>', methods=['PUT'])
-def editarUsuario(user_id):
-    try:
-        data = request.get_json()
-        
-        conn = db_connection()
-        cursor = conn.cursor()
-        
-        cursor.execute(
-            "UPDATE usuarios SET nome = %s, email = %s, telefone = %s WHERE ID_CLIENTE = %s",
-            (data['nome'], data['email'], data['telefone'], user_id)
-        )
-        
-        conn.commit()
-        
-        # Retorna os dados atualizados
-        cursor.execute("SELECT ID_CLIENTE nome, email, telefone FROM usuario WHERE ID_CLIENTE = %s", (user_id,))
-        usuario = cursor.fetchone()
-        
-        conn.close()
-        
-        return jsonify({
-            'status': 'success',
-            'usuario': usuario
-        })
-        
-    except Exception as e:
-        return jsonify({
-            'status': 'error',
-            'message': str(e)
-        }), 500
-
-if __name__ == '__main__':
-    app.run(debug=True)
 
 # Inserção de Banner
 @app.post("/inserir-banner", response_class=HTMLResponse)

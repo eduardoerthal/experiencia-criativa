@@ -680,18 +680,7 @@ const form = document.getElementById("userForm");
      alert("Alterações salvas com sucesso!");
    }
  });
- document
-   .getElementById("uploadFoto")
-   .addEventListener("change", function (event) {
-     const file = event.target.files[0];
-     if (file) {
-       const reader = new FileReader();
-       reader.onload = function (e) {
-         document.querySelector(".foto-usuario").src = e.target.result;
-       };
-       reader.readAsDataURL(file);
-     }
-   });
+ 
  function toggleSenha(el) {
    const input = el.previousElementSibling;
    const icon = el.querySelector("i");
@@ -742,17 +731,6 @@ async function logout() {
 
 
 
-// USUARIO.HTML START
-document.getElementById("uploadFoto")?.addEventListener("change", function (event) {
-  const file = event.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      document.querySelector(".foto-usuario").src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  }
-});
 
 function toggleSenha(el) {
   const input = el.previousElementSibling;
@@ -790,16 +768,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-document.getElementById("uploadFoto")?.addEventListener("change", function (event) {
-  const file = event.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      document.querySelector(".foto-usuario").src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  }
-});
 
 function toggleSenha(el) {
   const input = el.previousElementSibling;
@@ -832,6 +800,21 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       passwordError.textContent = "";
       alert("Alterações salvas com sucesso!");
+    }
+  });
+});
+window.addEventListener("DOMContentLoaded", () => {
+  const uploadInput = document.getElementById("uploadFoto");
+  const previewImg = document.querySelector(".foto-usuario");
+
+  uploadInput?.addEventListener("change", function (event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        previewImg.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
     }
   });
 });
