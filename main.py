@@ -9,7 +9,6 @@ from starlette.middleware.sessions import SessionMiddleware
 from db import db_connection
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
-from fastapi.templating import Jinja2Templates
 
 ############ Configurações Gerais ############
 

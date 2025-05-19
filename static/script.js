@@ -36,6 +36,7 @@ async function checarADM() {
     document.getElementById("username").style.display = "none";
     document.getElementById("login-exibir").style.display = "none";
     document.getElementById("logout-exibir").style.display = "block";
+    document.getElementById("nav-foto-perfil").style.display = "none";
   } else {
     document.getElementById("dropdown-adm").style.display = "none";
   }
@@ -61,6 +62,7 @@ async function checarUsuario() {
     document.getElementById("username").style.display = "block";  
     document.getElementById("login-exibir").style.display = "none";
     document.getElementById("logout-exibir").style.display = "block";
+    document.getElementById("nav-foto-perfil").style.display = "block";
   } else {
     document.getElementById("username").style.display = "none";
     document.getElementById("login-exibir").style.display = "block";
