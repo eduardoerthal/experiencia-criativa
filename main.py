@@ -113,7 +113,7 @@ def index(request: Request):
 async def usuarios(request: Request):
     conn = db_connection()
     cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT ID_CLIENTE, nome, email, telefone FROM usuario")
+    cursor.execute("SELECT ID_CLIENTE, nome, email, telefone FROM USUARIO")
     usuarios = cursor.fetchall()
     conn.close()
     return templates.TemplateResponse("usuarioscadastrados.html", {"request": request, "usuarios": usuarios})
@@ -130,11 +130,11 @@ async def adm(request: Request):
     cursor = conn.cursor()
 
     try:
-        cursor.execute("SELECT COUNT(*) FROM usuario")
+        cursor.execute("SELECT COUNT(*) FROM USUARIO")
         total_usuarios = cursor.fetchone()[0]
-        cursor.execute("SELECT COUNT(*) FROM produto")
+        cursor.execute("SELECT COUNT(*) FROM PRODUTO")
         total_produtos = cursor.fetchone()[0]
-        cursor.execute("SELECT COUNT(*) FROM pedido")
+        cursor.execute("SELECT COUNT(*) FROM PEDIDO")
         total_pedidos = cursor.fetchone()[0]
 
         return templates.TemplateResponse("adm.html", {

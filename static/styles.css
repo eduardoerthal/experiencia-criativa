@@ -154,36 +154,91 @@ body {
 /* ======================== */
 /* Seção de Produtos */
 /* ======================== */
+
+/* Container geral */
 #produto {
   text-align: center;
   padding: 40px 0;
 }
 
+/* Card do produto */
 .produto {
-  position: relative;
-  display: inline-block;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  width: 260px;
+  padding: 20px;
   margin: 20px;
-  border: 1px solid #ccc;
-  padding: 15px;
-  width: 25%;
-  text-align: center;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  display: inline-block;
+  vertical-align: top;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+.produto:hover {
+  transform: scale(1.03);
+}
+
+/* Imagem do produto */
+.produto img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+/* Nome e preço */
+.produto h3 {
+  margin: 10px 0 5px;
+  font-size: 20px;
+  color: #333;
+}
+
+.produto .preco {
+  color: #e91e63;
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.produto .codigo {
+  color: #777;
+  font-size: 12px;
+  margin-bottom: 15px;
+}
+
+/* Quantidade */
+.produto input[type="number"] {
+  width: 60px;
+  padding: 5px;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+/* Botão */
+.btn-adicionar {
+  background-color: #e91e63;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-adicionar:hover {
+  background-color: #c2185b;
+}
+
+/* Responsividade */
 @media (max-width: 768px) {
   .produto {
-    width: 30%;
-    max-width: 300px;
+    width: 90%;
   }
 }
-
-.produto img {
- position: relative;
-  z-index: 1; 
-  width: 100%;
-  height: 270px;
-  object-fit: cover;
-}
-
 /* ======================== */
 /* Botões */
 /* ======================== */

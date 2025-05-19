@@ -131,22 +131,32 @@
 <section>
 
   <!-- Produtos -->
+  
   <section id="produto">
     {% for produto in produtos %}
     <div class="produto">
       <img src="data:image/jpeg;base64,{{ produto.imagem_base64 }}" alt="{{produto.NOME}}">
       <h3>{{produto.NOME}}</h3>
       <br>
-      <p>R${{produto.VALOR}}</p>
+      <p class ="preco">R${{produto.VALOR}}</p>
       <br>
-      <p>ID: {{produto.ID_PRODUTO}}</p>
       <label for="catproduto">Quantidade</label>
       <input type="number" id="qtdproduto-{{produto.ID_PRODUTO}}">
-      <button onclick="checarLoginCarrinho('{{produto.ID_PRODUTO}}')">Adicionar ao Carrinho</button>
+      <button class="btn-adicionar" onclick="checarLoginCarrinho('{{produto.ID_PRODUTO}}')">Adicionar ao Carrinho</button>
     </div>  
     {% endfor %}
-  </section>
+  </section>>
 
+<!---
+<div class="produto">
+  <img src="https://via.placeholder.com/300x200.png?text=Produto" alt="Nome do Produto" />
+  <h3>Nome do Produto</h3>
+  <p class="preco">R$99,90</p>
+  <p class="codigo">ID: 123</p>
+  <label for="quantidade">Quantidade</label>
+  <input type="number" id="quantidade" min="1" value="1" />
+  <button class="btn-adicionar">Adicionar ao Carrinho</button>
+</div>-->
  
 
 <!------------POPUP LOGIN------------>
