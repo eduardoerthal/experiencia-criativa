@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosméticos Glow & Glam</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='adm.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='images/glow.png') }}">
+</head>
+
+<body>
+    <header class="admin-header">
+        <h1>Admin Glow & Glam</h1>
+        <nav class="admin-nav">
+            <ul>
+                <li><a href="/adm">Dashboard</a></li>
+                <li><a href="/produtos">Produtos</a></li>
+                <li><a href="/pedidos"></i> Pedidos</a></li>
+            </ul>
+        </nav>
+    </header>
+      <div class="table-container">
+        <table id="usersTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Telefone</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for usuario in usuarios %}
+            <tr id="userRow{{ idusuario }}">
+              <td>{{ idusuario }}</td>
+              <td class="editable" data-field="nome">{{ usuario.nome }}</td>
+              <td class="editable" data-field="email">{{ usuario.email }}</td>
+              <td class="editable" data-field="telefone">{{ usuario.telefone or '' }}</td>
+              <td class="actions">
+                <button class="btn-action edit" onclick="enableEditMode({{ idusuario }})">
+                  <i class="fas fa-edit"></i> Editar
+                </button>
+                <button class="btn-action delete" onclick="deleteUser({{ usuario }})">
+                  <i class="fas fa-trash"></i> Deletar
+                </button>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

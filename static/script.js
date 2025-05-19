@@ -288,6 +288,107 @@ async function excluirDoCarrinho(id) {
   
 
 }
+// funções de chamar o usuario no painel admin
+let currentEditingRow = null;
+
+function enableEditMode(row, userId) {
+  // Se já estiver editando outra linha, cancela primeiro
+  if (currentlyEditingRow && currentlyEditingRow !== row) {
+    cancelEdit(currentlyEditingRow);
+  }
+
+  currentEditingRow = row;
+  row.classList.add('editing');
+
+  const cells = row.querySelectorAll ('td:not(:last-child)');
+
+  //nao edita o id
+  cells.forEach((cell, index) =>{
+    if (index === 0) return;
+    const originalValue = cell.textContent;
+
+  //input de edição
+  const input = document.createElement('input');
+  input.type = index === 2 ? 'email' : 'text';
+  input.value = originalValue;
+  input.className = 'edit-input';
+
+  cell.textContent = '';
+  cell.appendChild(input);
+
+  if(index === 1){
+    input.focus();
+  }
+});
+  // Substitui os botões por ações de salvar/cancelar - BIBLIOTECA QUE PEGUEI DO CHAT
+  const actionCell = row.querySelector('td:last-child');
+  actionCell.innerHTML = `
+    <button class="btn-action save" onclick="saveEdit(${userId})">
+      <i class="fas fa-save"></i> Salvar
+    </button>
+    <button class="btn-action cancel" onclick="cancelEdit(this.parentElement.parentElement)">
+      <i class="fas fa-times"></i> Cancelar
+    </button>
+  `;
+}
+function cancelEdit(row) {
+  // Remove a classe de edição
+  row.classList.remove('editing');
+  
+  // Restaura o conteúdo original (você pode querer buscar os valores originais do servidor aqui)
+  const cells = row.querySelectorAll('td:not(:last-child)');
+  cells.forEach(cell => {
+    if (cell.querySelector('input')) {
+      cell.textContent = cell.querySelector('input').value;
+    }
+  });
+
+  // Restaura os botões originais
+  const userId = row.querySelector('td:first-child').textContent;
+  const actionCell = row.querySelector('td:last-child');
+  actionCell.innerHTML = `
+    <button class="btn-action edit" onclick="enableEditMode(this.parentElement.parentElement, ${userId})">
+      <i class="fas fa-edit"></i> Editar
+    </button>
+    <button class="btn-action delete" onclick="deleteUser(${userId})">
+      <i class="fas fa-trash"></i> Deletar
+    </button>
+  `;
+
+  currentlyEditingRow = null;
+}
+async function saveEdit(userId) {
+  const row = document.querySelector(`tr.editing`);
+  if (!row) return;
+
+  // Coleta os dados editados
+  const inputs = row.querySelectorAll('.edit-input');
+  const updatedData = {
+    id: userId,
+    nome: inputs[0].value,
+    email: inputs[1].value,
+    telefone: inputs[2]?.value || ''
+  };
+  const response = await fetch(`/api/usuario/${idusuario}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedData)
+    });
+
+    // atualiza a linha
+    const cells = row.querySelectorAll('td:not(:last-child)');
+    cells[1].textContent = updatedData.nome;
+    cells[2].textContent = updatedData.email;
+    cells[3].textContent = updatedData.telefone;
+
+    cancelEdit(row);
+
+}
+function editarUsuario(row, idusuario) {
+  enableEditMode(row, idusuario);
+}
 
 async function autenticarUsuario(event) {
   event.preventDefault();
@@ -431,15 +532,98 @@ function validarCPF(cpf) {
 document.addEventListener("DOMContentLoaded", function () {
   const carrossel = document.querySelector('.carrossel');
   const slides = document.querySelectorAll('.slide');
+  const prevBtn = document.querySelector('.prev');
+  const nextBtn = document.querySelector('.next');
+  const dotsContainer = document.querySelector('.carrossel-dots');
   let index = 0;
+  let startX, moveX;
+  const threshold = 50; // Sensibilidade do arraste
 
-  function mostrarProximoSlide() {
-    if (!carrossel || slides.length === 0) return;
-    index = (index + 1) % slides.length;
+  // Cria as bolinhas indicadoras
+  slides.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.classList.add('dot');
+    if (i === 0) dot.classList.add('active');
+    dot.addEventListener('click', () => goToSlide(i));
+    dotsContainer.appendChild(dot);
+  });
+
+  const dots = document.querySelectorAll('.dot');
+
+  // Atualiza o carrossel e as bolinhas
+  function updateCarrossel() {
     carrossel.style.transform = `translateX(-${index * 100}%)`;
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === index);
+    });
   }
 
-  setInterval(mostrarProximoSlide, 3000);
+  // Navega para um slide específico
+  function goToSlide(i) {
+    index = i;
+    updateCarrossel();
+  }
+
+  // Slide anterior
+  prevBtn.addEventListener('click', () => {
+    index = (index - 1 + slides.length) % slides.length;
+    updateCarrossel();
+  });
+
+  // Próximo slide
+  nextBtn.addEventListener('click', () => {
+    index = (index + 1) % slides.length;
+    updateCarrossel();
+  });
+
+  // Controle por arraste (touch/mouse)
+  carrossel.addEventListener('mousedown', startDrag);
+  carrossel.addEventListener('touchstart', startDrag, { passive: true });
+
+  carrossel.addEventListener('mousemove', drag);
+  carrossel.addEventListener('touchmove', drag, { passive: false });
+
+  carrossel.addEventListener('mouseup', endDrag);
+  carrossel.addEventListener('touchend', endDrag);
+
+  function startDrag(e) {
+    e.preventDefault();
+    startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+  }
+
+  function drag(e) {
+    if (!startX) return;
+    moveX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+    const diff = startX - moveX;
+    if (Math.abs(diff) > threshold) {
+      if (diff > 0) {
+        index = (index + 1) % slides.length;
+      } else {
+        index = (index - 1 + slides.length) % slides.length;
+      }
+      updateCarrossel();
+      startX = null;
+    }
+  }
+
+  function endDrag() {
+    startX = null;
+  }
+
+  // Autoplay (opcional)
+  let autoplay = setInterval(() => {
+    index = (index + 1) % slides.length;
+    updateCarrossel();
+  }, 5000);
+
+  // Pausa autoplay ao interagir
+  carrossel.addEventListener('mouseenter', () => clearInterval(autoplay));
+  carrossel.addEventListener('mouseleave', () => {
+    autoplay = setInterval(() => {
+      index = (index + 1) % slides.length;
+      updateCarrossel();
+    }, 5000);
+  });
 });
 
 // ===============================
@@ -651,6 +835,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-
-
-

@@ -9,7 +9,7 @@ from starlette.middleware.sessions import SessionMiddleware
 from db import db_connection
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
-
+from fastapi.templating import Jinja2Templates
 
 ############ Configurações Gerais ############
 
@@ -39,7 +39,6 @@ async def custom_404_handler(request: Request, exc: StarletteHTTPException):
     return await http_exception_handler(request, exc)
 
 #################### GETs ##################
-
 @app.get("/logout")
 async def logout(request: Request):
     request.session.clear()
@@ -110,15 +109,46 @@ def index(request: Request):
         "produtos": produtos,
         "banners": banners
     })
+@app.get("/adm/usuarioscadastrados")
+async def usuarios(request: Request):
+    conn = db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT ID_CLIENTE, nome, email, telefone FROM usuario")
+    usuarios = cursor.fetchall()
+    conn.close()
+    return templates.TemplateResponse("usuarioscadastrados.html", {"request": request, "usuarios": usuarios})
 
 @app.get("/adm", response_class=HTMLResponse)
 async def adm(request: Request):
+    # Verifica se o usuário é admin (ID 1)
     user_id = request.session.get("user_id")
     if user_id != 1:
-        return RedirectResponse(url="/?blocked=true") 
+        return RedirectResponse(url="/?blocked=true")
 
-    return templates.TemplateResponse("adm.html", {"request": request}
-    )        
+    # Conecta ao banco e busca os dados
+    conn = db_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("SELECT COUNT(*) FROM usuario")
+        total_usuarios = cursor.fetchone()[0]
+        cursor.execute("SELECT COUNT(*) FROM produto")
+        total_produtos = cursor.fetchone()[0]
+        cursor.execute("SELECT COUNT(*) FROM pedido")
+        total_pedidos = cursor.fetchone()[0]
+
+        return templates.TemplateResponse("adm.html", {
+            "request": request,
+            "total_usuarios": total_usuarios,
+            "total_produtos": total_produtos,
+            "total_pedidos": total_pedidos,
+        })
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        cursor.close()
+        conn.close()
+
 
 @app.get("/login", response_class=HTMLResponse)
 def adm(request: Request):
@@ -337,8 +367,6 @@ async def cadastrar_produto(
     return RedirectResponse(url="/adm", status_code=303)
 
 # Excluir Produto
-
-# Cadastro de Produto
 @app.post("/excluir-produto", response_class=HTMLResponse)
 async def excluir_produto(
     request: Request,
@@ -354,7 +382,41 @@ async def excluir_produto(
     conn.close()
     return RedirectResponse(url="/adm", status_code=303)
 
+#EDITAR USUARIO
+@app.route('/api/usuarios/<int:user_id>', methods=['PUT'])
+def editarUsuario(user_id):
+    try:
+        data = request.get_json()
+        
+        conn = db_connection()
+        cursor = conn.cursor()
+        
+        cursor.execute(
+            "UPDATE usuarios SET nome = %s, email = %s, telefone = %s WHERE ID_CLIENTE = %s",
+            (data['nome'], data['email'], data['telefone'], user_id)
+        )
+        
+        conn.commit()
+        
+        # Retorna os dados atualizados
+        cursor.execute("SELECT ID_CLIENTE nome, email, telefone FROM usuario WHERE ID_CLIENTE = %s", (user_id,))
+        usuario = cursor.fetchone()
+        
+        conn.close()
+        
+        return jsonify({
+            'status': 'success',
+            'usuario': usuario
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': str(e)
+        }), 500
 
+if __name__ == '__main__':
+    app.run(debug=True)
 
 # Inserção de Banner
 @app.post("/inserir-banner", response_class=HTMLResponse)

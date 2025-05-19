@@ -103,13 +103,20 @@
 </header>
 
   <!-- Carrossel de Imagens -->
-  <section id="banner">
-    {% for banner in banners %}
+<section id="banner">
+  <div class="carrossel-container">
     <div class="carrossel">
-      <img src="data:image/jpeg;base64,{{ banner.imagem_base64 }}" class="slide">
+      {% for banner in banners %}
+        <img src="data:image/jpeg;base64,{{ banner.imagem_base64 }}" class="slide">
+      {% endfor %}
     </div>
-    {%endfor%}
-  </section>
+    <!-- Botões de navegação -->
+    <button class="carrossel-btn prev">❮</button>
+    <button class="carrossel-btn next">❯</button>
+    <!-- Bolinhas indicadoras -->
+    <div class="carrossel-dots"></div>
+  </div>
+</section>
 
 <section>
 
@@ -222,7 +229,7 @@
 
 <!----------FOOTER (REUTILIZAVEL------------>
 <section>
-  <footer style="background-color: #e28f8f; color: #fff; padding: 40px 0; font-family: Arial, sans-serif; margin-top: 200px;">
+  <footer class="rodape" style="background-color: #e28f8f; color: #fff; padding: 40px 0; font-family: Arial, sans-serif; margin-top: 200px;">
     <div style="display: flex; justify-content: space-between; max-width: 1200px; margin: 0 auto;">
         <!-- Coluna Endereço -->
         <div style="flex: 1; margin: 0 20px;">
