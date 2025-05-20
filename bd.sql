@@ -6,6 +6,7 @@ USE expcriativa;
 -- Usuários
 CREATE TABLE USUARIO (
     ID_CLIENTE INT AUTO_INCREMENT PRIMARY KEY,
+    FOTOPERFIL BLOB,
     NOME VARCHAR(50),
     CPF VARCHAR(16),
     DT_NASCIMENTO DATE,
@@ -73,23 +74,6 @@ VALUES
     ("Maquiagem"),
     ("Perfume"),
     ("Skincare");
-START TRANSACTION;
-
--- Usando variáveis para armazenar temporariamente os BLOBs
-SET @foto1 = NULL, @foto2 = NULL, @foto3 = NULL, @foto4 = NULL;
-
-SET @foto1 = LOAD_FILE('/experiencia-criativa/static/images/carrosel/foto1.png');
-SET @foto2 = LOAD_FILE('/experiencia-criativa/static/images/carrosel/foto2.png');
-SET @foto3 = LOAD_FILE('/experiencia-criativa/static/images/carrosel/foto3.png');
-SET @foto4 = LOAD_FILE('/experiencia-criativa/static/images/carrosel/foto4.png');
-
-    INSERT INTO BANNER (IMAGEM) VALUES 
-    (@foto1),
-    (@foto2),
-    (@foto3),
-    (@foto4);
- 
-COMMIT;
 
 INSERT INTO USUARIO (NOME, CPF, DT_NASCIMENTO, TELEFONE, EMAIL, SENHA) VALUES ('adm', '1', '2005-01-12', '1', 'adm@adm', MD5('123') );
 
