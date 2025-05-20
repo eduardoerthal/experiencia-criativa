@@ -1,4 +1,5 @@
 from datetime import date
+import time
 from fastapi import Depends, FastAPI, File, Form, HTTPException, Request, Response, UploadFile
 import base64
 from fastapi.exception_handlers import http_exception_handler
@@ -18,12 +19,12 @@ app.add_middleware(
     SessionMiddleware,
     secret_key="experienciacriativa", 
     session_cookie="experienciacriativacookie",          
-    max_age= 60*60*60            
+    max_age= 60*60*60      
     )
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="templates")    
 
 # Adicione esta função para capturar erros 404
 @app.exception_handler(StarletteHTTPException)

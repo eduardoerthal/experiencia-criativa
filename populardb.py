@@ -1,4 +1,4 @@
-'''from db import db_connection
+from db import db_connection
 
 conn = db_connection()
 cursor = conn.cursor()
@@ -9,4 +9,4 @@ for i in range(4):
         imagem = f.read()
     cursor.execute("INSERT INTO BANNER (IMAGEM) VALUES (%s)", (imagem,))
 
-conn.commit()'''
+conn.commit()
