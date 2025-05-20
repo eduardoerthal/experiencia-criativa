@@ -141,7 +141,7 @@ async function checarLoginCarrinho(idProduto) {
   if (data["logado"] === true) {
     adicionarAoCarrinho(idProduto)
   } else {
-    return document.getElementById("popupLogin").style.display = "block";
+    window.location.href = "/login";
   }   
 }
 
