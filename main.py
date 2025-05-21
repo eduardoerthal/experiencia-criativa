@@ -118,6 +118,23 @@ async def usuarios(request: Request):
     conn.close()
     return templates.TemplateResponse("usuarioscadastrados.html", {"request": request, "usuarios": usuarios})
 
+class UsuarioUpdate(BaseModel):
+    nome: str
+    email: str
+    telefone: str
+
+@app.post("/deletar-usuario")
+async def deletar_usuario(request: Request):
+    dados = await request.json()
+    conn = db_connection()
+    cursor = conn.cursor()
+    
+    sql = "DELETE FROM USUARIO WHERE ID_CLIENTE = %s"
+    cursor.execute(sql, (dados["id"],))
+    conn.commit()
+    
+    return JSONResponse(content={'excluido': True})
+
 @app.get("/adm", response_class=HTMLResponse)
 async def adm(request: Request):
     # Verifica se o usuário é admin (ID 1)

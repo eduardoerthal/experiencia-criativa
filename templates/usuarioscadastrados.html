@@ -35,15 +35,15 @@
           <tbody>
             {% for usuario in usuarios %}
             <tr id="userRow{{ idusuario }}">
-              <td>{{ idusuario }}</td>
+              <td>{{ usuario.id }}</td>
               <td class="editable" data-field="nome">{{ usuario.nome }}</td>
               <td class="editable" data-field="email">{{ usuario.email }}</td>
               <td class="editable" data-field="telefone">{{ usuario.telefone or '' }}</td>
               <td class="actions">
-                <button class="btn-action edit" onclick="enableEditMode({{ idusuario }})">
+                <button class="btn-action edit" onclick="enableEditMode()">
                   <i class="fas fa-edit"></i> Editar
                 </button>
-                <button class="btn-action delete" onclick="deleteUser({{ usuario }})">
+              <button class="btn-action delete" id="boataoDelete" onclick="deletar_usuario()">
                   <i class="fas fa-trash"></i> Deletar
                 </button>
               </td>
