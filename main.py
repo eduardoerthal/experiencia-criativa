@@ -528,6 +528,28 @@ async def alterar_quantidade(request: Request):
     
     return JSONResponse(content={"alterado": True})
 
+
+@app.post('/atualizar-email')
+async def atualizar_email(request: Request):
+    dados = await request.json()
+    user_id = request.session.get("user_id")  # pega ID da sessão atual
+
+    if not user_id:
+        return JSONResponse(content={"alterado": False, "erro": "Não autenticado"}, status_code=401)
+
+    conn = db_connection()
+    cursor = conn.cursor()
+
+    sql = "UPDATE USUARIO SET EMAIL = %s WHERE ID_CLIENTE = %s;"
+    cursor.execute(sql, (dados["novo_email"], user_id))  # CORRIGIDO AQUI
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
+    return JSONResponse(content={"alterado": True})
+
+
 @app.post('/excluir-do-carrinho')
 async def excluir_do_carrinho(request: Request):
     dados = await request.json()
@@ -540,21 +562,39 @@ async def excluir_do_carrinho(request: Request):
     
     return JSONResponse(content={'excluido': True})
 
+
 @app.post('/mostrar-usuario')
 async def mostrar_usuario(request: Request):
     user_id = request.session.get("user_id")
+    
+    if not user_id:
+        return JSONResponse(content={"logado": False})
+
     conn = db_connection()
     cursor = conn.cursor()
     
-    cursor.execute("SELECT NOME FROM USUARIO WHERE ID_CLIENTE = %s", (user_id,))
-    username = cursor.fetchone()
+    cursor.execute("""
+        SELECT NOME, TELEFONE, EMAIL 
+        FROM USUARIO 
+        WHERE ID_CLIENTE = %s
+    """, (user_id,))
+    result = cursor.fetchone()
     
     conn.close()
     cursor.close()
+
+    if result:
+        nome, telefone, email = result
+        return JSONResponse(content={
+            "logado": True,
+            "username": nome,
+            "telefone": telefone,
+            "email": email
+        })
+    else:
+        return JSONResponse(content={"logado": False})
     
-    if user_id: return JSONResponse (content={"logado": True, "username": username})
-    else: return JSONResponse (content={"logado": False})
-    
+
 @app.get('/puxar-dados')
 async def puxar_dados(request: Request):
     conn = db_connection()

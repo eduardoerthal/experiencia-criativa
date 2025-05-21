@@ -52,7 +52,7 @@ async function checarUsuario() {
   if (data.admlogado === true) return;
 
   if (data.logado === true) {
-    document.getElementById("username").textContent = "Olá, " + data.username;
+    document.getElementById("username").textContent = data.username;
     const imgNav = document.getElementById("fotoPerfilNavbar");
     const savedImg = localStorage.getItem("fotoPerfil");
     if (savedImg && imgNav) {
@@ -634,25 +634,64 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// ===============================
-// Sidebar Menu Mobile
-// ===============================
-function abrirMenu() {
-  const sidebar = document.getElementById("sidebar");
-  sidebar.classList.add("open");
-}
+// LOGICA PARA EXIBIR INFORMAÇÕES NO USUARIO
+document.addEventListener("DOMContentLoaded", () => {
+    fetch("/mostrar-usuario", {
+        method: "POST",
+        credentials: "include"  // importante para manter a sessão
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.logado) {
+            document.getElementById("username").textContent = data.username;
+            document.getElementById("telefone").textContent = data.telefone;
+            document.getElementById("email").value = data.email;
 
-function fecharMenu() {
-  const sidebar = document.getElementById("sidebar");
-  sidebar.classList.remove("open");
-}
+            const imgNav = document.getElementById("fotoPerfilNavbar");
+            const savedImg = localStorage.getItem("fotoPerfil");
+            if (savedImg && imgNav) {
+                imgNav.src = savedImg;
+            }
+        }
+    })
+    .catch(error => {
+        console.error("Erro ao buscar dados do usuário:", error);
+    });
+});
 
-function navegarPara(pagina) {
-  fecharMenu();
-  setTimeout(() => {
-    window.location.href = pagina;
-  }, 300);
-}
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("userForm");
+    const emailInput = document.getElementById("email");
+
+    if (form && emailInput) {
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const novoEmail = emailInput.value;
+
+            const response = await fetch("/atualizar-email", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify({ novo_email: novoEmail }),
+            });
+
+            const data = await response.json();
+            console.log("Resposta do servidor:", data);
+
+            if (data.alterado) {
+                Swal.fire("Sucesso!", "E-mail atualizado com sucesso!", "success");
+            } else {
+                Swal.fire("Erro!", data.erro || "Erro ao atualizar o e-mail", "error");
+            }
+        });
+    } else {
+        console.warn("Formulário ou campo de e-mail não encontrado.");
+    }
+});
+
 
 document.addEventListener("click", function (event) {
   const sidebar = document.getElementById("sidebar");
@@ -685,7 +724,6 @@ const form = document.getElementById("userForm");
      passwordError.textContent = "As senhas não coincidem.";
    } else {
      passwordError.textContent = "";
-     alert("Alterações salvas com sucesso!");
    }
  });
  
@@ -768,9 +806,6 @@ document.addEventListener("DOMContentLoaded", () => {
       event.preventDefault();
       passwordError.textContent = "As senhas não coincidem.";
       newPassword.insertAdjacentElement("afterend", passwordError);
-    } else {
-      passwordError.textContent = "";
-      alert("Alterações salvas com sucesso!");
     }
   });
 });
@@ -805,9 +840,6 @@ document.addEventListener("DOMContentLoaded", () => {
       event.preventDefault();
       passwordError.textContent = "As senhas não coincidem.";
       newPassword.insertAdjacentElement("afterend", passwordError);
-    } else {
-      passwordError.textContent = "";
-      alert("Alterações salvas com sucesso!");
     }
   });
 });
