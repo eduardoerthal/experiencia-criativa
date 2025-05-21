@@ -297,59 +297,6 @@ async function excluirDoCarrinho(id) {
   
 
 }
-
-// Adicione este código no final do seu arquivo JavaScript
-document.addEventListener('DOMContentLoaded', function() {
-    // Evento para deletar usuários
-    document.querySelectorAll('.btn-delete').forEach(button => {
-        document.querySelector('.btn-delete').onclick = function() {
-        alert("Botão clicado! ID: " + this.getAttribute('data-user-id'));
-}
-            
-            if (!userId) {
-                console.error("ID do usuário não encontrado!");
-                return;
-            }
-
-            try {
-                const response = await fetch('/deletar-usuario', {
-                    method: 'POST',
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({id: userId})
-                });
-                
-                console.log("Resposta do servidor:", response); // Debug
-                
-                const result = await response.json();
-                console.log("Resultado:", result); // Debug
-                
-                if(result.excluido) {
-                    Swal.fire({
-                        title: "Sucesso!",
-                        text: "Usuário deletado com sucesso",
-                        icon: "success"
-                    }).then(() => location.reload());
-                } else {
-                    Swal.fire({
-                        title: "Erro!",
-                        text: "Não foi possível deletar o usuário",
-                        icon: "error"
-                    });
-                }
-            } catch (error) {
-                console.error("Erro na requisição:", error);
-                Swal.fire({
-                    title: "Erro!",
-                    text: "Falha na comunicação com o servidor",
-                    icon: "error"
-                });
-            }
-        });
-    });
-});
-
 async function autenticarUsuario(event) {
   event.preventDefault();
 
@@ -486,176 +433,7 @@ function validarCPF(cpf) {
   return parseInt(cpf.charAt(10)) === digito2;
 }
 
-// ===============================
-// Carousel
-// ===============================
-document.addEventListener("DOMContentLoaded", function () {
-  const carrossel = document.querySelector('.carrossel');
-  const slides = document.querySelectorAll('.slide');
-  const prevBtn = document.querySelector('.prev');
-  const nextBtn = document.querySelector('.next');
-  const dotsContainer = document.querySelector('.carrossel-dots');
-  let index = 0;
-  let startX, moveX;
-  const threshold = 50; // Sensibilidade do arraste
 
-  // Cria as bolinhas indicadoras
-  slides.forEach((_, i) => {
-    const dot = document.createElement('div');
-    dot.classList.add('dot');
-    if (i === 0) dot.classList.add('active');
-    dot.addEventListener('click', () => goToSlide(i));
-    dotsContainer.appendChild(dot);
-  });
-
-  const dots = document.querySelectorAll('.dot');
-
-  // Atualiza o carrossel e as bolinhas
-  function updateCarrossel() {
-    carrossel.style.transform = `translateX(-${index * 100}%)`;
-    dots.forEach((dot, i) => {
-      dot.classList.toggle('active', i === index);
-    });
-  }
-
-  // Navega para um slide específico
-  function goToSlide(i) {
-    index = i;
-    updateCarrossel();
-  }
-
-  // Slide anterior
-  prevBtn.addEventListener('click', () => {
-    index = (index - 1 + slides.length) % slides.length;
-    updateCarrossel();
-  });
-
-  // Próximo slide
-  nextBtn.addEventListener('click', () => {
-    index = (index + 1) % slides.length;
-    updateCarrossel();
-  });
-
-  // Controle por arraste (touch/mouse)
-  carrossel.addEventListener('mousedown', startDrag);
-  carrossel.addEventListener('touchstart', startDrag, { passive: true });
-
-  carrossel.addEventListener('mousemove', drag);
-  carrossel.addEventListener('touchmove', drag, { passive: false });
-
-  carrossel.addEventListener('mouseup', endDrag);
-  carrossel.addEventListener('touchend', endDrag);
-
-  function startDrag(e) {
-    e.preventDefault();
-    startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
-  }
-
-  function drag(e) {
-    if (!startX) return;
-    moveX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
-    const diff = startX - moveX;
-    if (Math.abs(diff) > threshold) {
-      if (diff > 0) {
-        index = (index + 1) % slides.length;
-      } else {
-        index = (index - 1 + slides.length) % slides.length;
-      }
-      updateCarrossel();
-      startX = null;
-    }
-  }
-
-  function endDrag() {
-    startX = null;
-  }
-
-  // Autoplay (opcional)
-  let autoplay = setInterval(() => {
-    index = (index + 1) % slides.length;
-    updateCarrossel();
-  }, 5000);
-
-  // Pausa autoplay ao interagir
-  carrossel.addEventListener('mouseenter', () => clearInterval(autoplay));
-  carrossel.addEventListener('mouseleave', () => {
-    autoplay = setInterval(() => {
-      index = (index + 1) % slides.length;
-      updateCarrossel();
-    }, 5000);
-  });
-});
-
-// LOGICA PARA EXIBIR INFORMAÇÕES NO USUARIO
-document.addEventListener("DOMContentLoaded", () => {
-    fetch("/mostrar-usuario", {
-        method: "POST",
-        credentials: "include"  // importante para manter a sessão
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.logado) {
-            document.getElementById("username").textContent = data.username;
-            document.getElementById("telefone").textContent = data.telefone;
-            document.getElementById("email").value = data.email;
-
-            const imgNav = document.getElementById("fotoPerfilNavbar");
-            const savedImg = localStorage.getItem("fotoPerfil");
-            if (savedImg && imgNav) {
-                imgNav.src = savedImg;
-            }
-        }
-    })
-    .catch(error => {
-        console.error("Erro ao buscar dados do usuário:", error);
-    });
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("userForm");
-    const emailInput = document.getElementById("email");
-
-    if (form && emailInput) {
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault();
-
-            const novoEmail = emailInput.value;
-
-            const response = await fetch("/atualizar-email", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                credentials: "include",
-                body: JSON.stringify({ novo_email: novoEmail }),
-            });
-
-            const data = await response.json();
-            console.log("Resposta do servidor:", data);
-
-            if (data.alterado) {
-                Swal.fire("Sucesso!", "E-mail atualizado com sucesso!", "success");
-            } else {
-                Swal.fire("Erro!", data.erro || "Erro ao atualizar o e-mail", "error");
-            }
-        });
-    } else {
-        console.warn("Formulário ou campo de e-mail não encontrado.");
-    }
-});
-
-
-document.addEventListener("click", function (event) {
-  const sidebar = document.getElementById("sidebar");
-  const button = document.querySelector(".open-btn");
-  if (
-    sidebar &&
-    !sidebar.contains(event.target) &&
-    !button.contains(event.target)
-  ) {
-    fecharMenu();
-  }
-});
 function toggleSubMenu() {
   var submenu = document.getElementById("subMenuMobile");
   if (submenu.style.display === "block") {
@@ -669,15 +447,6 @@ const form = document.getElementById("userForm");
  const newPassword = document.getElementById("newPassword");
  const confirmPassword = document.getElementById("confirmPassword");
  const passwordError = document.getElementById("passwordError");
- 
- form.addEventListener("submit", function (event) {
-   if (newPassword.value !== confirmPassword.value) {
-     event.preventDefault();
-     passwordError.textContent = "As senhas não coincidem.";
-   } else {
-     passwordError.textContent = "";
-   }
- });
  
  function toggleSenha(el) {
    const input = el.previousElementSibling;
@@ -745,25 +514,6 @@ function toggleSenha(el) {
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("userForm");
-  const confirmPassword = document.getElementById("confirmPassword");
-  const passwordError = document.getElementById("passwordError") || document.createElement("div");
-
-  form?.addEventListener("submit", function (event) {
-    const newPassword = document.getElementById("currentPassword");
-    if (!newPassword || !confirmPassword) return;
-
-    if (newPassword.value !== confirmPassword.value) {
-      event.preventDefault();
-      passwordError.textContent = "As senhas não coincidem.";
-      newPassword.insertAdjacentElement("afterend", passwordError);
-    }
-  });
-});
-
-
-
 function toggleSenha(el) {
   const input = el.previousElementSibling;
   const icon = el.querySelector("i");
@@ -780,25 +530,125 @@ function toggleSenha(el) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  // -------------------------------
+  // 1. Checar status da sessão
+  // -------------------------------
+  checarADM();
+  checarUsuario();
+
+  if (window.location.pathname === "/adm") {
+    fetch("/adm")
+      .then(response => {
+        if (!response.ok) return handleResponse(response);
+      })
+      .catch(error => console.error("Erro:", error));
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('blocked')) {
+    Swal.fire({
+      title: "Acesso Negado",
+      text: "Apenas administradores podem acessar esta página.",
+      icon: "error",
+      confirmButtonText: "OK"
+    }).then(() => {
+      window.history.replaceState({}, document.title, "/");
+      window.location.href = "/";
+    });
+  }
+
+  // -------------------------------
+  // 2. Exibir dados do usuário
+  // -------------------------------
+  fetch("/mostrar-usuario", {
+    method: "POST",
+    credentials: "include"
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.logado) {
+        const usernameEl = document.getElementById("username");
+        const telefoneEl = document.getElementById("telefone");
+        const emailEl = document.getElementById("email");
+        const imgNav = document.getElementById("fotoPerfilNavbar");
+        const savedImg = localStorage.getItem("fotoPerfil");
+
+        if (usernameEl) usernameEl.textContent = data.username;
+        if (telefoneEl) telefoneEl.textContent = data.telefone;
+        if (emailEl) emailEl.value = data.email;
+        if (savedImg && imgNav) imgNav.src = savedImg;
+      }
+    })
+    .catch(error => console.error("Erro ao buscar dados do usuário:", error));
+
+  // -------------------------------
+  // 3. Formulário de atualizar email
+  // -------------------------------
   const form = document.getElementById("userForm");
+  const emailInput = document.getElementById("email");
+
+  if (form && emailInput) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const novoEmail = emailInput.value;
+
+      const response = await fetch("/atualizar-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ novo_email: novoEmail })
+      });
+
+      const data = await response.json();
+      if (data.alterado) {
+        Swal.fire("Sucesso!", "E-mail atualizado com sucesso!", "success");
+      } else {
+        Swal.fire("Erro!", data.erro || "Erro ao atualizar o e-mail", "error");
+      }
+    });
+  }
+
+  // -------------------------------
+  // 4. Verificar se usuário está logado (localStorage)
+  // -------------------------------
+  const usuarioLogado = localStorage.getItem('usuarioLogado') === 'true';
+  const nomeUsuario = localStorage.getItem('nomeUsuario');
+  if (usuarioLogado && nomeUsuario) {
+    const loginMenu = document.getElementById('loginmenu');
+    const logoutLi = document.getElementById('logout-li');
+    const usernameLink = document.getElementById('username');
+    const usernameLi = document.getElementById('username-li');
+
+    if (loginMenu) loginMenu.style.display = 'none';
+    if (logoutLi) logoutLi.style.display = 'inline-block';
+    if (usernameLink) {
+      usernameLink.textContent = nomeUsuario;
+      usernameLink.href = '/usuario';
+    }
+    if (usernameLi) usernameLi.style.display = 'inline-block';
+  }
+
+  // -------------------------------
+  // 5. Validação de senhas
+  // -------------------------------
   const newPassword = document.getElementById("newPassword") || document.getElementById("currentPassword");
   const confirmPassword = document.getElementById("confirmPassword");
   const passwordError = document.getElementById("passwordError") || document.createElement("div");
 
   form?.addEventListener("submit", function (event) {
     if (!newPassword || !confirmPassword) return;
-
     if (newPassword.value !== confirmPassword.value) {
       event.preventDefault();
       passwordError.textContent = "As senhas não coincidem.";
       newPassword.insertAdjacentElement("afterend", passwordError);
     }
   });
-});
-window.addEventListener("DOMContentLoaded", () => {
-  const uploadInput = document.getElementById("uploadFoto");
-  const previewImg = document.getElementById("fotoPreview"); // CORRETO
 
+  // -------------------------------
+  // 6. Upload de foto
+  // -------------------------------
+  const uploadInput = document.getElementById("uploadFoto");
+  const previewImg = document.getElementById("fotoPreview");
   uploadInput?.addEventListener("change", function (event) {
     const file = event.target.files[0];
     if (file && previewImg) {
@@ -806,12 +656,102 @@ window.addEventListener("DOMContentLoaded", () => {
       reader.onload = function (e) {
         const imageData = e.target.result;
         previewImg.src = imageData;
-        localStorage.setItem("fotoPerfil", imageData); // salva no navegador
+        localStorage.setItem("fotoPerfil", imageData);
       };
       reader.readAsDataURL(file);
     }
-    
   });
-  
-});
 
+  // -------------------------------
+  // 7. Carrossel
+  // -------------------------------
+  const carrossel = document.querySelector('.carrossel');
+  const slides = document.querySelectorAll('.slide');
+  const prevBtn = document.querySelector('.prev');
+  const nextBtn = document.querySelector('.next');
+  const dotsContainer = document.querySelector('.carrossel-dots');
+  let index = 0;
+  let startX, moveX;
+  const threshold = 50;
+
+  slides.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.classList.add('dot');
+    if (i === 0) dot.classList.add('active');
+    dot.addEventListener('click', () => goToSlide(i));
+    dotsContainer.appendChild(dot);
+  });
+
+  const dots = document.querySelectorAll('.dot');
+
+  function updateCarrossel() {
+    carrossel.style.transform = `translateX(-${index * 100}%)`;
+    dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+  }
+
+  function goToSlide(i) {
+    index = i;
+    updateCarrossel();
+  }
+
+  prevBtn?.addEventListener('click', () => {
+    index = (index - 1 + slides.length) % slides.length;
+    updateCarrossel();
+  });
+
+  nextBtn?.addEventListener('click', () => {
+    index = (index + 1) % slides.length;
+    updateCarrossel();
+  });
+
+  carrossel?.addEventListener('mousedown', startDrag);
+  carrossel?.addEventListener('touchstart', startDrag, { passive: true });
+  carrossel?.addEventListener('mousemove', drag);
+  carrossel?.addEventListener('touchmove', drag, { passive: false });
+  carrossel?.addEventListener('mouseup', endDrag);
+  carrossel?.addEventListener('touchend', endDrag);
+
+  function startDrag(e) {
+    e.preventDefault();
+    startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
+  }
+
+  function drag(e) {
+    if (!startX) return;
+    moveX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+    const diff = startX - moveX;
+    if (Math.abs(diff) > threshold) {
+      index = diff > 0 ? (index + 1) % slides.length : (index - 1 + slides.length) % slides.length;
+      updateCarrossel();
+      startX = null;
+    }
+  }
+
+  function endDrag() {
+    startX = null;
+  }
+
+  let autoplay = setInterval(() => {
+    index = (index + 1) % slides.length;
+    updateCarrossel();
+  }, 5000);
+
+  carrossel?.addEventListener('mouseenter', () => clearInterval(autoplay));
+  carrossel?.addEventListener('mouseleave', () => {
+    autoplay = setInterval(() => {
+      index = (index + 1) % slides.length;
+      updateCarrossel();
+    }, 5000);
+  });
+
+  // -------------------------------
+  // 8. Fechar sidebar ao clicar fora
+  // -------------------------------
+  document.addEventListener("click", function (event) {
+    const sidebar = document.getElementById("sidebar");
+    const button = document.querySelector(".open-btn");
+    if (sidebar && !sidebar.contains(event.target) && !button.contains(event.target)) {
+      fecharMenu();
+    }
+  });
+});
