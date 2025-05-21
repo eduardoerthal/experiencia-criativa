@@ -39,6 +39,7 @@ async function checarADM() {
     document.getElementById("nav-foto-perfil").style.display = "none";
   } else {
     document.getElementById("dropdown-adm").style.display = "none";
+    
   }
 }
 
@@ -296,35 +297,58 @@ async function excluirDoCarrinho(id) {
   
 
 }
-async function deletar_usuario(id) {
-  const response = await fetch('/deletar-usuario',{
-    method: 'POST',
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({id: id})
-  });
-  const botaoDelete = document.getElementById("botaoDelete");
-  botaoDelete.addEventListener("click", () => {
-    fetch('/deletar-usuario')
-      .then(response => response.json())
-      .then(data => {
-        resultado.textContent = JSON.stringify(data);
-      })
-  })
 
-  const data = await response.json()
-
-  if(data.excluido === true) {
-    Swal.fire({
-      title: "Produto Excluido!",
-      icon: "success",
-    }).then(() => location.reload());
-  }
-  
-
+// Adicione este código no final do seu arquivo JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+    // Evento para deletar usuários
+    document.querySelectorAll('.btn-delete').forEach(button => {
+        document.querySelector('.btn-delete').onclick = function() {
+        alert("Botão clicado! ID: " + this.getAttribute('data-user-id'));
 }
+            
+            if (!userId) {
+                console.error("ID do usuário não encontrado!");
+                return;
+            }
 
+            try {
+                const response = await fetch('/deletar-usuario', {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({id: userId})
+                });
+                
+                console.log("Resposta do servidor:", response); // Debug
+                
+                const result = await response.json();
+                console.log("Resultado:", result); // Debug
+                
+                if(result.excluido) {
+                    Swal.fire({
+                        title: "Sucesso!",
+                        text: "Usuário deletado com sucesso",
+                        icon: "success"
+                    }).then(() => location.reload());
+                } else {
+                    Swal.fire({
+                        title: "Erro!",
+                        text: "Não foi possível deletar o usuário",
+                        icon: "error"
+                    });
+                }
+            } catch (error) {
+                console.error("Erro na requisição:", error);
+                Swal.fire({
+                    title: "Erro!",
+                    text: "Falha na comunicação com o servidor",
+                    icon: "error"
+                });
+            }
+        });
+    });
+});
 
 async function autenticarUsuario(event) {
   event.preventDefault();
@@ -786,6 +810,8 @@ window.addEventListener("DOMContentLoaded", () => {
       };
       reader.readAsDataURL(file);
     }
+    
   });
+  
 });
 

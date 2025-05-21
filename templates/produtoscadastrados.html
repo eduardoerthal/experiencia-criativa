@@ -34,15 +34,16 @@
           </thead>
           <tbody>
             {% for usuario in usuarios %}
-            <tr>
+            <tr id="userRow{{ idusuario }}">
               <td>{{ usuario.id }}</td>
-              <td>{{ usuario.nome}} </td>
-              <td>{{ usuario.email }}</td>
-              <td>{{ usuario.telefone }}</td>
-              <td>
-                <button class="btn-edit"><i class="fas fa-edit"></i> Editar</button>
-              <!-- Modifique seu botão para isso (com data-attribute) -->
-              <button class="btn-delete" data-user-id="{{ usuario.id }}"> 
+              <td class="editable" data-field="nome">{{ usuario.nome }}</td>
+              <td class="editable" data-field="email">{{ usuario.email }}</td>
+              <td class="editable" data-field="telefone">{{ usuario.telefone or '' }}</td>
+              <td class="actions">
+                <button class="btn-action edit" onclick="enableEditMode()">
+                  <i class="fas fa-edit"></i> Editar
+                </button>
+              <button class="btn-action delete" id="boataoDelete" onclick="deletar_usuario()">
                   <i class="fas fa-trash"></i> Deletar
               </button>
               </td>

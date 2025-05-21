@@ -119,6 +119,7 @@ async def usuarios(request: Request):
     return templates.TemplateResponse("usuarioscadastrados.html", {"request": request, "usuarios": usuarios})
 
 class UsuarioUpdate(BaseModel):
+    id: str
     nome: str
     email: str
     telefone: str
@@ -129,11 +130,16 @@ async def deletar_usuario(request: Request):
     conn = db_connection()
     cursor = conn.cursor()
     
-    sql = "DELETE FROM USUARIO WHERE ID_CLIENTE = %s"
-    cursor.execute(sql, (dados["id"],))
-    conn.commit()
-    
-    return JSONResponse(content={'excluido': True})
+    try:
+        cursor.execute("DELETE FROM usuario WHERE id = %s", (dados["id"],))
+        conn.commit()
+        return {"excluido": True}
+    except Exception as e:
+        print("Erro ao deletar:", e)
+        return {"excluido": False}
+    finally:
+        cursor.close()
+        conn.close()
 
 @app.get("/adm", response_class=HTMLResponse)
 async def adm(request: Request):
