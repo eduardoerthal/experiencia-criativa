@@ -109,6 +109,8 @@ def index(request: Request):
         "produtos": produtos,
         "banners": banners
     })
+
+#ROTA PARA CHAMAR OS USUARIOS CADASTRADOS
 @app.get("/adm/usuarioscadastrados")
 async def usuarios(request: Request):
     conn = db_connection()
@@ -124,6 +126,64 @@ class UsuarioUpdate(BaseModel):
     email: str
     telefone: str
 
+#ROTAS PARA CHAMAR OS PRODUTOS CADASTRADOS
+@app.get("/adm/produtoscadastrados")
+async def produtos(request: Request):
+    conn = db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT ID_PRODUTO, NOME, VALOR, FK_CATEGORIA FROM PRODUTO")
+    produtos = cursor.fetchall()
+    conn.close()
+    return templates.TemplateResponse("usuarioscadastrados.html", {"request": request, "produtos": produtos})
+
+class ProdutoUpdate(BaseModel):
+    id: str
+    nome: str
+    valor: int
+    categoria: str
+
+# ROTAS PARA EDITAR E REMOVER PRODUTOS
+@app.post("/deletar-produto")
+async def deletar_produto(request: Request):
+    dados = await request.json()
+    conn = db_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("DELETE FROM PRODUTO WHERE ID_PRODUTO = %s", (dados["id"],))
+        conn.commit()
+        return {"excluido": True}
+    except Exception as e:
+        print("Erro ao deletar:", e)
+        return {"excluido": False}
+    finally:
+        cursor.close()
+        conn.close()
+
+@app.post("/editar-produto")
+async def editar_produto(request: Request):
+    dados = await request.json()
+    conn = db_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("""
+            UPDATE PRODUTO 
+            SET NOME = %s, VALOR = %s, FK_CATEGORIA = %s 
+            WHERE PRODUTO = %s
+        """, (dados["nome"], dados["valor"], dados["categoria"], dados["id"]))
+        conn.commit()
+        return {"editado": True}
+    except Exception as e:
+        print("Erro ao editar:", e)
+        return {"editado": False}
+    finally:
+        cursor.close()
+        conn.close()
+
+#######
+
+#ROTAS PARA EDITAR E REMOVER USUARIOS
 @app.post("/deletar-usuario")
 async def deletar_usuario(request: Request):
     dados = await request.json()
@@ -162,6 +222,7 @@ async def editar_usuario(request: Request):
         cursor.close()
         conn.close()
 
+#############################################
 
 @app.get("/adm", response_class=HTMLResponse)
 async def adm(request: Request):
