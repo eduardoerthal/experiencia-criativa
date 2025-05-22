@@ -309,8 +309,9 @@ def carrinho(request: Request):
         total = sum(i["VALOR"] * i["QUANTIDADE"] for i in carrinho)
 
         # Foto de Perfil
-        cursor.execute("SELECT FOTOPERFIL FROM USUARIO WHERE ID_CLIENTE = %s", (user_id,))
-        fotoperfil = cursor.fetchone()
+        if user_id:
+            cursor.execute("SELECT FOTOPERFIL FROM USUARIO WHERE ID_CLIENTE = %s", (user_id,))
+            fotoperfil = cursor.fetchone()
 
         fotoperfil_base64 = None
         if fotoperfil and fotoperfil["FOTOPERFIL"]:
@@ -346,11 +347,15 @@ def gloss(request: Request):
             produto["imagem_base64"] = None
     
     # Foto de Perfil
-    user_id = request.session["user_id"]
-    cursor.execute("SELECT FOTOPERFIL FROM USUARIO WHERE ID_CLIENTE = %s", (user_id,))
-    fotoperfil = cursor.fetchone()
-
     fotoperfil_base64 = None
+    fotoperfil = None
+    try:
+        user_id = request.session["user_id"]
+        if user_id:
+            cursor.execute("SELECT FOTOPERFIL FROM USUARIO WHERE ID_CLIENTE = %s", (user_id,))
+            fotoperfil = cursor.fetchone()
+    except:
+        pass
     if fotoperfil and fotoperfil["FOTOPERFIL"]:
         fotoperfil_base64 = base64.b64encode(fotoperfil["FOTOPERFIL"]).decode("utf-8")    
     
@@ -380,13 +385,17 @@ def bodysplash(request: Request):
             produto["imagem_base64"] = None
     
     # Foto de Perfil
-    user_id = request.session["user_id"]
-    cursor.execute("SELECT FOTOPERFIL FROM USUARIO WHERE ID_CLIENTE = %s", (user_id,))
-    fotoperfil = cursor.fetchone()
-
     fotoperfil_base64 = None
+    fotoperfil = None
+    try:
+        user_id = request.session["user_id"]
+        if user_id:
+            cursor.execute("SELECT FOTOPERFIL FROM USUARIO WHERE ID_CLIENTE = %s", (user_id,))
+            fotoperfil = cursor.fetchone()
+    except:
+        pass
     if fotoperfil and fotoperfil["FOTOPERFIL"]:
-        fotoperfil_base64 = base64.b64encode(fotoperfil["FOTOPERFIL"]).decode("utf-8")  
+        fotoperfil_base64 = base64.b64encode(fotoperfil["FOTOPERFIL"]).decode("utf-8") 
     
     cursor.close()
     conn.close()
@@ -413,13 +422,17 @@ def hidratante(request: Request):
             produto["imagem_base64"] = None
     
     # Foto de Perfil
-    user_id = request.session["user_id"]
-    cursor.execute("SELECT FOTOPERFIL FROM USUARIO WHERE ID_CLIENTE = %s", (user_id,))
-    fotoperfil = cursor.fetchone()
-
     fotoperfil_base64 = None
+    fotoperfil = None
+    try:
+        user_id = request.session["user_id"]
+        if user_id:
+            cursor.execute("SELECT FOTOPERFIL FROM USUARIO WHERE ID_CLIENTE = %s", (user_id,))
+            fotoperfil = cursor.fetchone()
+    except:
+        pass
     if fotoperfil and fotoperfil["FOTOPERFIL"]:
-        fotoperfil_base64 = base64.b64encode(fotoperfil["FOTOPERFIL"]).decode("utf-8")  
+        fotoperfil_base64 = base64.b64encode(fotoperfil["FOTOPERFIL"]).decode("utf-8") 
 
     cursor.close()
     conn.close()
@@ -446,11 +459,15 @@ def maquiagem(request: Request):
             produto["imagem_base64"] = None
     
     # Foto de Perfil
-    user_id = request.session["user_id"]
-    cursor.execute("SELECT FOTOPERFIL FROM USUARIO WHERE ID_CLIENTE = %s", (user_id,))
-    fotoperfil = cursor.fetchone()
-
     fotoperfil_base64 = None
+    fotoperfil = None
+    try:
+        user_id = request.session["user_id"]
+        if user_id:
+            cursor.execute("SELECT FOTOPERFIL FROM USUARIO WHERE ID_CLIENTE = %s", (user_id,))
+            fotoperfil = cursor.fetchone()
+    except:
+        pass
     if fotoperfil and fotoperfil["FOTOPERFIL"]:
         fotoperfil_base64 = base64.b64encode(fotoperfil["FOTOPERFIL"]).decode("utf-8")  
 
@@ -479,11 +496,15 @@ def perfume(request: Request):
             produto["imagem_base64"] = None
     
     # Foto de Perfil
-    user_id = request.session["user_id"]
-    cursor.execute("SELECT FOTOPERFIL FROM USUARIO WHERE ID_CLIENTE = %s", (user_id,))
-    fotoperfil = cursor.fetchone()
-
     fotoperfil_base64 = None
+    fotoperfil = None
+    try:
+        user_id = request.session["user_id"]
+        if user_id:
+            cursor.execute("SELECT FOTOPERFIL FROM USUARIO WHERE ID_CLIENTE = %s", (user_id,))
+            fotoperfil = cursor.fetchone()
+    except:
+        pass
     if fotoperfil and fotoperfil["FOTOPERFIL"]:
         fotoperfil_base64 = base64.b64encode(fotoperfil["FOTOPERFIL"]).decode("utf-8")  
 
@@ -512,11 +533,15 @@ def skincare(request: Request):
             produto["imagem_base64"] = None
     
     # Foto de Perfil
-    user_id = request.session["user_id"]
-    cursor.execute("SELECT FOTOPERFIL FROM USUARIO WHERE ID_CLIENTE = %s", (user_id,))
-    fotoperfil = cursor.fetchone()
-
     fotoperfil_base64 = None
+    fotoperfil = None
+    try:
+        user_id = request.session["user_id"]
+        if user_id:
+            cursor.execute("SELECT FOTOPERFIL FROM USUARIO WHERE ID_CLIENTE = %s", (user_id,))
+            fotoperfil = cursor.fetchone()
+    except:
+        pass
     if fotoperfil and fotoperfil["FOTOPERFIL"]:
         fotoperfil_base64 = base64.b64encode(fotoperfil["FOTOPERFIL"]).decode("utf-8")  
     

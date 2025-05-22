@@ -38,15 +38,13 @@
         </li>
 
         <li class="nav-item">
-          <img id="nav-foto-perfil" src="/static/images/perfil-padrao.jpg"
+          <img id="nav-foto-perfil" src="{{ 'data:image/jpeg;base64,' + fotoperfil if fotoperfil else '/static/images/perfil-padrao.jpg' }}"
             style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid white; display: none;" />
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/usuario" id="username" style:="display: none;"></a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/promoção">Promoção</a>
-        </li>
+        
         <li class="nav-item">
           <a class="nav-link" href="javascript:void(0)" onclick="mostrarPopupSobre()">Sobre</a>
         </li>
@@ -83,13 +81,6 @@
           </div>
         </li>
       </ul>
-
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar">
-        <button class="btn btn-rosa my-2 my-sm-0" type="submit">Pesquisar</button>
-      </form>
-
-
     </div>
   </nav>
 
