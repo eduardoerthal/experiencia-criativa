@@ -222,6 +222,13 @@ async function finalizarCompra(){
     }).then(() => {
       location.reload();
     });
+  } else {
+    Swal.fire({
+      title: "Erro ao finalizar compra",
+      icon: "error",
+    }).then(() => {
+      location.reload();
+    });
   }
 
 }
@@ -636,13 +643,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-
-
-
-  // -------------------------------
-  // 4. Verificar se usuário está logado (localStorage)
-  // -------------------------------
-  
 
   // -------------------------------
   // 5. Validação de senhas

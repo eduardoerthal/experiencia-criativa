@@ -604,7 +604,11 @@ async def finalizar_compra(request: Request):
     conn = db_connection()
     cursor = conn.cursor()
 
-    
+    cursor.execute("SELECT COUNT(*) FROM PROD_PEDIDO")
+    carrinho_valido = cursor.fetchone()
+    if carrinho_valido[0] == 0:
+        return JSONResponse(content={'finalizado': False})
+
     sql = "INSERT INTO PEDIDO (DATA_PEDIDO, FK_ID_CLIENTE) VALUES (%s, %s)"
     cursor.execute(sql,(date.today(), user_id))
 
