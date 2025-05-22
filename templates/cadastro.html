@@ -25,28 +25,30 @@
     <form id="cadastro-form" onsubmit="autenticarUsuario(event)">
         <h2>CADASTRO</h2>
 
-        <label for="nomeCompleto">Nome Completo</label>
+        <label for="nomeCompleto">Nome Completo *</label>
+        
         <input type="text" name="nomeCompleto" placeholder="Ex: Maria da Silva">
 
-        <label for="cpf">CPF</label>
+        <label for="cpf">CPF *</label>
         <input type="text" name="cpf" placeholder="Ex: 07027655977">
 
-        <label for="dataNascimento">Data de Nascimento</label>
+        <label for="dataNascimento">Data de Nascimento *</label>
         <input type="date" name="dataNascimento">
 
-        <label for="telefone">Telefone</label>
+        <label for="telefone">Telefone *</label>
         <input type="tel" name="telefone" placeholder="Ex: 41998169398">
 
-        <label for="email">E-mail</label>
+        <label for="email">E-mail *</label>
         <input type="email" name="emailCadastro" placeholder="Ex: seuemail@seudominio.com">
 
-        <label for="senhaCadastro">Senha</label>
+        <label for="senhaCadastro">Senha *</label>
         <input type="password" name="senhaCadastro" placeholder="De 8 a 16 caracteres">
 
-        <label for="confirmarSenha">Confirmar Senha</label>
+        <label for="confirmarSenha">Confirmar Senha *</label>
         <input type="password" name="confirmarSenha" placeholder="Confirme sua senha">
 
-        <button type="submit" name="botaoCadastro">Cadastrar</button>
+        <span>Atenção: Campos marcados com * são obrigatórios.</span>
+        <button type="submit" name="botaoCadastro">Cadastrar </button>
 
         <label id="nomeInvalido" class="error-label" style="display:none; color:red;">Nome inválido</label>
         <label id="idadeInvalida" class="error-label" style="display:none; color:red;">Precisa ser maior de 18 anos para realizar o cadastro</label>
