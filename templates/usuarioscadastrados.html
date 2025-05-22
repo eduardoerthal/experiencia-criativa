@@ -1,57 +1,150 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cosméticos Glow & Glam</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='adm.css') }}">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', path='images/glow.png') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cosméticos Glow & Glam</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='adm.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
-    <header class="admin-header">
-        <h1>Admin Glow & Glam</h1>
-        <nav class="admin-nav">
-            <ul>
-                <li><a href="/adm">Dashboard</a></li>
-                <li><a href="/produtos">Produtos</a></li>
-                <li><a href="/pedidos"></i> Pedidos</a></li>
-            </ul>
-        </nav>
-    </header>
-      <div class="table-container">
-        <table id="usersTable">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nome</th>
-              <th>Email</th>
-              <th>Telefone</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for usuario in usuarios %}
-            <tr>
-              <td>{{ usuario.id }}</td>
-              <td>{{ usuario.nome}} </td>
-              <td>{{ usuario.email }}</td>
-              <td>{{ usuario.telefone }}</td>
-              <td>
-                <button class="btn-edit"><i class="fas fa-edit"></i> Editar</button>
-              <!-- Modifique seu botão para isso (com data-attribute) -->
-              <button class="btn-delete" data-user-id="{{ usuario.id }}"> 
-                  <i class="fas fa-trash"></i> Deletar
-              </button>
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
+  <header class="admin-header">
+    <h1>Admin Glow & Glam</h1>
+    <nav class="admin-nav">
+      <ul>
+        <li><a href="/adm">Dashboard</a></li>
+        <li><a href="/produtos">Produtos</a></li>
+        <li><a href="/pedidos">Pedidos</a></li>
+        <li><a href="/adm/usuarioscadastrados">Usuários</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="table-container">
+    <table id="usersTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Telefone</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for usuario in usuarios %}
+        <tr>
+          <td>{{ usuario.ID_CLIENTE }}</td>
+          <td>{{ usuario.nome }}</td>
+          <td>{{ usuario.email }}</td>
+          <td>{{ usuario.telefone }}</td>
+          <td>
+            <button class="btn-edit" data-user-id="{{ usuario.ID_CLIENTE }}" data-nome="{{ usuario.nome }}"
+              data-email="{{ usuario.email }}" data-telefone="{{ usuario.telefone }}">
+              <i class="fas fa-edit"></i> Editar
+            </button>
+
+            <button class="btn-delete" data-user-id="{{ usuario.ID_CLIENTE }}">
+              <i class="fas fa-trash"></i> Deletar
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const botoesDeletar = document.querySelectorAll(".btn-delete");
+
+      botoesDeletar.forEach(botao => {
+        botao.addEventListener("click", async function () {
+          const userId = this.getAttribute("data-user-id");
+
+          const confirm = await Swal.fire({
+            title: "Tem certeza?",
+            text: "Deseja excluir este usuário?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sim, excluir!",
+            cancelButtonText: "Cancelar"
+          });
+
+          if (confirm.isConfirmed) {
+            const resposta = await fetch("/deletar-usuario", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ id: userId })
+            });
+
+            const resultado = await resposta.json();
+            if (resultado.excluido) {
+              Swal.fire("Excluído!", "Usuário removido com sucesso!", "success")
+                .then(() => location.reload());
+            } else {
+              Swal.fire("Erro!", "Erro ao excluir usuário.", "error");
+            }
+          }
+        });
+      });
+    });
+    const botoesEditar = document.querySelectorAll(".btn-edit");
+
+    botoesEditar.forEach(botao => {
+      botao.addEventListener("click", async function () {
+        const userId = this.getAttribute("data-user-id");
+        const nomeAtual = this.getAttribute("data-nome");
+        const emailAtual = this.getAttribute("data-email");
+        const telefoneAtual = this.getAttribute("data-telefone");
+
+        const { value: formValues } = await Swal.fire({
+          title: "Editar Usuário",
+          html: `
+        <input id="swal-nome" class="swal2-input" placeholder="Nome" value="${nomeAtual}">
+        <input id="swal-email" class="swal2-input" placeholder="Email" value="${emailAtual}">
+        <input id="swal-telefone" class="swal2-input" placeholder="Telefone" value="${telefoneAtual}">
+      `,
+          focusConfirm: false,
+          showCancelButton: true,
+          confirmButtonText: "Salvar",
+          cancelButtonText: "Cancelar",
+          preConfirm: () => {
+            return {
+              nome: document.getElementById("swal-nome").value,
+              email: document.getElementById("swal-email").value,
+              telefone: document.getElementById("swal-telefone").value
+            };
+          }
+        });
+
+        if (formValues) {
+          const resposta = await fetch("/editar-usuario", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              id: userId,
+              nome: formValues.nome,
+              email: formValues.email,
+              telefone: formValues.telefone
+            })
+          });
+
+          const resultado = await resposta.json();
+          if (resultado.editado) {
+            Swal.fire("Editado!", "Usuário atualizado com sucesso.", "success")
+              .then(() => location.reload());
+          } else {
+            Swal.fire("Erro!", "Erro ao editar o usuário.", "error");
+          }
+        }
+      });
+    });
+
+  </script>
 </body>
+
 </html>

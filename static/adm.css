@@ -242,3 +242,51 @@ body {
     justify-content: center;
   }
 }
+
+.table-container {
+  margin: 2rem;
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  overflow-x: auto;
+}
+
+#usersTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+#usersTable thead {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+#usersTable th, #usersTable td {
+  padding: 0.8rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.btn-edit, .btn-delete {
+  margin-right: 0.5rem;
+}
+
+.btn-edit {
+  background-color: var(--accent-color);
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.3s;
+}
+
+.btn-edit:hover {
+  background-color: #2471a3;
+}

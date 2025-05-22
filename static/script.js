@@ -608,6 +608,45 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+   // -------------------------------
+  // 4. deletar usuarios
+  // -------------------------------
+  const botoesDeletar = document.querySelectorAll(".btn-delete");
+
+  botoesDeletar.forEach(botao => {
+    botao.addEventListener("click", async function () {
+      const userId = this.getAttribute("data-user-id");
+
+      const confirm = await Swal.fire({
+        title: "Tem certeza?",
+        text: "Deseja excluir este usuário?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Sim, excluir!",
+        cancelButtonText: "Cancelar"
+      });
+
+      if (confirm.isConfirmed) {
+        const resposta = await fetch("/deletar-usuario", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: userId })
+        });
+
+        const resultado = await resposta.json();
+        if (resultado.excluido) {
+          Swal.fire("Excluído!", "Usuário removido com sucesso!", "success")
+            .then(() => location.reload());
+        } else {
+          Swal.fire("Erro!", "Erro ao excluir usuário.", "error");
+        }
+      }
+    });
+  });
+
+
+
+
   // -------------------------------
   // 4. Verificar se usuário está logado (localStorage)
   // -------------------------------

@@ -129,9 +129,9 @@ async def deletar_usuario(request: Request):
     dados = await request.json()
     conn = db_connection()
     cursor = conn.cursor()
-    
+
     try:
-        cursor.execute("DELETE FROM usuario WHERE id = %s", (dados["id"],))
+        cursor.execute("DELETE FROM USUARIO WHERE ID_CLIENTE = %s", (dados["id"],))
         conn.commit()
         return {"excluido": True}
     except Exception as e:
@@ -140,6 +140,28 @@ async def deletar_usuario(request: Request):
     finally:
         cursor.close()
         conn.close()
+
+@app.post("/editar-usuario")
+async def editar_usuario(request: Request):
+    dados = await request.json()
+    conn = db_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("""
+            UPDATE USUARIO 
+            SET NOME = %s, EMAIL = %s, TELEFONE = %s 
+            WHERE ID_CLIENTE = %s
+        """, (dados["nome"], dados["email"], dados["telefone"], dados["id"]))
+        conn.commit()
+        return {"editado": True}
+    except Exception as e:
+        print("Erro ao editar:", e)
+        return {"editado": False}
+    finally:
+        cursor.close()
+        conn.close()
+
 
 @app.get("/adm", response_class=HTMLResponse)
 async def adm(request: Request):
