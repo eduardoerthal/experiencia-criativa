@@ -134,7 +134,7 @@ async def produtos(request: Request):
     cursor.execute("SELECT ID_PRODUTO, NOME, VALOR, FK_CATEGORIA FROM PRODUTO")
     produtos = cursor.fetchall()
     conn.close()
-    return templates.TemplateResponse("usuarioscadastrados.html", {"request": request, "produtos": produtos})
+    return templates.TemplateResponse("produtoscadastrados.html", {"request": request, "produtos": produtos})
 
 class ProdutoUpdate(BaseModel):
     id: str
@@ -472,21 +472,6 @@ async def cadastrar_produto(
     conn.close()
     return RedirectResponse(url="/adm", status_code=303)
 
-# Excluir Produto
-@app.post("/excluir-produto", response_class=HTMLResponse)
-async def excluir_produto(
-    request: Request,
-    idproduto: int = Form(...),
-):
-    conn = db_connection()
-    cursor = conn.cursor()
-
-    cursor.execute("DELETE FROM PRODUTO WHERE ID_PRODUTO = %s", (idproduto, ))
-
-    conn.commit()
-    cursor.close()
-    conn.close()
-    return RedirectResponse(url="/adm", status_code=303)
 
 # Inserção de Banner
 @app.post("/inserir-banner", response_class=HTMLResponse)
