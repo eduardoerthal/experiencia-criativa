@@ -76,8 +76,18 @@ async def checar_login_valido(request: Request):
     
 @app.get("/", response_class=HTMLResponse)
 def index(request: Request):
+    user_id = request.session.get("user_id")
+
     conn = db_connection()
     cursor = conn.cursor(dictionary=True)
+
+    # Foto de Perfil
+    cursor.execute("SELECT FOTOPERFIL FROM USUARIO WHERE ID_CLIENTE = %s", (user_id,))
+    fotoperfil = cursor.fetchone()
+
+    fotoperfil_base64 = None
+    if fotoperfil and fotoperfil["FOTOPERFIL"]:
+        fotoperfil_base64 = base64.b64encode(fotoperfil["FOTOPERFIL"]).decode("utf-8")
 
     # Produtos
     cursor.execute("SELECT ID_PRODUTO, NOME, VALOR, IMAGEM FROM PRODUTO")
@@ -107,7 +117,8 @@ def index(request: Request):
     return templates.TemplateResponse("index.html", {
         "request": request,
         "produtos": produtos,
-        "banners": banners
+        "banners": banners,
+        "fotoperfil": fotoperfil_base64
     })
 
 #ROTA PARA CHAMAR OS USUARIOS CADASTRADOS
@@ -650,6 +661,25 @@ async def atualizar_email(request: Request):
 
     return JSONResponse(content={"alterado": True})
 
+@app.post("/upload-foto")
+async def upload_foto( request: Request, foto: UploadFile = File(...)):
+    user_id = request.session.get("user_id")
+    if not user_id:
+        return JSONResponse(content={"alterado": False, "erro": "Não autenticado"}, status_code=401)
+    
+    conteudo = await foto.read()
+
+    conn = db_connection()
+    cursor = conn.cursor()
+
+    sql = "UPDATE USUARIO SET FOTOPERFIL = %s WHERE ID_CLIENTE = %s"
+    cursor.execute(sql, (conteudo, user_id))
+    conn.commit()
+
+    cursor.close()
+    conn.close()
+
+    return JSONResponse(content={"alterado": True})
 
 @app.post('/excluir-do-carrinho')
 async def excluir_do_carrinho(request: Request):
@@ -713,4 +743,15 @@ async def puxar_dados(request: Request):
 
 @app.get("/usuario", response_class=HTMLResponse)
 async def usuario(request: Request):
-    return templates.TemplateResponse("usuario.html", {"request": request})
+    user_id = request.session.get("user_id")
+    
+    conn = db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT FOTOPERFIL FROM USUARIO WHERE ID_CLIENTE = %s", (user_id,))
+    fotoperfil = cursor.fetchone()
+
+    fotoperfil_base64 = None
+    if fotoperfil and fotoperfil["FOTOPERFIL"]:
+        fotoperfil_base64 = base64.b64encode(fotoperfil["FOTOPERFIL"]).decode("utf-8")
+
+    return templates.TemplateResponse("usuario.html", {"request": request, "fotoperfil": fotoperfil_base64})

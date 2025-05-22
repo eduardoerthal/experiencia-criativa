@@ -39,8 +39,9 @@
         </li>
 
         <li class="nav-item">
-          <img id="nav-foto-perfil" src="/static/images/perfil-padrao.jpg"
-            style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid white; display: none;" />
+          <img id="nav-foto-perfil"
+              src="{{ 'data:image/jpeg;base64,' + fotoperfil if fotoperfil else '/static/images/perfil-padrao.jpg' }}"
+              style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid white;" />
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/usuario" id="username" style:="display: none;"></a>

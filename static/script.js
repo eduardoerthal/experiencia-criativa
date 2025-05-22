@@ -68,6 +68,7 @@ async function checarUsuario() {
     document.getElementById("username").style.display = "none";
     document.getElementById("login-exibir").style.display = "block";
     document.getElementById("logout-exibir").style.display = "none";
+    document.getElementById("nav-foto-perfil").style.display = "none";
   }
 }
 
@@ -79,18 +80,6 @@ function mostrarPopupSobre() {
 function fecharPopupSobre() {
   document.getElementById("popupSobre").style.display = "none";
 }
-
-/** ANTIGO POPUP DE LOGIN - OBSOLETO
-function mostrarPopupLogin() {
-  const popupLogin = document.getElementById("popupLogin");
-  popupLogin.style.display = "flex";
-}
-
-function fecharPopupLogin() {
-  const popupLogin = document.getElementById("popupLogin");
-  popupLogin.style.display = "none";
-}
-**/
 
 function mostrarCadastro() {
   document.getElementById("loginForm").style.display = "none";
@@ -297,6 +286,7 @@ async function excluirDoCarrinho(id) {
   
 
 }
+
 async function autenticarUsuario(event) {
   event.preventDefault();
 
@@ -570,13 +560,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const usernameEl = document.getElementById("username");
         const telefoneEl = document.getElementById("telefone");
         const emailEl = document.getElementById("email");
-        const imgNav = document.getElementById("fotoPerfilNavbar");
-        const savedImg = localStorage.getItem("fotoPerfil");
 
         if (usernameEl) usernameEl.textContent = data.username;
         if (telefoneEl) telefoneEl.textContent = data.telefone;
-        if (emailEl) emailEl.value = data.email;
-        if (savedImg && imgNav) imgNav.src = savedImg;
+        if (emailEl) emailEl.value = data.email
       }
     })
     .catch(error => console.error("Erro ao buscar dados do usuário:", error));
@@ -607,6 +594,11 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+  // -------------------------------
+  // 3.1 Formulário de atualizar foto
+  // -------------------------------
+  
 
    // -------------------------------
   // 4. deletar usuarios
@@ -650,22 +642,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // -------------------------------
   // 4. Verificar se usuário está logado (localStorage)
   // -------------------------------
-  const usuarioLogado = localStorage.getItem('usuarioLogado') === 'true';
-  const nomeUsuario = localStorage.getItem('nomeUsuario');
-  if (usuarioLogado && nomeUsuario) {
-    const loginMenu = document.getElementById('loginmenu');
-    const logoutLi = document.getElementById('logout-li');
-    const usernameLink = document.getElementById('username');
-    const usernameLi = document.getElementById('username-li');
-
-    if (loginMenu) loginMenu.style.display = 'none';
-    if (logoutLi) logoutLi.style.display = 'inline-block';
-    if (usernameLink) {
-      usernameLink.textContent = nomeUsuario;
-      usernameLink.href = '/usuario';
-    }
-    if (usernameLi) usernameLi.style.display = 'inline-block';
-  }
+  
 
   // -------------------------------
   // 5. Validação de senhas
@@ -686,20 +663,37 @@ document.addEventListener("DOMContentLoaded", () => {
   // -------------------------------
   // 6. Upload de foto
   // -------------------------------
-  const uploadInput = document.getElementById("uploadFoto");
-  const previewImg = document.getElementById("fotoPreview");
-  uploadInput?.addEventListener("change", function (event) {
-    const file = event.target.files[0];
-    if (file && previewImg) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const imageData = e.target.result;
-        previewImg.src = imageData;
-        localStorage.setItem("fotoPerfil", imageData);
-      };
-      reader.readAsDataURL(file);
-    }
-  });
+  document.getElementById('uploadFoto').addEventListener('change', async function () {
+    const file = this.files[0]; 
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('foto', file);
+
+    const res = await fetch('/upload-foto', {
+        method: 'POST',
+        body: formData
+    });
+
+    const data = await res.json()
+
+    if (data.alterado === true) {
+        Swal.fire({
+        title: "Sucesso!",
+        text: "Sua foto foi atualizada com sucesso",
+        icon: "success"
+        }).then(() => {
+          location.reload();
+        });
+      } else {
+        Swal.fire("Erro!", data.erro || "Erro ao atualizar a foto", "error");
+      }
+  })
+
+  // -------------------------------
+  // 6. Upload de foto
+  // -------------------------------
+
 
   // -------------------------------
   // 7. Carrossel
