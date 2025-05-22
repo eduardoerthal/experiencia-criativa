@@ -111,8 +111,13 @@ def index(request: Request):
     })
 
 #ROTA PARA CHAMAR OS USUARIOS CADASTRADOS
-@app.get("/adm/usuarioscadastrados")
+@app.get("/adm/usuarioscadastrados", response_class=HTMLResponse)
 async def usuarios(request: Request):
+    # Verifica se o usuário é admin (ID 1)
+    user_id = request.session.get("user_id")
+    if user_id != 1:
+        return RedirectResponse(url="/?blocked=true")
+
     conn = db_connection()
     cursor = conn.cursor(dictionary=True)
     cursor.execute("SELECT ID_CLIENTE, nome, email, telefone FROM USUARIO")
@@ -127,8 +132,13 @@ class UsuarioUpdate(BaseModel):
     telefone: str
 
 #ROTAS PARA CHAMAR OS PRODUTOS CADASTRADOS
-@app.get("/adm/produtoscadastrados")
+@app.get("/adm/produtoscadastrados", response_class=HTMLResponse)
 async def produtos(request: Request):
+    user_id = request.session.get("user_id") #verifica se o usuario é adm pelo id
+    if user_id != 1:
+        return RedirectResponse(url="/?blocked=true")
+    
+
     conn = db_connection()
     cursor = conn.cursor(dictionary=True)
     cursor.execute("SELECT ID_PRODUTO, NOME, VALOR, FK_CATEGORIA FROM PRODUTO")
@@ -140,7 +150,7 @@ class ProdutoUpdate(BaseModel):
     id: str
     nome: str
     valor: int
-    categoria: str
+    categoria: int
 
 # ROTAS PARA EDITAR E REMOVER PRODUTOS
 @app.post("/deletar-produto")
@@ -168,10 +178,10 @@ async def editar_produto(request: Request):
 
     try:
         cursor.execute("""
-            UPDATE PRODUTO 
+            UPDATE produto 
             SET NOME = %s, VALOR = %s, FK_CATEGORIA = %s 
-            WHERE PRODUTO = %s
-        """, (dados["nome"], dados["valor"], dados["categoria"], dados["id"]))
+            WHERE ID_PRODUTO = %s
+        """, (dados["nome"], int(dados["valor"]), dados["categoria"], dados["id"]))
         conn.commit()
         return {"editado": True}
     except Exception as e:

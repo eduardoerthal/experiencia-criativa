@@ -17,11 +17,9 @@
       <ul>
         <li><a href="/adm">Dashboard</a></li>
         <li><a href="/adm/usuarioscadastrados">Usuários</a></li>
-        <li><a href="/pedidos">Pedidos</a></li>
       </ul>
     </nav>
   </header>
-
 
   <div class="table-container">
     <table id="usersTable">
@@ -43,7 +41,7 @@
           <td>{{ produto.CATEGORIA }}</td>
           <td>
             <button class="btn-edit" data-produto-id="{{ produto.ID_PRODUTO }}" data-nome="{{ produto.NOME }}"
-              data-VALOR="{{ produto.VALOR }}" data-categoria="{{ produto.FK_CATEGORIA }}">
+              data-valor="{{ produto.VALOR }}" data-categoria="{{ produto.FK_CATEGORIA }}">
               <i class="fas fa-edit"></i> Editar
             </button>
 
@@ -102,7 +100,7 @@
         const categoriaAtual = this.getAttribute("data-categoria");
 
         const { value: formValues } = await Swal.fire({
-          title: "Editar Usuário",
+          title: "Editar Produto",
           html: `
         <input id="swal-nome" class="swal2-input" placeholder="Nome" value="${nomeAtual}">
         <input id="swal-valor" class="swal2-input" placeholder="Valor" value="${valorAtual}">
