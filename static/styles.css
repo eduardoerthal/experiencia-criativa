@@ -91,9 +91,9 @@ body {
 
 .carrossel-container {
   width: 100vw;
-  height: 663px; /* ou a altura da sua imagem */
+  height: 400px;
   overflow: hidden;
-  position: relative;
+  position:absolute;
   padding: 0;
   margin: 0;
 }
@@ -110,13 +110,13 @@ body {
   justify-content: center;
   align-items: center;
   width: 100vw;
-  height: 663px;
+  height: 500px;
 }
 
 .slide img {
+  height: auto;
   max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+  object-fit: fill;
 }
 
 
@@ -153,7 +153,7 @@ body {
 }
 
 .carrossel-dots .dot.active {
-  background: white;
+  background: rgb(255, 26, 95);
 }
 
 @media (max-width: 768px) {
