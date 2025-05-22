@@ -130,9 +130,12 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
 
-    <a class="navbar-brand" href="/">GLOW & GLAM</a> <button class="navbar-toggler" type="button" data-toggle="collapse"
-      data-target="#conteudoNavbarSuportado" aria-controls="conteudoNavbarSuportado" aria-expanded="false"
-      aria-label="Alterna navegação">
+
+    <a class="navbar-brand" href="/">
+      <img src="/static/images/logotipo.svg" alt="logotipo_glownglam" style="height: 20px;">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#conteudoNavbarSuportado"
+      aria-controls="conteudoNavbarSuportado" aria-expanded="false" aria-label="Alterna navegação">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -140,19 +143,32 @@
       <ul class="navbar-nav mr-auto">
 
         <li class="nav-item">
-          <a class="nav-link" href="/promoção">Promoção</a>
+          <a class="nav-link" href="/adm" id="dropdown-adm" style="display: none;"></a>
         </li>
 
+        <li class="nav-item">
+          <img id="nav-foto-perfil"
+              src="{{ 'data:image/jpeg;base64,' + fotoperfil if fotoperfil else '/static/images/perfil-padrao.jpg' }}"
+              style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid white;" />
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/usuario" id="username" style:="display: none;"></a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" href="javascript:void(0)" onclick="mostrarPopupSobre()">Sobre</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="/login">Login</a>
+          <a class="nav-link" href="/login" id="login-exibir" style="display: block;">Login</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="/carrinho">
+          <a class="nav-link" href="javascript:void(0)" id="logout-exibir" style="display: none;"
+            onclick="logout()">Logout</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="#" onclick="checarLogin('/carrinho')">
             <i class="fas fa-shopping-cart"></i>
           </a>
         </li>
@@ -171,18 +187,15 @@
             <a class="dropdown-item" href="/hidratante">Hidratante</a>
             <a class="dropdown-item" href="/body">Body Splash</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/adm">ADM</a>
           </div>
         </li>
       </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Pesquisar" aria-label="Pesquisar">
-        <button class="btn btn-rosa my-2 my-sm-0" type="submit">Pesquisar</button>
-      </form>
-
-
     </div>
   </nav>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <div class="container" id="carrinhoContainer">
 
       <section id="produtosCarrinho">
@@ -213,7 +226,7 @@
 
         <div class="itemResumo">
           <span>Subtotal</span>
-          <strong>R$ {{ subtotal }}</strong>
+          <strong>R$ {{ total }}</strong>
         </div>
 
         <div class="itemResumo">

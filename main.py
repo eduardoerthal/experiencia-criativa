@@ -76,12 +76,13 @@ async def checar_login_valido(request: Request):
     
 @app.get("/", response_class=HTMLResponse)
 def index(request: Request):
-    user_id = request.session.get("user_id")
+    
 
     conn = db_connection()
     cursor = conn.cursor(dictionary=True)
 
     # Foto de Perfil
+    user_id = request.session.get("user_id")
     cursor.execute("SELECT FOTOPERFIL FROM USUARIO WHERE ID_CLIENTE = %s", (user_id,))
     fotoperfil = cursor.fetchone()
 
@@ -281,10 +282,6 @@ async def adm(request: Request):
 def adm(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
 
-@app.get("/index", response_class=HTMLResponse)
-def adm(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
-
 @app.get("/cadastro", response_class=HTMLResponse)
 def adm(request: Request):
     return templates.TemplateResponse("cadastro.html", {"request": request})
@@ -311,15 +308,23 @@ def carrinho(request: Request):
         
         total = sum(i["VALOR"] * i["QUANTIDADE"] for i in carrinho)
 
+        # Foto de Perfil
+        cursor.execute("SELECT FOTOPERFIL FROM USUARIO WHERE ID_CLIENTE = %s", (user_id,))
+        fotoperfil = cursor.fetchone()
+
+        fotoperfil_base64 = None
+        if fotoperfil and fotoperfil["FOTOPERFIL"]:
+            fotoperfil_base64 = base64.b64encode(fotoperfil["FOTOPERFIL"]).decode("utf-8")    
             
-        
         conn.close()
         cursor.close()
         
         return templates.TemplateResponse("carrinho.html", {
             "request": request,
             "carrinho": carrinho,
-            "total": total})
+            "total": total,
+            "fotoperfil": fotoperfil_base64
+        })
     except:
         return RedirectResponse(url="/login")
 
@@ -340,12 +345,23 @@ def gloss(request: Request):
         else:
             produto["imagem_base64"] = None
     
+    # Foto de Perfil
+    user_id = request.session["user_id"]
+    cursor.execute("SELECT FOTOPERFIL FROM USUARIO WHERE ID_CLIENTE = %s", (user_id,))
+    fotoperfil = cursor.fetchone()
+
+    fotoperfil_base64 = None
+    if fotoperfil and fotoperfil["FOTOPERFIL"]:
+        fotoperfil_base64 = base64.b64encode(fotoperfil["FOTOPERFIL"]).decode("utf-8")    
+    
+    
     cursor.close()
     conn.close()
     
     return templates.TemplateResponse("gloss.html", {
         "request": request,
-        "produtos": produtos
+        "produtos": produtos,
+        "fotoperfil": fotoperfil_base64
         })
 
 @app.get("/body", response_class=HTMLResponse)
@@ -363,12 +379,22 @@ def bodysplash(request: Request):
         else:
             produto["imagem_base64"] = None
     
+    # Foto de Perfil
+    user_id = request.session["user_id"]
+    cursor.execute("SELECT FOTOPERFIL FROM USUARIO WHERE ID_CLIENTE = %s", (user_id,))
+    fotoperfil = cursor.fetchone()
+
+    fotoperfil_base64 = None
+    if fotoperfil and fotoperfil["FOTOPERFIL"]:
+        fotoperfil_base64 = base64.b64encode(fotoperfil["FOTOPERFIL"]).decode("utf-8")  
+    
     cursor.close()
     conn.close()
     
     return templates.TemplateResponse("body.html", {
         "request": request,
-        "produtos": produtos
+        "produtos": produtos,
+        "fotoperfil": fotoperfil_base64
         })
 
 @app.get("/hidratante", response_class=HTMLResponse)
@@ -386,12 +412,22 @@ def hidratante(request: Request):
         else:
             produto["imagem_base64"] = None
     
+    # Foto de Perfil
+    user_id = request.session["user_id"]
+    cursor.execute("SELECT FOTOPERFIL FROM USUARIO WHERE ID_CLIENTE = %s", (user_id,))
+    fotoperfil = cursor.fetchone()
+
+    fotoperfil_base64 = None
+    if fotoperfil and fotoperfil["FOTOPERFIL"]:
+        fotoperfil_base64 = base64.b64encode(fotoperfil["FOTOPERFIL"]).decode("utf-8")  
+
     cursor.close()
     conn.close()
     
     return templates.TemplateResponse("hidratante.html", {
         "request": request,
-        "produtos": produtos
+        "produtos": produtos,
+        "fotoperfil": fotoperfil_base64
         })
 
 @app.get("/maquiagem", response_class=HTMLResponse)
@@ -409,12 +445,22 @@ def maquiagem(request: Request):
         else:
             produto["imagem_base64"] = None
     
+    # Foto de Perfil
+    user_id = request.session["user_id"]
+    cursor.execute("SELECT FOTOPERFIL FROM USUARIO WHERE ID_CLIENTE = %s", (user_id,))
+    fotoperfil = cursor.fetchone()
+
+    fotoperfil_base64 = None
+    if fotoperfil and fotoperfil["FOTOPERFIL"]:
+        fotoperfil_base64 = base64.b64encode(fotoperfil["FOTOPERFIL"]).decode("utf-8")  
+
     cursor.close()
     conn.close()
     
     return templates.TemplateResponse("maquiagem.html", {
         "request": request,
-        "produtos": produtos
+        "produtos": produtos,
+        "fotoperfil": fotoperfil_base64
         })
 
 @app.get("/perfume", response_class=HTMLResponse)
@@ -432,12 +478,22 @@ def perfume(request: Request):
         else:
             produto["imagem_base64"] = None
     
+    # Foto de Perfil
+    user_id = request.session["user_id"]
+    cursor.execute("SELECT FOTOPERFIL FROM USUARIO WHERE ID_CLIENTE = %s", (user_id,))
+    fotoperfil = cursor.fetchone()
+
+    fotoperfil_base64 = None
+    if fotoperfil and fotoperfil["FOTOPERFIL"]:
+        fotoperfil_base64 = base64.b64encode(fotoperfil["FOTOPERFIL"]).decode("utf-8")  
+
     cursor.close()
     conn.close()
     
     return templates.TemplateResponse("perfume.html", {
         "request": request,
-        "produtos": produtos
+        "produtos": produtos,
+        "fotoperfil": fotoperfil_base64
         })
 
 @app.get("/skincare", response_class=HTMLResponse)
@@ -455,18 +511,23 @@ def skincare(request: Request):
         else:
             produto["imagem_base64"] = None
     
+    # Foto de Perfil
+    user_id = request.session["user_id"]
+    cursor.execute("SELECT FOTOPERFIL FROM USUARIO WHERE ID_CLIENTE = %s", (user_id,))
+    fotoperfil = cursor.fetchone()
+
+    fotoperfil_base64 = None
+    if fotoperfil and fotoperfil["FOTOPERFIL"]:
+        fotoperfil_base64 = base64.b64encode(fotoperfil["FOTOPERFIL"]).decode("utf-8")  
+    
     cursor.close()
     conn.close()
     
     return templates.TemplateResponse("skincare.html", {
         "request": request,
-        "produtos": produtos
+        "produtos": produtos,
+        "fotoperfil": fotoperfil_base64
         })
-
-@app.get("/promoção", response_class=HTMLResponse)
-def promocao(request: Request):
-    return templates.TemplateResponse("promoção.html", {"request": request})
-
     
 
 #################### POSTs ##################
